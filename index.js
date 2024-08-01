@@ -1,3 +1,5 @@
+
+import './gesture-handler';
 /**
  * @format
  */
