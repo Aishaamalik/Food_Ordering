@@ -2,7 +2,7 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Feather'; // Import Feather icons
 
-// Import other screens...
+// Import other screens
 import MainHome from './1MainHome';
 import MyOrderScreen from './2MyOrderScreen';
 import TransactionScreen from './3TransactionScreen';
@@ -13,90 +13,104 @@ import ChatListScreen from './7ChatListScreen';
 import ProfileScreen from './8ProfileScreen';
 import LogoutScreen from './9LogoutScreen';
 
+// Define Colors object
+const Colors = {
+  bg: '#D0F0C0',
+  active: 'green',
+  inactive: 'gray', 
+  transparent: 'transparent', 
+};
+
 const Drawer = createDrawerNavigator();
 
 function DrawerNavigation() {
   return (
     <Drawer.Navigator
-      drawerPosition="right" // Position the drawer on the right side
+      drawerType="slide" 
+      drawerStyle={{
+        backgroundColor: Colors.bg, 
+        width: 250, 
+      }}
       screenOptions={({ route }) => ({
+        headerShown: true,
+        drawerActiveTintColor: Colors.active,
+        drawerInactiveTintColor: Colors.inactive, 
+        overlayColor: Colors.transparent, 
         drawerIcon: ({ color, size }) => {
           let iconName;
 
           switch (route.name) {
             case 'Home':
-              iconName = 'home'; // Feather icon name for Home
+              iconName = 'home'; 
               break;
             case 'My Order':
-              iconName = 'shopping-cart'; // Feather icon name for Shopping Cart
+              iconName = 'shopping-cart';
               break;
             case 'Transactions':
-              iconName = 'credit-card'; // Feather icon name for Transactions (no direct match for 'receipt')
+              iconName = 'credit-card'; 
               break;
             case 'Pages':
-              iconName = 'file-text'; // Feather icon name for Pages (no direct match for 'pages')
+              iconName = 'file-text'; 
               break;
             case 'Components':
-              iconName = 'package'; // Feather icon name for Components (no direct match for 'widgets')
+              iconName = 'package'; 
               break;
             case 'Products':
-              iconName = 'box'; // Feather icon name for Products (no direct match for 'store')
+              iconName = 'box'; 
               break;
             case 'Chat List':
-              iconName = 'message-square'; // Feather icon name for Chat List (no direct match for 'chat')
+              iconName = 'message-square'; 
               break;
             case 'Profile':
-              iconName = 'user'; // Feather icon name for Profile
+              iconName = 'user'; 
               break;
             case 'Logout':
-              iconName = 'log-out'; // Feather icon name for Logout
+              iconName = 'log-out'; 
               break;
             default:
-              iconName = 'help-circle'; // Default icon
+              iconName = 'help-circle'; 
               break;
           }
 
           return <Icon name={iconName} color={color} size={size} />;
         },
-        drawerActiveTintColor: 'green', // Color for active icon
-        drawerInactiveTintColor: 'gray', // Color for inactive icon
       })}
     >
-      <Drawer.Screen 
-        name="Home" 
-        component={MainHome} 
+      <Drawer.Screen
+        name="Home"
+        component={MainHome}
       />
-      <Drawer.Screen 
-        name="My Order" 
-        component={MyOrderScreen} 
+      <Drawer.Screen
+        name="My Order"
+        component={MyOrderScreen}
       />
-      <Drawer.Screen 
-        name="Transactions" 
-        component={TransactionScreen} 
+      <Drawer.Screen
+        name="Transactions"
+        component={TransactionScreen}
       />
-      <Drawer.Screen 
-        name="Pages" 
-        component={PagesScreen} 
+      <Drawer.Screen
+        name="Pages"
+        component={PagesScreen}
       />
-      <Drawer.Screen 
-        name="Components" 
-        component={ComponentScreen} 
+      <Drawer.Screen
+        name="Components"
+        component={ComponentScreen}
       />
-      <Drawer.Screen 
-        name="Products" 
-        component={ProductScreen} 
+      <Drawer.Screen
+        name="Products"
+        component={ProductScreen}
       />
-      <Drawer.Screen 
-        name="Chat List" 
-        component={ChatListScreen} 
+      <Drawer.Screen
+        name="Chat List"
+        component={ChatListScreen}
       />
-      <Drawer.Screen 
-        name="Profile" 
-        component={ProfileScreen} 
+      <Drawer.Screen
+        name="Profile"
+        component={ProfileScreen}
       />
-      <Drawer.Screen 
-        name="Logout" 
-        component={LogoutScreen} 
+      <Drawer.Screen
+        name="Logout"
+        component={LogoutScreen}
       />
     </Drawer.Navigator>
   );
