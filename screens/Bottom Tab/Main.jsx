@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather'; 
 import { useNavigation } from '@react-navigation/native';
 
@@ -26,7 +26,14 @@ const Main = () => {
         </View>
       </View>
       <View style={styles.content}>
-        <Text style={styles.text}>dfdjfdjgh</Text>
+        <View style={styles.searchContainer}>
+          <Icon name="search" size={24} color="#388e3c" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchBar}
+            placeholder="Search beverages or foods"
+            placeholderTextColor="gray"
+          />
+        </View>
       </View>
     </View>
   );
@@ -44,19 +51,17 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     height: 80,
     paddingHorizontal: 16, 
-    backgroundColor: '#f5f5f5',
     backgroundColor: 'white',
   },
   greetingContainer: {
     flexDirection: 'column',
-    backgroundColor: 'white',
   },
   greeting: {
-    fontSize: 16,
+    fontSize: 20,
     color: 'black',
   },
   name: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: 'bold',
     color: 'black',
   },
@@ -69,10 +74,25 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    padding: 16,
   },
-  text: {
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#388e3c',
+    borderWidth: 1,
+    borderRadius: 30,
+    height: 60,
+  },
+  searchIcon: {
+    marginLeft: 15,
+    marginRight: 10,
+  },
+  searchBar: {
+    flex: 1,
+    fontSize: 16,
     color: 'black',
-    alignSelf: 'center',
+    paddingHorizontal: 10,
   },
 });
 
