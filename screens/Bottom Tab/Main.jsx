@@ -1,8 +1,11 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather'; 
+import { useNavigation } from '@react-navigation/native';
 
 const Main = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
@@ -14,7 +17,10 @@ const Main = () => {
           <TouchableOpacity style={styles.iconButton}>
             <Icon name="shopping-cart" size={24} color="#388e3c" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => navigation.openDrawer()}
+          >
             <Icon name="menu" size={24} color="#388e3c" />
           </TouchableOpacity>
         </View>
@@ -29,7 +35,7 @@ const Main = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   topBar: {
     flexDirection: 'row',
@@ -39,6 +45,7 @@ const styles = StyleSheet.create({
     height: 80,
     paddingHorizontal: 16, 
     backgroundColor: '#f5f5f5',
+    backgroundColor: 'white',
   },
   greetingContainer: {
     flexDirection: 'column',
