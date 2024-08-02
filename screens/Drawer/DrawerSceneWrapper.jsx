@@ -1,16 +1,28 @@
-import { StyleSheet, View } from 'react-native';
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import Animated, { useAnimatedStyle, interpolate } from 'react-native-reanimated';
 import { useDrawerProgress } from '@react-navigation/drawer';
 
 const DrawerSceneWrapper = ({ children }) => {
   const progress = useDrawerProgress();
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { scale: interpolate(progress.value, [0, 1], [1, 0.8], 'clamp') },
-    ],
-  }));
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          scale: interpolate(progress.value, [0, 1], [1, 0.8], 'clamp'),
+        },
+        {
+          rotateZ: `${interpolate(progress.value, [0, 1], [0, -3], 'clamp')}deg`,
+        },
+        {
+          translateY: interpolate(progress.value, [0, 1], [0, 40], 'clamp'), // Adds downward animation
+        },
+      ],
+      borderRadius: interpolate(progress.value, [0, 1], [0, 20], 'clamp'),
+      shadowOpacity: interpolate(progress.value, [0, 1], [0, 0.8], 'clamp'),
+    };
+  });
 
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
@@ -24,12 +36,11 @@ export default DrawerSceneWrapper;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderRadius: 20,
     overflow: 'hidden',
-    shadowColor: 'dark green', 
-    shadowOffset: { width: -8, height: 8 }, 
+    shadowColor: '#000', 
+    shadowOffset: { width: -16, height: 16 }, 
+    shadowRadius: 32, 
+    elevation: 20, 
     shadowOpacity: 0.8,
-    shadowRadius: 16, 
-    elevation: 10, 
   },
 });
