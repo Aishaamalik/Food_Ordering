@@ -1,4 +1,3 @@
-
 import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import Animated, { useAnimatedStyle, interpolate } from 'react-native-reanimated';
@@ -9,7 +8,7 @@ const DrawerSceneWrapper = ({ children }) => {
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
-      {scale: interpolate(progress.value, [0, 1], [1, 0.8], 'clamp')},
+      { scale: interpolate(progress.value, [0, 1], [1, 0.8], 'clamp') },
     ],
   }));
 
@@ -25,5 +24,12 @@ export default DrawerSceneWrapper;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    borderRadius: 20,
+    overflow: 'hidden',
+    shadowColor: 'dark green', 
+    shadowOffset: { width: -8, height: 8 }, 
+    shadowOpacity: 0.8,
+    shadowRadius: 16, 
+    elevation: 10, 
   },
 });

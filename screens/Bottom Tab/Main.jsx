@@ -1,11 +1,9 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
-import Icon from 'react-native-vector-icons/Feather'; // Import Feather icons
-import DrawerSceneWrapper from '../Drawer/DrawerSceneWrapper';
+import Icon from 'react-native-vector-icons/Feather'; 
 
 const Main = () => {
   return (
-    <DrawerSceneWrapper>
     <View style={styles.container}>
       <View style={styles.topBar}>
         <View style={styles.greetingContainer}>
@@ -25,39 +23,35 @@ const Main = () => {
         <Text style={styles.text}>dfdjfdjgh</Text>
       </View>
     </View>
-    </DrawerSceneWrapper>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    padding: 16,
-    shadowColor: '#000', // Black shadow color
-    shadowOffset: { width: 0, height: 4 }, // Shadow offset
-    shadowOpacity: 0.3, // Shadow opacity
-    shadowRadius: 8, // Shadow blur radius
-    elevation: 5, // For Android shadow
-    borderRadius: 12, // Rounded corners
+    backgroundColor: 'white'
   },
   topBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
+    height: 80,
+    paddingHorizontal: 16, 
+    backgroundColor: '#f5f5f5',
   },
   greetingContainer: {
     flexDirection: 'column',
+    backgroundColor: 'white',
   },
   greeting: {
     fontSize: 16,
-    color: '#388e3c',
+    color: 'black',
   },
   name: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#388e3c',
+    color: 'black',
   },
   iconsContainer: {
     flexDirection: 'row',

@@ -17,7 +17,7 @@ import LogoutScreen from './9LogoutScreen';
 // Define Colors object
 const Colors = {
   bg: '#009688',
-  active: '#009688', // Green color for active state
+  active: '#00674b', // Green color for active state
   inactive: '#ccc',  // Gray color for inactive state
   transparent: 'transparent',
   background: 'white',
@@ -38,8 +38,12 @@ function DrawerNavigation({ navigation }) {
         drawerInactiveTintColor: Colors.inactive,
         overlayColor: Colors.transparent,
         drawerStyle: {
-          backgroundColor: Colors.bg
+          backgroundColor: Colors.background,
+          width: '50%',
         },
+        sceneContainerStyle: {
+          backgroundColor: Colors.background,
+        }
       }}
     >
       <Drawer.Screen
