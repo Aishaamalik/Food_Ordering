@@ -1,11 +1,27 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import React from 'react';
+import Icon from 'react-native-vector-icons/Feather';
+import { DrawerActions } from '@react-navigation/native'; // Correct import
 
-const Main = () => {
+const Main = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Coffee Shop</Text>
+      <View style={styles.topHeader}>
+        <View style={styles.greetingContainer}>
+          <Text style={styles.greeting}>Good Morning</Text>
+          <Text style={styles.name}>William</Text>
+        </View>
+        <View style={styles.iconsContainer}>
+          <TouchableOpacity style={styles.iconButton}>
+            <Icon name="shopping-cart" size={24} color="#000" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+          >
+            <Icon name="menu" size={24} color="#000" />
+          </TouchableOpacity>
+        </View>
       </View>
       <ScrollView style={styles.content}>
         <View style={styles.itemContainer}>
@@ -35,20 +51,42 @@ const Main = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#e8f5e9', // Light green background
+    backgroundColor: '#e8f5e9',
   },
-  header: {
+  topHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    padding: 16,
+    backgroundColor: '#f5f5f5',
+    elevation: 3, 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
-  headerText: {
-    fontSize: 24,
+  greetingContainer: {
+    flexDirection: 'column',
+  },
+  greeting: {
+    fontSize: 16,
+    color: '#388e3c',
+  },
+  name: {
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#388e3c', // Darker green for the header text
+    color: '#388e3c', 
+  },
+  iconsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconButton: {
+    marginLeft: 16,
   },
   content: {
     flex: 1,
+    padding: 16,
   },
   itemContainer: {
     flexDirection: 'row',

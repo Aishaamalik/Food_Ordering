@@ -1,6 +1,7 @@
 import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import Icon from 'react-native-vector-icons/Feather'; // Import Feather icons
+import { createDrawerNavigator, DrawerActions } from '@react-navigation/drawer';
+import Icon from 'react-native-vector-icons/Feather';
+import { View, TouchableOpacity } from 'react-native';
 
 // Import other screens
 import MainHome from './1MainHome';
@@ -23,94 +24,73 @@ const Colors = {
 
 const Drawer = createDrawerNavigator();
 
-function DrawerNavigation() {
+function DrawerNavigation({ navigation }) {
+  const CustomHeader = () => (
+    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', padding: 10 }}>
+      <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
+        <Icon name="menu" size={24} color="black" />
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <Drawer.Navigator
-      drawerType="slide" 
       drawerStyle={{
         backgroundColor: Colors.bg, 
         width: 250, 
       }}
-      screenOptions={({ route }) => ({
-        headerShown: true,
+      screenOptions={{
+        headerShown: false, // Disable the default header
+        drawerType: 'slide',
         drawerActiveTintColor: Colors.active,
         drawerInactiveTintColor: Colors.inactive, 
         overlayColor: Colors.transparent, 
-        drawerIcon: ({ color, size }) => {
-          let iconName;
-
-          switch (route.name) {
-            case 'Home':
-              iconName = 'home'; 
-              break;
-            case 'My Order':
-              iconName = 'shopping-cart';
-              break;
-            case 'Transactions':
-              iconName = 'credit-card'; 
-              break;
-            case 'Pages':
-              iconName = 'file-text'; 
-              break;
-            case 'Components':
-              iconName = 'package'; 
-              break;
-            case 'Products':
-              iconName = 'box'; 
-              break;
-            case 'Chat List':
-              iconName = 'message-square'; 
-              break;
-            case 'Profile':
-              iconName = 'user'; 
-              break;
-            case 'Logout':
-              iconName = 'log-out'; 
-              break;
-            default:
-              iconName = 'help-circle'; 
-              break;
-          }
-
-          return <Icon name={iconName} color={color} size={size} />;
-        },
-      })}
+      }}
     >
       <Drawer.Screen
         name="Home"
         component={MainHome}
+        options={{ header: () => <CustomHeader /> }}
       />
       <Drawer.Screen
         name="My Order"
         component={MyOrderScreen}
+        options={{ header: () => <CustomHeader /> }}
       />
       <Drawer.Screen
         name="Transactions"
         component={TransactionScreen}
+        options={{ header: () => <CustomHeader /> }}
       />
       <Drawer.Screen
         name="Pages"
         component={PagesScreen}
+        options={{ header: () => <CustomHeader /> }}
       />
       <Drawer.Screen
         name="Components"
         component={ComponentScreen}
+        options={{ header: () => <CustomHeader /> }}
       />
       <Drawer.Screen
         name="Products"
         component={ProductScreen}
+        options={{ header: () => <CustomHeader /> }}
       />
       <Drawer.Screen
         name="Chat List"
         component={ChatListScreen}
+        options={{ header: () => <CustomHeader /> }}
       />
       <Drawer.Screen
         name="Profile"
         component={ProfileScreen}
+        options={{ header: () => <CustomHeader /> }}
       />
       <Drawer.Screen
         name="Logout"
         component={LogoutScreen}
+        options={{ header: () => <CustomHeader /> }}
       />
     </Drawer.Navigator>
   );
