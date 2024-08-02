@@ -16,82 +16,43 @@ import LogoutScreen from './9LogoutScreen';
 
 // Define Colors object
 const Colors = {
-  bg: '#D0F0C0',
+  bg: 'green', 
   active: 'green',
   inactive: 'gray', 
   transparent: 'transparent', 
+  background: 'white', 
 };
 
 const Drawer = createDrawerNavigator();
 
 function DrawerNavigation({ navigation }) {
-  const CustomHeader = () => (
-    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', padding: 10 }}>
-      <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
-        <Icon name="menu" size={24} color="black" />
-      </TouchableOpacity>
-    </View>
-  );
-
   return (
     <Drawer.Navigator
-      drawerStyle={{
-        backgroundColor: Colors.bg, 
-        width: 250, 
-      }}
       screenOptions={{
-        headerShown: false, // Disable the default header
+        headerShown: false, 
         drawerType: 'slide',
+        drawerActiveBackgroundColor: Colors.transparent,
+        drawerInactiveBackgroundColor: Colors.transparent,
         drawerActiveTintColor: Colors.active,
         drawerInactiveTintColor: Colors.inactive, 
         overlayColor: Colors.transparent, 
+        sceneContainerStyle: {
+          backgroundColor: Colors.background,
+        },
+        drawerStyle: {
+          backgroundColor: Colors.background
+        },
       }}
     >
-      <Drawer.Screen
-        name="Home"
-        component={MainHome}
-        options={{ header: () => <CustomHeader /> }}
-      />
-      <Drawer.Screen
-        name="My Order"
-        component={MyOrderScreen}
-        options={{ header: () => <CustomHeader /> }}
-      />
-      <Drawer.Screen
-        name="Transactions"
-        component={TransactionScreen}
-        options={{ header: () => <CustomHeader /> }}
-      />
-      <Drawer.Screen
-        name="Pages"
-        component={PagesScreen}
-        options={{ header: () => <CustomHeader /> }}
-      />
-      <Drawer.Screen
-        name="Components"
-        component={ComponentScreen}
-        options={{ header: () => <CustomHeader /> }}
-      />
-      <Drawer.Screen
-        name="Products"
-        component={ProductScreen}
-        options={{ header: () => <CustomHeader /> }}
-      />
-      <Drawer.Screen
-        name="Chat List"
-        component={ChatListScreen}
-        options={{ header: () => <CustomHeader /> }}
-      />
-      <Drawer.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{ header: () => <CustomHeader /> }}
-      />
-      <Drawer.Screen
-        name="Logout"
-        component={LogoutScreen}
-        options={{ header: () => <CustomHeader /> }}
-      />
+      <Drawer.Screen name="Home" component={MainHome} />
+      <Drawer.Screen name="My Order" component={MyOrderScreen} />
+      <Drawer.Screen name="Transactions" component={TransactionScreen} />
+      <Drawer.Screen name="Pages" component={PagesScreen} />
+      <Drawer.Screen name="Components" component={ComponentScreen} />
+      <Drawer.Screen name="Products" component={ProductScreen} />
+      <Drawer.Screen name="Chat List" component={ChatListScreen} />
+      <Drawer.Screen name="Profile" component={ProfileScreen} />
+      <Drawer.Screen name="Logout" component={LogoutScreen} />
     </Drawer.Navigator>
   );
 }
