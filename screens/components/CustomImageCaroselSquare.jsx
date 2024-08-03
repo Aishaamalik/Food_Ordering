@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useCallback } from 'react';
-import { StyleSheet, ScrollView, Text, Animated } from 'react-native';
+import { StyleSheet, ScrollView, Text, Animated, Image, View, Dimensions } from 'react-native';
 import StackSwiperWapper from '../Bottom Tab/StackSwiperWapper';
 
-const CustomImageCarouselSquare = ({ data = [] }) => {
-  const FIXED_SIZE = 110;
+const { width: screenWidth } = Dimensions.get('window');
+
+const CustomImageCaroselSquare = ({ data = [] }) => {
+  const FIXED_SIZE = screenWidth * 0.4; 
   const scrollViewRef = useRef(null);
   const scrollX = useRef(new Animated.Value(0)).current;
   const scrollInterval = 2000;
-  const itemWidth = FIXED_SIZE + 20;
+  const itemWidth = FIXED_SIZE + 20; 
   const itemCount = data.length;
 
   const scrollToNext = useCallback(() => {
@@ -43,7 +45,7 @@ const CustomImageCarouselSquare = ({ data = [] }) => {
   };
 
   return (
-    <StackSwiperWapper>
+    <StackSwiperWapper style={styles.wrapper}>
       <ScrollView
         ref={scrollViewRef}
         horizontal
@@ -65,7 +67,7 @@ const CustomImageCarouselSquare = ({ data = [] }) => {
 
           const scale = scrollX.interpolate({
             inputRange,
-            outputRange: [0.9, 1.0, 0.9],
+            outputRange: [0.8, 1.0, 0.8],
             extrapolate: 'clamp',
           });
 
@@ -81,7 +83,7 @@ const CustomImageCarouselSquare = ({ data = [] }) => {
 
           const overlayHeight = isMainItem.interpolate({
             inputRange: [0, 1],
-            outputRange: ['50%', '100%'], 
+            outputRange: ['50%', '100%'],
             extrapolate: 'clamp',
           });
 
@@ -103,13 +105,21 @@ const CustomImageCarouselSquare = ({ data = [] }) => {
                 },
               ]}
             >
+              <Image
+                source={item.image}
+                style={styles.itemImage}
+                resizeMode="cover"
+              />
               <Animated.View
                 style={[
                   styles.overlay,
                   { height: overlayHeight, opacity: overlayOpacity },
                 ]}
               />
-              <Text style={styles.itemText}>{item.label}</Text>
+              <View style={styles.itemContent}>
+                <Text style={styles.itemLabel1}>{item.label1}</Text>
+                <Text style={styles.itemLabel2}>{item.label2}</Text>
+              </View>
             </Animated.View>
           );
         })}
@@ -119,32 +129,57 @@ const CustomImageCarouselSquare = ({ data = [] }) => {
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    width: '50%',
+    height: '10%', // Ensure it takes full height of its container
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 50, // Adjust padding as needed
+  },
   scrollViewContent: {
     flexDirection: 'row',
   },
   itemWrapper: {
     marginHorizontal: 10,
-    borderRadius: 20,
+    borderRadius: 30,
     overflow: 'hidden',
     position: 'relative',
     justifyContent: 'center',
     alignItems: 'center',
+    height: 150,
   },
-  itemText: {
-    fontSize: 18,
+  itemImage: {
+    width: '50%', // Fill the itemWrapper width
+    height: '50%', // Fill the itemWrapper height
+    position: 'absolute',
+    zIndex: 2,
+  },
+  itemContent: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    right: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 3,
+  },
+  itemLabel1: {
+    fontSize: 16,
     color: 'white',
     fontWeight: 'bold',
-    position: 'absolute',
-    zIndex: 1,
+  },
+  itemLabel2: {
+    fontSize: 14,
+    color: 'white',
   },
   overlay: {
     position: 'absolute',
-    left: 0,
     bottom: 0,
+    left: 0,
     right: 0,
-    backgroundColor: '#006741',
-    zIndex: 0,
+    backgroundColor: '#2E8B57',
+    zIndex: 1,
   },
 });
 
-export default CustomImageCarouselSquare;
+export default CustomImageCaroselSquare;
