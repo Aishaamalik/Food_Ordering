@@ -13,7 +13,7 @@ import DrawerSceneWrapper from '../Drawer/DrawerSceneWrapper';
 // Bottom Tab Navigator
 const Bottom = createBottomTabNavigator();
 
-const ButtomNavigator = () => {
+const ButtomNavigator = ({children}) => {
   return (
     <DrawerSceneWrapper>
     <Bottom.Navigator

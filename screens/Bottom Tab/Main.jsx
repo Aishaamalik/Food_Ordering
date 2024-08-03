@@ -1,7 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather'; 
 import { useNavigation } from '@react-navigation/native';
+import Swiper from 'react-native-swiper';
+import StackSwiperWapper from './StackSwiperWapper';
+
+const { width: screenWidth } = Dimensions.get('window');
 
 const Main = () => {
   const navigation = useNavigation();
@@ -34,6 +38,26 @@ const Main = () => {
             placeholderTextColor="gray"
           />
         </View>
+        <StackSwiperWapper>
+        <View style={styles.yellowContainer}>
+          <Swiper
+            showsButtons={false}
+            autoplay
+            autoplayTimeout={3}
+            containerStyle={styles.swiperContainer}
+          >
+            <View style={styles.slide}>
+              <Text style={styles.slideText}>Coffee 1</Text>
+            </View>
+            <View style={styles.slide}>
+              <Text style={styles.slideText}>Coffee 2</Text>
+            </View>
+            <View style={styles.slide}>
+              <Text style={styles.slideText}>Coffee 3</Text>
+            </View>
+          </Swiper>
+        </View>
+        </StackSwiperWapper>
       </View>
     </View>
   );
@@ -75,6 +99,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 16,
+    justifyContent: 'flex-start', 
   },
   searchContainer: {
     flexDirection: 'row',
@@ -83,6 +108,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 30,
     height: 60,
+    marginBottom: 16, 
   },
   searchIcon: {
     marginLeft: 15,
@@ -93,6 +119,32 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
     paddingHorizontal: 10,
+  },
+  yellowContainer: {
+    backgroundColor: 'white', 
+    height: '50%', 
+    borderRadius: 40,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    padding: 16, 
+    borderColor: 'yellow',
+  },
+  swiperContainer: {
+    width: screenWidth * 0.9, 
+    height: '100%', 
+  },
+  slide: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white', // Green background for slides
+    borderRadius: 5,
+    padding: 20,
+  },
+  slideText: {
+    fontSize: 18,
+    color: 'black',
+    fontWeight: 'bold',
   },
 });
 
