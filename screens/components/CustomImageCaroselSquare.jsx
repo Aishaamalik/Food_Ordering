@@ -5,7 +5,7 @@ import StackSwiperWapper from '../Bottom Tab/StackSwiperWapper';
 const { width: screenWidth } = Dimensions.get('window');
 
 const CustomImageCaroselSquare = ({ data = [] }) => {
-  const FIXED_SIZE = screenWidth * 0.4; 
+  const FIXED_SIZE = screenWidth * 0.3; 
   const scrollViewRef = useRef(null);
   const scrollX = useRef(new Animated.Value(0)).current;
   const scrollInterval = 2000;
@@ -130,11 +130,11 @@ const CustomImageCaroselSquare = ({ data = [] }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: '50%',
-    height: '10%', // Ensure it takes full height of its container
+    width: '40%',
+    height: '70%', 
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 50, // Adjust padding as needed
+    padding: 50,
   },
   scrollViewContent: {
     flexDirection: 'row',
@@ -149,8 +149,8 @@ const styles = StyleSheet.create({
     height: 150,
   },
   itemImage: {
-    width: '50%', // Fill the itemWrapper width
-    height: '50%', // Fill the itemWrapper height
+    width: '40%', 
+    height: '40%', 
     position: 'absolute',
     zIndex: 2,
   },

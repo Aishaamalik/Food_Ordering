@@ -10,11 +10,12 @@ const Main = () => {
   const navigation = useNavigation();
 
   const data = [
-    { image: require('../Assets/chai.png'), label1: 'Item 1', label2: 'Description 1' },
-    { image: require('../Assets/blackcoffee.png'), label1: 'Item 2', label2: 'Description 2' },
-    { image: require('../Assets/whitechocolatemocha.png'), label1: 'Item 3', label2: 'Description 3' },
-    { image: require('../Assets/chai.png'), label1: 'Item 4', label2: 'Description 4' },
-    { image: require('../Assets/blackcoffee.png'), label1: 'Item 5', label2: 'Description 5' },
+    { image: require('../Assets/chai.png'), label1: 'Chai', label2: ' $ 5.8' },
+    { image: require('../Assets/blackcoffee.png'), label1: 'Black Coffee', label2: '$ 5.8' },
+    { image: require('../Assets/whitechocolatemocha.png'), label1: 'Choco Mocha', label2: '$ 5.8' },
+    { image: require('../Assets/chai.png'), label1: 'Chai', label2: ' $ 5.8' },
+    { image: require('../Assets/blackcoffee.png'), label1: 'Black Coffee', label2: '$ 5.8' },
+    { image: require('../Assets/whitechocolatemocha.png'), label1: 'Choco Mocha', label2: '$ 5.8' },
   ];
 
   return (
@@ -48,6 +49,7 @@ const Main = () => {
         <View style={styles.yellowContainer}>
           <CustomImageCaroselSquare data={data} />
         </View>
+        
       </View>
     </View>
   );
@@ -113,13 +115,13 @@ const styles = StyleSheet.create({
   yellowContainer: {
     flez: 1,
     backgroundColor: 'white',
-    height: screenWidth * 0.9,
-    borderRadius: 40,
+    height: screenWidth * 0.6,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 42,
+    padding: 12,
     borderColor: 'white',
-    borderWidth: 2,
+    borderWidth: 1,
     alignSelf: 'center',
 
   },
