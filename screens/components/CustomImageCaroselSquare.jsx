@@ -1,34 +1,46 @@
-import React, { useEffect, useRef } from 'react';
-import { StyleSheet, View, ScrollView, Image } from 'react-native';
+import React, { useEffect, useRef, useCallback } from 'react';
+import { StyleSheet, ScrollView, Text, Animated } from 'react-native';
 import StackSwiperWapper from '../Bottom Tab/StackSwiperWapper';
 
-const CustomImageCaroselSquare = ({ data = [] }) => {
-  const FIXED_SIZE = 120;
+const CustomImageCarouselSquare = ({ data = [] }) => {
+  const FIXED_SIZE = 110;
   const scrollViewRef = useRef(null);
-  const scrollInterval = 1000; 
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const scrollInterval = 2000;
   const itemWidth = FIXED_SIZE + 20;
+  const itemCount = data.length;
+
+  const scrollToNext = useCallback(() => {
+    if (scrollViewRef.current) {
+      let newPosition = scrollX._value + itemWidth;
+      if (newPosition >= itemWidth * itemCount) {
+        newPosition = 0;
+      }
+      scrollViewRef.current.scrollTo({
+        x: newPosition,
+        animated: true,
+      });
+    }
+  }, [scrollX, itemWidth, itemCount]);
 
   useEffect(() => {
-    if (data.length === 0) return;
-
-    const scrollToNext = () => {
-      const scrollView = scrollViewRef.current;
-      if (scrollView) {
-        const currentOffset = scrollView.contentOffset ? scrollView.contentOffset.x : 0;
-        const nextOffset = (currentOffset + itemWidth) % (itemWidth * data.length);
-        scrollView.scrollTo({
-          x: nextOffset,
-          animated: true,
-        });
-      } else {
-        console.warn('ScrollView reference is not defined');
-      }
-    };
+    if (itemCount === 0) return;
 
     const intervalId = setInterval(scrollToNext, scrollInterval);
 
     return () => clearInterval(intervalId);
-  }, [data.length, itemWidth]);
+  }, [itemCount, scrollToNext, scrollInterval]);
+
+  const handleScroll = (event) => {
+    const position = event.nativeEvent.contentOffset.x;
+    const totalContentWidth = itemWidth * itemCount;
+
+    if (position >= totalContentWidth) {
+      scrollViewRef.current.scrollTo({ x: 0, animated: false });
+    }
+
+    scrollX.setValue(position);
+  };
 
   return (
     <StackSwiperWapper>
@@ -41,13 +53,66 @@ const CustomImageCaroselSquare = ({ data = [] }) => {
         snapToInterval={itemWidth}
         decelerationRate="fast"
         contentContainerStyle={styles.scrollViewContent}
+        onScroll={handleScroll}
+        pagingEnabled
       >
-        {data.map((item, index) => (
-          <View key={index} style={[styles.imageWrapper, { width: FIXED_SIZE, height: FIXED_SIZE }]}>
-            <View style={styles.overlay} />
-            <Image source={item.image} style={styles.image} />
-          </View>
-        ))}
+        {data.concat(data).map((item, index) => {
+          const inputRange = [
+            (index - 1) * itemWidth,
+            index * itemWidth,
+            (index + 1) * itemWidth,
+          ];
+
+          const scale = scrollX.interpolate({
+            inputRange,
+            outputRange: [0.9, 1.0, 0.9],
+            extrapolate: 'clamp',
+          });
+
+          const isMainItem = scrollX.interpolate({
+            inputRange: [
+              (index - 1) * itemWidth,
+              index * itemWidth,
+              (index + 1) * itemWidth,
+            ],
+            outputRange: [0, 1, 0],
+            extrapolate: 'clamp',
+          });
+
+          const overlayHeight = isMainItem.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['50%', '100%'], 
+            extrapolate: 'clamp',
+          });
+
+          const overlayOpacity = isMainItem.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0.5, 1],
+            extrapolate: 'clamp',
+          });
+
+          return (
+            <Animated.View
+              key={index}
+              style={[
+                styles.itemWrapper,
+                {
+                  width: FIXED_SIZE,
+                  height: FIXED_SIZE,
+                  transform: [{ scale }],
+                },
+              ]}
+            >
+              <Animated.View
+                style={[
+                  styles.overlay,
+                  { height: overlayHeight, opacity: overlayOpacity },
+                ]}
+              />
+              <Text style={styles.itemText}>{item.label}</Text>
+            </Animated.View>
+          );
+        })}
       </ScrollView>
     </StackSwiperWapper>
   );
@@ -55,29 +120,31 @@ const CustomImageCaroselSquare = ({ data = [] }) => {
 
 const styles = StyleSheet.create({
   scrollViewContent: {
-    alignItems: 'center',
+    flexDirection: 'row',
   },
-  imageWrapper: {
+  itemWrapper: {
     marginHorizontal: 10,
     borderRadius: 20,
     overflow: 'hidden',
     position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  image: {
-    width: '70%',
-    height: '70%',
-    resizeMode: 'cover',
-    alignSelf: 'center',
+  itemText: {
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold',
+    position: 'absolute',
+    zIndex: 1,
   },
   overlay: {
     position: 'absolute',
-    bottom: 0,
     left: 0,
+    bottom: 0,
     right: 0,
-    height: '60%',
-    backgroundColor: '#00674b',
-    opacity: 0.9,
+    backgroundColor: '#006741',
+    zIndex: 0,
   },
 });
 
-export default CustomImageCaroselSquare;
+export default CustomImageCarouselSquare;

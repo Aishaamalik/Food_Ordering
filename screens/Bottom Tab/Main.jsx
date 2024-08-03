@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomImageCaroselSquare from '../components/CustomImageCaroselSquare';
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -11,24 +10,30 @@ const Main = () => {
   const navigation = useNavigation();
 
   const data = [
-    {
-      image: require('../Assets/chai.png'),
-    },
-    {
-      image: require('../Assets/blackcoffee.png'),
-    },
-    {
-      image: require('../Assets/whitechocolatemocha.png'),
-    },
-    {
-      image: require('../Assets/chai.png'),
-    },
-    {
-      image: require('../Assets/blackcoffee.png'),
-    },
-    {
-      image: require('../Assets/whitechocolatemocha.png'),
-    },
+    { label: 'Item 1' },
+    { label: 'Item 2' },
+    { label: 'Item 3' },
+    { label: 'Item 4' },
+    { label: 'Item 5' },
+    // { label: 'Item 6' },
+    // { label: 'Item 7' },
+    // { label: 'Item 8' },
+    // { label: 'Item 9' },
+    // { label: 'Item 10' },
+    // { label: 'Item 11' },
+    // { label: 'Item 12' },
+    // { label: 'Item 13' },
+    // { label: 'Item 14' },
+    // // { label: 'Item 15' },
+    // { label: 'Item 16' },
+    // { label: 'Item 17' },
+    // { label: 'Item 18' },
+    // { label: 'Item 19' },
+    // { label: 'Item 20' },
+    // { label: 'Item 21' },
+    // { label: 'Item 22' },
+    // { label: 'Item 23' },
+    // { label: 'Item 24' },
   ];
 
   return (
@@ -52,6 +57,7 @@ const Main = () => {
       </View>
       <View style={styles.content}>
         <View style={styles.searchContainer}>
+
           <Icon name="search" size={24} color="#388e3c" style={styles.searchIcon} />
           <TextInput
             style={styles.searchBar}
@@ -78,7 +84,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
     height: 80,
-    paddingHorizontal: 16, 
+    paddingHorizontal: 16,
     backgroundColor: 'white',
   },
   greetingContainer: {
@@ -103,7 +109,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 16,
-    justifyContent: 'flex-start', 
+    justifyContent: 'flex-start',
   },
   searchContainer: {
     flexDirection: 'row',
@@ -112,7 +118,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 30,
     height: 60,
-    marginBottom: 16, 
+    marginBottom: 16,
   },
   searchIcon: {
     marginLeft: 15,
@@ -125,30 +131,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   yellowContainer: {
-    backgroundColor: 'white', 
-    height: screenWidth * 0.5, 
+    backgroundColor: 'white',
+    height: screenWidth * 0.5,
     borderRadius: 40,
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    padding: 16, 
-    borderColor: 'white',
-  },
-  swiperContainer: {
-    width: screenWidth * 0.9, 
-    height: '100%', 
-  },
-  slide: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white', 
-    borderRadius: 5,
-    padding: 20,
-  },
-  slideText: {
-    fontSize: 18,
-    color: 'black',
-    fontWeight: 'bold',
+    padding: 16,
+    borderColor: 'white',
   },
 });
 
