@@ -1,14 +1,35 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather'; 
+import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
-import Swiper from 'react-native-swiper';
-import StackSwiperWapper from './StackSwiperWapper';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import CustomImageCaroselSquare from '../components/CustomImageCaroselSquare';
 
 const { width: screenWidth } = Dimensions.get('window');
 
 const Main = () => {
   const navigation = useNavigation();
+
+  const data = [
+    {
+      image: require('../Assets/chai.png'),
+    },
+    {
+      image: require('../Assets/blackcoffee.png'),
+    },
+    {
+      image: require('../Assets/whitechocolatemocha.png'),
+    },
+    {
+      image: require('../Assets/chai.png'),
+    },
+    {
+      image: require('../Assets/blackcoffee.png'),
+    },
+    {
+      image: require('../Assets/whitechocolatemocha.png'),
+    },
+  ];
 
   return (
     <View style={styles.container}>
@@ -38,26 +59,9 @@ const Main = () => {
             placeholderTextColor="gray"
           />
         </View>
-        <StackSwiperWapper>
         <View style={styles.yellowContainer}>
-          <Swiper
-            showsButtons={false}
-            autoplay
-            autoplayTimeout={3}
-            containerStyle={styles.swiperContainer}
-          >
-            <View style={styles.slide}>
-              <Text style={styles.slideText}>Coffee 1</Text>
-            </View>
-            <View style={styles.slide}>
-              <Text style={styles.slideText}>Coffee 2</Text>
-            </View>
-            <View style={styles.slide}>
-              <Text style={styles.slideText}>Coffee 3</Text>
-            </View>
-          </Swiper>
+          <CustomImageCaroselSquare data={data} />
         </View>
-        </StackSwiperWapper>
       </View>
     </View>
   );
@@ -122,12 +126,12 @@ const styles = StyleSheet.create({
   },
   yellowContainer: {
     backgroundColor: 'white', 
-    height: '50%', 
+    height: screenWidth * 0.5, 
     borderRadius: 40,
     justifyContent: 'center', 
     alignItems: 'center', 
     padding: 16, 
-    borderColor: 'yellow',
+    borderColor: 'white',
   },
   swiperContainer: {
     width: screenWidth * 0.9, 
@@ -137,7 +141,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white', // Green background for slides
+    backgroundColor: 'white', 
     borderRadius: 5,
     padding: 20,
   },
