@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   yellowContainer: {
     flez: 1,
     backgroundColor: 'white',
-    height: screenWidth * 0.4,
+    height: screenWidth * 0.7,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',

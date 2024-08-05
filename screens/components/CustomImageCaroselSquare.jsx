@@ -5,10 +5,10 @@ import StackSwiperWapper from '../Bottom Tab/StackSwiperWapper';
 const { width: screenWidth } = Dimensions.get('window');
 
 const CustomImageCaroselSquare = ({ data = [] }) => {
-  const FIXED_SIZE = screenWidth * 0.3; 
+  const FIXED_SIZE = screenWidth * 0.6; 
   const scrollViewRef = useRef(null);
   const scrollX = useRef(new Animated.Value(0)).current;
-  const scrollInterval = 2000;
+  const scrollInterval = 3000; // Increased the interval for slower animation
   const itemWidth = FIXED_SIZE + 20; 
   const itemCount = data.length;
 
@@ -67,7 +67,7 @@ const CustomImageCaroselSquare = ({ data = [] }) => {
 
           const scale = scrollX.interpolate({
             inputRange,
-            outputRange: [0.8, 1.0, 0.8],
+            outputRange: [0.9, 1.0, 0.9], // Slightly slower scaling
             extrapolate: 'clamp',
           });
 
@@ -83,13 +83,13 @@ const CustomImageCaroselSquare = ({ data = [] }) => {
 
           const overlayHeight = isMainItem.interpolate({
             inputRange: [0, 1],
-            outputRange: ['50%', '100%'],
+            outputRange: ['30%', '100%'], // Adjusted height for a slower transition
             extrapolate: 'clamp',
           });
 
           const overlayOpacity = isMainItem.interpolate({
             inputRange: [0, 1],
-            outputRange: [0.5, 1],
+            outputRange: [0.3, 1], // Adjusted opacity for a slower transition
             extrapolate: 'clamp',
           });
 
@@ -147,10 +147,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 150,
+    backgroundColor: 'white', 
+    elevation: 10, 
+    shadowColor: '#2E8B57',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.9, 
+    shadowRadius: 20, 
   },
   itemImage: {
-    width: '40%', 
-    height: '40%', 
+    width: '50%', 
+    height: '50%', 
     position: 'absolute',
     zIndex: 2,
   },
@@ -164,13 +170,15 @@ const styles = StyleSheet.create({
     zIndex: 3,
   },
   itemLabel1: {
-    fontSize: 16,
+    fontSize: 20,
+    alignSelf: 'flex-start',
     color: 'white',
     fontWeight: 'bold',
   },
   itemLabel2: {
-    fontSize: 14,
+    fontSize: 25,
     color: 'white',
+    alignSelf: 'flex-start',
   },
   overlay: {
     position: 'absolute',
