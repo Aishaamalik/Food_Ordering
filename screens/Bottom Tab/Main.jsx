@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions } from 
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import CustomImageCaroselSquare from '../components/CustomImageCaroselSquare';
+import SecondStack from '../components/SecondStack';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -16,6 +17,14 @@ const Main = () => {
     { image: require('../Assets/chai.png'), label1: 'Chai', label2: ' $ 5.8' },
     { image: require('../Assets/blackcoffee.png'), label1: 'Black Coffee', label2: '$ 5.8' },
     { image: require('../Assets/whitechocolatemocha.png'), label1: 'Choco Mocha', label2: '$ 5.8' },
+  ];
+  
+  const data2 = [
+    { icon: 'coffee', label1: 'Beverages', label2: '41 Menus' },
+    { icon: 'coffee', label1: 'Food', label2: '37 Menus' },
+    { icon: 'coffee', label1: 'Pizza', label2: '28 Menus' },
+    { icon: 'coffee', label1: 'Drink', label2: '12 Menus' },
+    { icon: 'coffee', label1: 'Lunch', label2: '67 Menus' },
   ];
 
   return (
@@ -49,7 +58,12 @@ const Main = () => {
         <View style={styles.yellowContainer}>
           <CustomImageCaroselSquare data={data} />
         </View>
-        
+        <View>
+          <Text style={{ color: 'black', fontWeight: 'black', fontSize: 20 }}>Categories</Text>
+        </View>
+        <View style={styles.yellowContainer2}>
+          <SecondStack data={data2} />
+        </View>
       </View>
     </View>
   );
@@ -115,7 +129,7 @@ const styles = StyleSheet.create({
   yellowContainer: {
     flez: 1,
     backgroundColor: 'white',
-    height: screenWidth * 0.6,
+    height: screenWidth * 0.4,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -123,7 +137,18 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 1,
     alignSelf: 'center',
-
+  },
+  yellowContainer2: {
+    flez: 1,
+    backgroundColor: 'white',
+    height: screenWidth * 0.3,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 12,
+    borderColor: 'white',
+    borderWidth: 1,
+    alignSelf: 'center',
   },
 });
 

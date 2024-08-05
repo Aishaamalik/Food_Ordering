@@ -130,7 +130,7 @@ const CustomImageCaroselSquare = ({ data = [] }) => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: '40%',
+    width: '70%',
     height: '70%', 
     justifyContent: 'center',
     alignItems: 'center',
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   itemWrapper: {
-    marginHorizontal: 10,
+    marginHorizontal: 9,
     borderRadius: 30,
     overflow: 'hidden',
     position: 'relative',
