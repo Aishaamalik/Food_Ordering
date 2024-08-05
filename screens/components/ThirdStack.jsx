@@ -57,16 +57,18 @@ const ProductList = () => {
 const ProductCard = ({ product }) => {
   return (
     <View style={styles.productCard}>
-      <Image source={product.image} style={styles.productImage} />
+      <View style={styles.imageContainer}>
+        <Image source={product.image} style={styles.productImage} />
+        <View style={styles.productRating}>
+          <Icon name="star" size={16} color="#fff" />
+          <Text style={styles.ratingText}>{product.rating}</Text>
+        </View>
+      </View>
       <View style={styles.productInfo}>
         <Text style={styles.productTitle}>{product.title}</Text>
         <View style={styles.priceAndPoints}>
           <Text style={styles.productPrice}>${product.price}</Text>
           <Text style={styles.pointsText}>{product.points}</Text>
-        </View>
-        <View style={styles.productRating}>
-          <Icon name="star" size={16} color="#fff" />
-          <Text style={styles.ratingText}>{product.rating}</Text>
         </View>
       </View>
     </View>
@@ -84,21 +86,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
   },
-  productImage: {
+  imageContainer: {
+    position: 'relative',
     width: '30%',
     height: 150,
-    borderRadius: 8,
     marginRight: 12,
+  },
+  productImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 8,
+  },
+  productRating: {
+    position: 'absolute',
+    bottom: -10, 
+    left: '50%',
+    transform: [{ translateX: -25 }], 
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'orange',
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  ratingText: {
+    fontSize: 14,
+    color: '#fff',
+    marginLeft: 4,
   },
   productInfo: {
     flex: 1,
   },
   productTitle: {
     fontSize: 20,
-    fontWeight:'400',
+    fontWeight: '400',
     marginBottom: 30,
-    color:'black',
-
+    color: 'black',
   },
   priceAndPoints: {
     flexDirection: 'row',
@@ -114,20 +137,6 @@ const styles = StyleSheet.create({
   pointsText: {
     fontSize: 20,
     color: 'green',
-  },
-  productRating: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'orange',
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    alignSelf: 'flex-start',
-  },
-  ratingText: {
-    fontSize: 14,
-    color: '#fff',
-    marginLeft: 4,
   },
 });
 
