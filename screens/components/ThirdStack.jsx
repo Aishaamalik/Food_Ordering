@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ThirdStackSwiperWapper from '../Bottom Tab/ThirdStackSwiperWapper';
+import { useNavigation } from '@react-navigation/native';
+import MyOrderScreen from '../Drawer/2MyOrderScreen';
 
 const ThirdStack = () => {
   return (
@@ -55,8 +57,14 @@ const ProductList = () => {
 };
 
 const ProductCard = ({ product }) => {
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    navigation.navigate('My Order', { product });
+  };
+
   return (
-    <View style={styles.productCard}>
+    <TouchableOpacity onPress={handlePress} style={styles.productCard}>
       <View style={styles.imageContainer}>
         <Image source={product.image} style={styles.productImage} />
         <View style={styles.productRating}>
@@ -71,7 +79,7 @@ const ProductCard = ({ product }) => {
           <Text style={styles.pointsText}>{product.points}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
