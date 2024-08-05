@@ -1,16 +1,15 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ThirdStackSwiperWapper from '../Bottom Tab/ThirdStackSwiperWapper';
 
-const ProductScreen = () => {
+const ThirdStack = () => {
   return (
-    <ScrollView style={styles.mainContent}>
-      <View style={styles.header}>
-        <Text style={styles.featuredTitle}>Featured Beverages</Text>
-        <Text style={styles.moreText}>More</Text>
-      </View>
-      <ProductList />
-    </ScrollView>
+    <ThirdStackSwiperWapper>
+      <ScrollView style={styles.mainContent}>
+        <ProductList />
+      </ScrollView>
+    </ThirdStackSwiperWapper>
   );
 };
 
@@ -21,28 +20,28 @@ const ProductList = () => {
       price: "12.6",
       points: "50 Pts",
       rating: "3.8",
-      image: require('../Assets/productspics/cofee.jpeg'),
+      image: require('../Assets/productspics/creamymocha.jpeg'),
     },
     {
       title: "Creamy Mocha Ome Coffee",
       price: "12.6",
       points: "50 Pts",
       rating: "3.8",
-      image: require('../Assets/productspics/cofee.jpeg'),
+      image: require('../Assets/productspics/HotCreamyMocha.jpeg'),
     },
     {
       title: "Arabica Latte Ombe Coffee",
       price: "12.6",
       points: "50 Pts",
       rating: "3.8",
-      image: require('../Assets/productspics/cofee.jpeg'),
+      image: require('../Assets/productspics/Arabicalatte.jpeg'),
     },
     {
       title: "Original Hot Coffee",
       price: "12.6",
       points: "50 Pts",
       rating: "3.8",
-      image: require('../Assets/productspics/cofee.jpeg'),
+      image: require('../Assets/productspics/blackcoffee.jpeg'),
     },
   ];
 
@@ -59,16 +58,16 @@ const ProductCard = ({ product }) => {
   return (
     <View style={styles.productCard}>
       <Image source={product.image} style={styles.productImage} />
-      <View style={styles.productDetails}>
+      <View style={styles.productInfo}>
         <Text style={styles.productTitle}>{product.title}</Text>
-        <Text style={styles.productPrice}>${product.price}</Text>
-      </View>
-      <View style={styles.productPoints}>
-        <Text style={styles.pointsText}>{product.points}</Text>
-      </View>
-      <View style={styles.productRating}>
-        <Icon name="star" size={16} color="#fff" />
-        <Text style={styles.ratingText}>{product.rating}</Text>
+        <View style={styles.priceAndPoints}>
+          <Text style={styles.productPrice}>${product.price}</Text>
+          <Text style={styles.pointsText}>{product.points}</Text>
+        </View>
+        <View style={styles.productRating}>
+          <Icon name="star" size={16} color="#fff" />
+          <Text style={styles.ratingText}>{product.rating}</Text>
+        </View>
       </View>
     </View>
   );
@@ -78,57 +77,42 @@ const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  featuredTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  moreText: {
-    fontSize: 14,
-    color: 'green',
+    backgroundColor: 'white',
   },
   productCard: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 16,
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: '#f9f9f9',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 2,
   },
   productImage: {
-    width: 60,
-    height: 60,
+    width: '30%',
+    height: 150,
     borderRadius: 8,
     marginRight: 12,
   },
-  productDetails: {
+  productInfo: {
     flex: 1,
   },
   productTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight:'400',
+    marginBottom: 30,
+    color:'black',
+
+  },
+  priceAndPoints: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 5,
+    marginBottom: 5,
   },
   productPrice: {
-    fontSize: 14,
-    color: '#333',
-  },
-  productPoints: {
-    marginRight: 8,
+    fontSize: 20,
+    color: 'black',
+    fontWeight: 'bold',
   },
   pointsText: {
-    fontSize: 14,
+    fontSize: 20,
     color: 'green',
   },
   productRating: {
@@ -138,6 +122,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    alignSelf: 'flex-start',
   },
   ratingText: {
     fontSize: 14,
@@ -146,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductScreen;
+export default ThirdStack;

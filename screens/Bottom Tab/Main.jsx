@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import CustomImageCaroselSquare from '../components/CustomImageCaroselSquare';
 import SecondStack from '../components/SecondStack';
+import ThirdStack from '../components/ThirdStack';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -11,14 +12,14 @@ const Main = () => {
   const navigation = useNavigation();
 
   const data = [
-    { image: require('../Assets/chai.png'), label1: 'Chai', label2: ' $ 5.8' },
+    { image: require('../Assets/chai.png'), label1: 'Chai', label2: '$ 5.8' },
     { image: require('../Assets/blackcoffee.png'), label1: 'Black Coffee', label2: '$ 5.8' },
     { image: require('../Assets/whitechocolatemocha.png'), label1: 'Choco Mocha', label2: '$ 5.8' },
-    { image: require('../Assets/chai.png'), label1: 'Chai', label2: ' $ 5.8' },
+    { image: require('../Assets/chai.png'), label1: 'Chai', label2: '$ 5.8' },
     { image: require('../Assets/blackcoffee.png'), label1: 'Black Coffee', label2: '$ 5.8' },
     { image: require('../Assets/whitechocolatemocha.png'), label1: 'Choco Mocha', label2: '$ 5.8' },
   ];
-  
+
   const data2 = [
     { icon: 'coffee', label1: 'Beverages', label2: '41 Menus' },
     { icon: 'coffee', label1: 'Food', label2: '37 Menus' },
@@ -29,42 +30,57 @@ const Main = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topBar}>
-        <View style={styles.greetingContainer}>
-          <Text style={styles.greeting}>Good Morning</Text>
-          <Text style={styles.name}>William</Text>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <View style={styles.topBar}>
+          <View style={styles.greetingContainer}>
+            <Text style={styles.greeting}>Good Morning</Text>
+            <Text style={styles.name}>William</Text>
+          </View>
+          <View style={styles.iconsContainer}>
+            <TouchableOpacity style={styles.iconButton}>
+              <Icon name="shopping-cart" size={24} color="#388e3c" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.iconButton}
+              onPress={() => navigation.openDrawer()}
+            >
+              <Icon name="menu" size={24} color="#388e3c" />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.iconsContainer}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Icon name="shopping-cart" size={24} color="#388e3c" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.iconButton}
-            onPress={() => navigation.openDrawer()}
-          >
-            <Icon name="menu" size={24} color="#388e3c" />
-          </TouchableOpacity>
+        <View style={styles.content}>
+          <View style={styles.searchContainer}>
+            <Icon name="search" size={24} color="#388e3c" style={styles.searchIcon} />
+            <TextInput
+              style={styles.searchBar}
+              placeholder="Search beverages or foods"
+              placeholderTextColor="gray"
+            />
+          </View>
+          <View style={styles.Container1}>
+            <CustomImageCaroselSquare data={data} />
+          </View>
+          <View style={styles.categoriesContainer}>
+            <Text style={styles.categoriesTitle}>Categories</Text>
+          </View>
+          <View style={styles.Container2}>
+            <SecondStack data={data2} />
+          </View>
+          <View style={styles.featuredContainer}>
+            <View style={styles.featuredHeader}>
+              <Text style={styles.featuredTitle}>Featured Beverages</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Products')}>
+                <Text style={styles.moreText}>More</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.Container3}>
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+              <ThirdStack />
+            </ScrollView>
+          </View>
         </View>
-      </View>
-      <View style={styles.content}>
-        <View style={styles.searchContainer}>
-          <Icon name="search" size={24} color="#388e3c" style={styles.searchIcon} />
-          <TextInput
-            style={styles.searchBar}
-            placeholder="Search beverages or foods"
-            placeholderTextColor="gray"
-          />
-        </View>
-        <View style={styles.yellowContainer}>
-          <CustomImageCaroselSquare data={data} />
-        </View>
-        <View>
-          <Text style={{ color: 'black', fontWeight: 'black', fontSize: 20 }}>Categories</Text>
-        </View>
-        <View style={styles.yellowContainer2}>
-          <SecondStack data={data2} />
-        </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -73,6 +89,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  scrollViewContent: {
+    flexGrow: 1,
   },
   topBar: {
     flexDirection: 'row',
@@ -105,7 +124,6 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 16,
-    justifyContent: 'flex-start',
   },
   searchContainer: {
     flexDirection: 'row',
@@ -126,22 +144,10 @@ const styles = StyleSheet.create({
     color: 'black',
     paddingHorizontal: 10,
   },
-  yellowContainer: {
-    flez: 1,
-    backgroundColor: 'white',
+  Container1: {
+    width: screenWidth * 0.9,
     height: screenWidth * 0.7,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 12,
-    borderColor: 'white',
-    borderWidth: 1,
-    alignSelf: 'center',
-  },
-  yellowContainer2: {
-    flez: 1,
     backgroundColor: 'white',
-    height: screenWidth * 0.3,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -149,6 +155,48 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 1,
     alignSelf: 'center',
+    marginBottom: 16,
+  },
+  categoriesContainer: {
+    marginBottom: 16,
+  },
+  categoriesTitle: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  Container2: {
+    width: screenWidth * 0.9,
+    height: screenWidth * 0.3,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 18,
+    borderColor: 'white',
+    borderWidth: 1,
+    alignSelf: 'center',
+    marginBottom: 16,
+  },
+  featuredContainer: {
+    marginBottom: 16,
+  },
+  featuredHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  featuredTitle: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  moreText: {
+    color: '#388e3c',
+    fontSize: 16,
+  },
+  Container3: {
+    flex: 1,
   },
 });
 

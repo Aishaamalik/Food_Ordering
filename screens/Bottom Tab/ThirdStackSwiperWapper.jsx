@@ -1,7 +1,7 @@
 import { StyleSheet,View } from 'react-native'
 import React from 'react'
 
-const SecondStackSwiperWapper = ({children}) => {
+const ThirdStackSwiperWapper = ({children}) => {
   return (
     <View style={[styles.container]}>
       {children}
@@ -9,7 +9,7 @@ const SecondStackSwiperWapper = ({children}) => {
   )
 }
 
-export default SecondStackSwiperWapper
+export default ThirdStackSwiperWapper
 
 const styles = StyleSheet.create({
     container:{
