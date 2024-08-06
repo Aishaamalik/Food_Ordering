@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Image, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Slider from '@react-native-community/slider';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const { width, height } = Dimensions.get('window');
 
 const sizeOptions = ['Small', 'Medium', 'Large', 'Extra Large'];
 
-const MyOrderScreen = () => {
+const MyOrderScreen = ({ route }) => {
+  const navigation = useNavigation(); // Initialize useNavigation
+  const { product } = route.params; // Get the product data from navigation params
+
   const [imageHeight, setImageHeight] = useState(height / 2);
   const [size, setSize] = useState('Small');
   const [quantity, setQuantity] = useState(1);
   const [sliderValue, setSliderValue] = useState(0);
-  const [basePrice, setBasePrice] = useState(5.8); // Base price for one item
+  const [basePrice, setBasePrice] = useState(parseFloat(product.price)); // Use the product price
   const [currentPrice, setCurrentPrice] = useState(basePrice); // Current price based on quantity
+
+  useEffect(() => {
+    setCurrentPrice(basePrice * quantity); // Update the current price when quantity changes
+  }, [quantity]);
 
   const handleSliderValueChange = (value) => {
     setSliderValue(value);
@@ -25,14 +33,17 @@ const MyOrderScreen = () => {
 
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
-    setCurrentPrice(basePrice * (quantity + 1));
   };
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
-      setCurrentPrice(basePrice * (quantity - 1));
     }
+  };
+
+  const handlePlaceOrder = () => {
+    // Navigate to Cart screen and pass the necessary information
+    navigation.navigate('Cart', { product, quantity, size, currentPrice });
   };
 
   return (
@@ -40,17 +51,17 @@ const MyOrderScreen = () => {
       <View style={styles.container}>
         <View style={styles.upperContainer}>
           <Image
-            source={require('../Assets/whitechocolatemocha.png')} // Adjust the path as needed
+            source={product.image} 
             style={[styles.image, { height: imageHeight }]}
           />
         </View>
         <View style={styles.lowerContainer}>
           <View style={styles.ratingContainer}>
-            <Text style={styles.ratingText}>4.5</Text>
+            <Text style={styles.ratingText}>{product.rating}</Text>
           </View>
 
           <View style={styles.content}>
-            <Text style={styles.title}>Ice Chocolate Coffee</Text>
+            <Text style={styles.title}>{product.title}</Text>
             <Text style={styles.description}>
               “Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore”
             </Text>
@@ -83,7 +94,7 @@ const MyOrderScreen = () => {
             <View style={styles.priceQuantityContainer}>
               <View style={styles.priceContainer}>
                 <Text style={styles.currentPrice}>${currentPrice.toFixed(2)}</Text>
-                <Text style={styles.originalPrice}>$8.0</Text>
+                <Text style={styles.originalPrice}>${product.price}</Text>
               </View>
 
               <View style={styles.quantityContainer}>
@@ -101,7 +112,7 @@ const MyOrderScreen = () => {
               *)Dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
             </Text>
 
-            <TouchableOpacity style={styles.placeOrderButton}>
+            <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>
               <Text style={styles.placeOrderText}>PLACE ORDER ${(currentPrice * quantity).toFixed(2)}</Text>
             </TouchableOpacity>
           </View>
@@ -128,7 +139,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    overflow: 'visible',
   },
   image: {
     width: width - 40,
