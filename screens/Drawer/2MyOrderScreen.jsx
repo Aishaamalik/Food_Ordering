@@ -117,18 +117,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   upperContainer: {
-    flex: 1,
+    flex: 0.3,
     backgroundColor: 'green',
     justifyContent: 'center',
     alignItems: 'center',
   },
   lowerContainer: {
-    flex: 1,
+    flex: 0.7,
     backgroundColor: 'white',
     paddingTop: 10,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    overflow: 'hidden',
+    overflow: 'visible',
   },
   image: {
     width: width - 40,
