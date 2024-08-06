@@ -3,7 +3,6 @@ import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity } from 'rea
 import Icon from 'react-native-vector-icons/Ionicons';
 import ThirdStackSwiperWapper from '../Bottom Tab/ThirdStackSwiperWapper';
 import { useNavigation } from '@react-navigation/native';
-import MyOrderScreen from '../Drawer/2MyOrderScreen';
 
 const ThirdStack = () => {
   return (
