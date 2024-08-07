@@ -7,6 +7,7 @@ import SplashScreen from './Stack/SplashScreen'
 import HomeScreen from './Stack/HomeScreen'
 import OrderScreen from './Bottom Tab/OrderScreen'
 import Main from './Bottom Tab/Main'
+import CheckkOutScreen from './Bottom Tab/CheckkOutScreen'
 
 //stack
 const Stack = createNativeStackNavigator();
@@ -28,6 +29,11 @@ const AppNavigation = () => {
         <Stack.Screen
         name='OrderScreen'
         component={OrderScreen}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Checkout'
+        component={CheckkOutScreen}
         options={{headerShown: false}}
         />
       </Stack.Navigator>

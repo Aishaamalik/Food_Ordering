@@ -3,7 +3,7 @@ import { SafeAreaView, View, Text, Image, TouchableOpacity, StyleSheet, ScrollVi
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CartScreen = ({ route }) => {
+const CartScreen = ({ route, navigation }) => {
   const { product, quantity, size, currentPrice } = route.params || {};
   const [cartItems, setCartItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
@@ -64,6 +64,10 @@ const CartScreen = ({ route }) => {
     setCartItems((prevItems) => prevItems.filter((_, i) => i !== index));
   };
 
+  const handlePlaceOrder = () => {
+    navigation.navigate('Checkout');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -102,7 +106,7 @@ const CartScreen = ({ route }) => {
                     <Icon name="add" size={26} color="white" />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => removeItem(index)} style={styles.removeButton}>
-                    <Icon name="delete" size={20} color="green" /> 
+                    <Icon name="delete" size={20} color="green" />
                     <Text style={styles.removeText}>Remove</Text>
                   </TouchableOpacity>
                 </View>
@@ -112,6 +116,11 @@ const CartScreen = ({ route }) => {
           ))}
         </View>
       </ScrollView>
+      <View>
+        <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>
+          <Text style={styles.placeOrderText}>Place Order</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -139,6 +148,20 @@ const styles = StyleSheet.create({
   changeLocationText: {
     color: '#4CAF50',
     marginLeft: 5,
+  },
+  placeOrderButton: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  placeOrderText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   itemCountContainer: {
     flexDirection: 'row',
