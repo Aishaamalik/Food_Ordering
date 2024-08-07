@@ -2,25 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { View, Image, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Slider from '@react-native-community/slider';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
-
 const sizeOptions = ['Small', 'Medium', 'Large', 'Extra Large'];
 
 const MyOrderScreen = ({ route }) => {
-  const navigation = useNavigation(); // Initialize useNavigation
-  const { product } = route.params; // Get the product data from navigation params
+  const navigation = useNavigation(); 
+  const { product } = route.params; 
 
   const [imageHeight, setImageHeight] = useState(height / 2);
   const [size, setSize] = useState('Small');
   const [quantity, setQuantity] = useState(1);
   const [sliderValue, setSliderValue] = useState(0);
-  const [basePrice, setBasePrice] = useState(parseFloat(product.price)); // Use the product price
-  const [currentPrice, setCurrentPrice] = useState(basePrice); // Current price based on quantity
+  const [basePrice, setBasePrice] = useState(parseFloat(product.price));
+  const [currentPrice, setCurrentPrice] = useState(basePrice);
 
   useEffect(() => {
-    setCurrentPrice(basePrice * quantity); // Update the current price when quantity changes
+    setCurrentPrice(basePrice * quantity);
   }, [quantity]);
 
   const handleSliderValueChange = (value) => {
@@ -42,7 +41,7 @@ const MyOrderScreen = ({ route }) => {
   };
 
   const handlePlaceOrder = () => {
-    // Navigate to Cart screen and pass the necessary information
+    // Navigate to Cart screen and pass the product, quantity, size, and current price
     navigation.navigate('Cart', { product, quantity, size, currentPrice });
   };
 
@@ -50,22 +49,17 @@ const MyOrderScreen = ({ route }) => {
     <ScrollView contentContainerStyle={styles.contentContainer}>
       <View style={styles.container}>
         <View style={styles.upperContainer}>
-          <Image
-            source={product.image} 
-            style={[styles.image, { height: imageHeight }]}
-          />
+          <Image source={product.image} style={[styles.image, { height: imageHeight }]} />
         </View>
         <View style={styles.lowerContainer}>
           <View style={styles.ratingContainer}>
             <Text style={styles.ratingText}>{product.rating}</Text>
           </View>
-
           <View style={styles.content}>
             <Text style={styles.title}>{product.title}</Text>
             <Text style={styles.description}>
               “Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore”
             </Text>
-
             <Slider
               style={styles.slider}
               minimumValue={0}
@@ -76,27 +70,18 @@ const MyOrderScreen = ({ route }) => {
               minimumTrackTintColor="#3b5998"
               maximumTrackTintColor="#ccc"
             />
-
             <View style={styles.sizeLabelsContainer}>
               {sizeOptions.map((option, index) => (
-                <Text
-                  key={index}
-                  style={[
-                    styles.sizeLabel,
-                    size === option && styles.selectedSizeLabel,
-                  ]}
-                >
+                <Text key={index} style={[styles.sizeLabel, size === option && styles.selectedSizeLabel]}>
                   {option}
                 </Text>
               ))}
             </View>
-
             <View style={styles.priceQuantityContainer}>
               <View style={styles.priceContainer}>
                 <Text style={styles.currentPrice}>${currentPrice.toFixed(2)}</Text>
                 <Text style={styles.originalPrice}>${product.price}</Text>
               </View>
-
               <View style={styles.quantityContainer}>
                 <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
                   <Icon name="minus" size={16} color="gray" />
@@ -107,11 +92,9 @@ const MyOrderScreen = ({ route }) => {
                 </TouchableOpacity>
               </View>
             </View>
-
             <Text style={styles.note}>
               *)Dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
             </Text>
-
             <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>
               <Text style={styles.placeOrderText}>PLACE ORDER ${(currentPrice * quantity).toFixed(2)}</Text>
             </TouchableOpacity>
@@ -168,10 +151,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 8,
+    color: 'black',
+
   },
   description: {
     fontSize: 16,
-    color: '#666',
+    color: 'gray',
     marginBottom: 16,
   },
   slider: {
@@ -211,7 +196,7 @@ const styles = StyleSheet.create({
   },
   originalPrice: {
     fontSize: 16,
-    color: '#999',
+    color: 'gray',
     textDecorationLine: 'line-through',
     marginLeft: 8,
   },
@@ -230,10 +215,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginHorizontal: 16,
+    color: 'gray',
+
   },
   note: {
     fontSize: 14,
-    color: '#666',
+    color: 'gray',
     marginVertical: 16,
   },
   placeOrderButton: {

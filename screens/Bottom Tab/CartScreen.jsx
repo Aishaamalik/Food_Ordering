@@ -1,10 +1,68 @@
-import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CartScreen = () => {
-  const [itemCount, setItemCount] = useState(0);
+const CartScreen = ({ route }) => {
+  const { product, quantity, size, currentPrice } = route.params || {};
+  const [cartItems, setCartItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
+
+  useEffect(() => {
+    const loadCartItems = async () => {
+      try {
+        const storedCartItems = await AsyncStorage.getItem('cartItems');
+        if (storedCartItems) {
+          setCartItems(JSON.parse(storedCartItems));
+        }
+      } catch (error) {
+        console.error('Failed to load cart items', error);
+      }
+    };
+    loadCartItems();
+  }, []);
+
+  useEffect(() => {
+    if (product) {
+      setCartItems((prevItems) => [...prevItems, { product, quantity, size, currentPrice }]);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    const saveCartItems = async () => {
+      try {
+        await AsyncStorage.setItem('cartItems', JSON.stringify(cartItems));
+      } catch (error) {
+        console.error('Failed to save cart items', error);
+      }
+    };
+    saveCartItems();
+
+    const total = cartItems.reduce((sum, item) => sum + item.currentPrice * item.quantity, 0);
+    setSubtotal(total);
+  }, [cartItems]);
+
+  const increaseQuantity = (index) => {
+    setCartItems((prevItems) => {
+      const updatedItems = [...prevItems];
+      updatedItems[index].quantity += 1;
+      return updatedItems;
+    });
+  };
+
+  const decreaseQuantity = (index) => {
+    setCartItems((prevItems) => {
+      const updatedItems = [...prevItems];
+      if (updatedItems[index].quantity > 1) {
+        updatedItems[index].quantity -= 1;
+      }
+      return updatedItems;
+    });
+  };
+
+  const removeItem = (index) => {
+    setCartItems((prevItems) => prevItems.filter((_, i) => i !== index));
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -16,17 +74,44 @@ const CartScreen = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.itemCountContainer}>
-        <Text style={styles.itemText}>Item:{itemCount}       </Text>
+        <Text style={styles.itemText}>Item(s): {cartItems.length}</Text>
         <Text style={styles.deliverTo}>Delivered to:</Text>
       </View>
       <View style={styles.subtotal}>
-        <Text>Subtotal</Text>
+        <Text style={{ color: 'black' }}>Subtotal</Text>
         <Text style={styles.price}>${subtotal.toFixed(2)}</Text>
       </View>
       <View style={styles.deliveryEligible}>
         <Icon name="check-circle" size={20} color="#4CAF50" />
         <Text style={styles.deliveryEligibleText}>Your order is eligible for delivery</Text>
       </View>
+      <ScrollView>
+        <View style={styles.productContainer}>
+          {cartItems.map((item, index) => (
+            <View key={index} style={styles.productCard}>
+              <Image source={item.product.image} style={styles.productImage} />
+              <View style={styles.productDetails}>
+                <Text style={styles.productTitle}>{item.product.title}</Text>
+                <Text style={styles.productSize}>Size: {item.size}</Text>
+                <View style={styles.quantityContainer}>
+                  <TouchableOpacity onPress={() => decreaseQuantity(index)} style={styles.quantityButton}>
+                    <Icon name="remove" size={26} color="white" />
+                  </TouchableOpacity>
+                  <Text style={styles.quantityText}>{item.quantity}</Text>
+                  <TouchableOpacity onPress={() => increaseQuantity(index)} style={styles.quantityButton}>
+                    <Icon name="add" size={26} color="white" />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => removeItem(index)} style={styles.removeButton}>
+                  <Icon name="delete" size={20} color="green" /> 
+                    <Text style={styles.removeText}>Remove</Text>
+                  </TouchableOpacity>
+                </View>
+                <Text style={styles.productPrice}>Price: ${item.currentPrice.toFixed(2)}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -45,6 +130,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: 'black',
   },
   changeLocation: {
     flexDirection: 'row',
@@ -61,11 +147,11 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 16,
-    color: '#555',
+    color: 'black',
   },
   deliverTo: {
     fontSize: 16,
-    color: '#555',
+    color: 'black',
   },
   subtotal: {
     flexDirection: 'row',
@@ -79,6 +165,7 @@ const styles = StyleSheet.create({
   price: {
     fontWeight: 'bold',
     fontSize: 18,
+    color: 'black',
   },
   deliveryEligible: {
     flexDirection: 'row',
@@ -88,6 +175,68 @@ const styles = StyleSheet.create({
   deliveryEligibleText: {
     color: '#4CAF50',
     marginLeft: 10,
+  },
+  productContainer: {
+    flex: 1,
+  },
+  productCard: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginVertical: 10,
+    padding: 10,
+  },
+  productImage: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
+  },
+  productDetails: {
+    marginLeft: 10,
+    justifyContent: 'center',
+  },
+  productTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  productSize: {
+    fontSize: 14,
+    color: 'black',
+  },
+  quantityContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  quantityButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'green',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 5,
+  },
+  quantityText: {
+    fontSize: 16,
+    marginHorizontal: 10,
+    color: 'black',
+  },
+  removeButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
+  removeText: {
+    color: 'green',
+    fontSize: 14,
+    marginRight: 0,
+    marginLeft: 0,
+  },
+  productPrice: {
+    fontSize: 14,
+    color: 'black',
   },
 });
 
