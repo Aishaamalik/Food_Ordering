@@ -102,7 +102,7 @@ const CartScreen = ({ route }) => {
                     <Icon name="add" size={26} color="white" />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => removeItem(index)} style={styles.removeButton}>
-                  <Icon name="delete" size={20} color="green" /> 
+                    <Icon name="delete" size={20} color="green" /> 
                     <Text style={styles.removeText}>Remove</Text>
                   </TouchableOpacity>
                 </View>

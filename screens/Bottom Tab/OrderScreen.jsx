@@ -41,14 +41,23 @@ const OrderScreen = ({ route }) => {
   };
 
   const handlePlaceOrder = () => {
-    // Navigate to Cart screen and pass the product, quantity, size, and current price
     navigation.navigate('Cart', { product, quantity, size, currentPrice });
+  };
+
+  const handleBookmark = () => {
+    navigation.navigate('My Order', { bookmarkedProduct: { ...product, quantity, size, currentPrice } });
   };
 
   return (
     <ScrollView contentContainerStyle={styles.contentContainer}>
       <View style={styles.container}>
         <View style={styles.upperContainer}>
+          <TouchableOpacity style={styles.iconLeft} onPress={() => navigation.goBack()}>
+            <Icon name="arrow-left" size={24} color="#FFF" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconRight} onPress={handleBookmark}>
+            <Icon name="bookmark" size={24} color="#FFF" />
+          </TouchableOpacity>
           <Image source={product.image} style={[styles.image, { height: imageHeight }]} />
         </View>
         <View style={styles.lowerContainer}>
@@ -115,6 +124,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
+  },
+  iconLeft: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    zIndex: 1,
+  },
+  iconRight: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1,
   },
   lowerContainer: {
     flex: 0.7,
@@ -152,7 +174,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 8,
     color: 'black',
-
   },
   description: {
     fontSize: 16,
@@ -216,7 +237,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginHorizontal: 16,
     color: 'gray',
-
   },
   note: {
     fontSize: 14,
