@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import SplashScreen from './Stack/SplashScreen'
 import HomeScreen from './Stack/HomeScreen'
 import OrderScreen from './Bottom Tab/OrderScreen'
+import Main from './Bottom Tab/Main'
 
 //stack
 const Stack = createNativeStackNavigator();
