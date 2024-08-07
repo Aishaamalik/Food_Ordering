@@ -59,7 +59,7 @@ const ProductCard = ({ product }) => {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    navigation.navigate('My Order', { product });
+    navigation.navigate('OrderScreen', { product });
   };
 
   
