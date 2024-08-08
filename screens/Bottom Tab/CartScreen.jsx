@@ -68,11 +68,14 @@ const CartScreen = ({ route, navigation }) => {
     navigation.navigate('Checkout');
   };
 
+  const handleChange = () => {
+    navigation.navigate('Change Address');
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>My Cart</Text>
-        <TouchableOpacity style={styles.changeLocation}>
+        <Text style={styles.headerTitle} >My Cart</Text>
+        <TouchableOpacity style={styles.changeLocation} onPress={handleChange}>
           <Icon name="location-on" size={20} color="#4CAF50" />
           <Text style={styles.changeLocationText}>Change</Text>
         </TouchableOpacity>

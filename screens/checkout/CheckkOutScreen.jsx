@@ -2,11 +2,20 @@ import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const CheckoutScreen = () => {
+const CheckoutScreen = ({ navigation }) => {
+
+  const handleDeliveryAddress = () => {
+    navigation.navigate('Delivery Address');
+  };
+
+  const handlePayment = () => {
+    navigation.navigate('Payment');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Checkout</Text>
@@ -14,7 +23,7 @@ const CheckoutScreen = () => {
       </View>
 
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        <TouchableOpacity style={styles.section}>
+        <TouchableOpacity style={styles.section} onPress={handleDeliveryAddress}>
           <View style={styles.sectionIcon}>
             <Icon name="location-on" size={24} color="#000" />
           </View>
@@ -25,7 +34,7 @@ const CheckoutScreen = () => {
           <Icon name="chevron-right" size={24} color="#000" />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.section}>
+        <TouchableOpacity style={styles.section} onPress={handlePayment}>
           <View style={styles.sectionIcon}>
             <Icon name="credit-card" size={24} color="#000" />
           </View>

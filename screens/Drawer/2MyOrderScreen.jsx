@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather'; // Importing Feather icons
-import FontAwesome from 'react-native-vector-icons/FontAwesome'; // Importing FontAwesome icons for the star
+import Icon from 'react-native-vector-icons/Feather'; 
+import FontAwesome from 'react-native-vector-icons/FontAwesome'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MyOrderScreen = ({ route, navigation }) => {
