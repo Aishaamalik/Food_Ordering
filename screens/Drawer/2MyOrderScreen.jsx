@@ -1,10 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather'; 
+import Icon from 'react-native-vector-icons/Feather';
 
 const MyOrderScreen = ({ route, navigation }) => {
   const [activeTab, setActiveTab] = useState('Ongoing');
   
+  const { ongoingOrders = [] } = route.params || {};
+
+  const renderOrderItem = ({ item, index }) => (
+    <View key={index} style={styles.orderItem}>
+      <View style={styles.imageContainer}>
+        <Image source={item.product.image} style={styles.orderImage} />
+        <View style={styles.ratingContainer}>
+          <Icon name="star" size={14} color="#FFD700" />
+          <Text style={styles.orderItemRating}>{item.product.rating}</Text>
+        </View>
+      </View>
+      <View style={styles.orderDetails}>
+        <Text style={styles.orderItemTitle}>{item.product.title}</Text>
+        <Text style={styles.orderItemQty}>{item.currentPrice.toFixed(2)}</Text>
+      </View>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
@@ -32,10 +49,13 @@ const MyOrderScreen = ({ route, navigation }) => {
         </TouchableOpacity>
       </View>
       {activeTab === 'Ongoing' ? (
-        <View style={styles.orderList}>
-            <Text style={styles.noOrdersText}>No ongoing orders</Text>
-          
-        </View>
+        <FlatList
+          data={ongoingOrders}
+          renderItem={renderOrderItem}
+          keyExtractor={(item, index) => index.toString()}
+          contentContainerStyle={styles.orderList}
+          ListEmptyComponent={<Text style={styles.noOrdersText}>No ongoing orders</Text>}
+        />
       ) : (
         <View style={styles.greenContainer}>
           <Text style={styles.containerText}>Completed Orders</Text>
@@ -117,8 +137,8 @@ const styles = StyleSheet.create({
     right: 0,
     justifyContent: 'center',
   },
-  orderRating: {
-    fontSize: 15,
+  orderItemRating: {
+    fontSize: 20,
     marginLeft: 5,
     color: '#FFF',
   },
@@ -126,48 +146,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
   },
-  orderTitle: {
-    fontSize: 16,
+  orderItemTitle: {
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
     marginBottom: 5,
-  },
-  orderQuantity: {
-    fontSize: 14,
-    color: 'gray',
-    marginBottom: 5,
-  },
-  orderSize: {
-    fontSize: 14,
-    color: 'gray',
-    marginBottom: 25,
-  },
-  priceContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  orderPrice: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'black',
-  },
-  continueOrder: {
-    marginLeft: 10,
-    backgroundColor: 'green',
-    color: 'white',
-    borderRadius: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-  },
-  removeButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  removeLabel: {
-    marginLeft: 5,
-    color: '#FF0000',
-    fontSize: 16,
   },
   noOrdersText: {
     fontSize: 16,

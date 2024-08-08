@@ -15,7 +15,7 @@ const CheckoutScreen = ({ route, navigation }) => {
   };
 
   const handleSubmitOrder = () => {
-    navigation.navigate('My Order');
+    navigation.navigate('My Order', { ongoingOrders: cartItems });
   };
 
   return (
