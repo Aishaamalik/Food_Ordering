@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const CheckoutScreen = ({ route, navigation }) => {
@@ -63,9 +63,17 @@ const CheckoutScreen = ({ route, navigation }) => {
 
         <View style={styles.orderSummary}>
           {cartItems.map((item, index) => (
-            <Text key={index} style={styles.orderItem}>
-              {item.product.title} <Text style={styles.orderItemQty}>{item.quantity} x ${item.currentPrice.toFixed(2)}</Text>
-            </Text>
+            <View key={index} style={styles.orderItem}>
+              <Image source={item.product.image} style={styles.orderImage} />
+              <View style={styles.orderDetails}>
+                <Text style={styles.orderItemTitle}>{item.product.title}</Text>
+                <View style={styles.ratingContainer}>
+                  <Icon name="star" size={14} color="#FFD700" />
+                  <Text style={styles.orderItemRating}>{item.product.rating}</Text>
+                </View>
+                <Text style={styles.orderItemQty}>{item.quantity} x ${item.currentPrice.toFixed(2)}</Text>
+              </View>
+            </View>
           ))}
           <Text style={styles.orderItem}>Discount <Text style={styles.orderItemQty}>-${discount.toFixed(2)}</Text></Text>
           <Text style={styles.orderItem}>Shipping <Text style={styles.orderItemQty}>FREE Delivery</Text></Text>
@@ -155,10 +163,32 @@ const styles = StyleSheet.create({
   },
   orderItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 10,
+  },
+  orderImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  orderDetails: {
+    flex: 1,
+  },
+  orderItemTitle: {
+    fontWeight: 'bold',
     fontSize: 16,
     color: '#000',
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5,
+  },
+  orderItemRating: {
+    marginLeft: 5,
+    fontSize: 14,
+    color: '#FFD700',
   },
   orderItemQty: {
     fontWeight: 'bold',
