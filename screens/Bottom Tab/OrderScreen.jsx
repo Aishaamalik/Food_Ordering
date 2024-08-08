@@ -44,9 +44,6 @@ const OrderScreen = ({ route }) => {
     navigation.navigate('Cart', { product, quantity, size, currentPrice });
   };
 
-  const handleBookmark = () => {
-    navigation.navigate('My Order', { bookmarkedProduct: { ...product, quantity, size, currentPrice } });
-  };
 
   return (
     <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -55,7 +52,7 @@ const OrderScreen = ({ route }) => {
           <TouchableOpacity style={styles.iconLeft} onPress={() => navigation.goBack()}>
             <Icon name="arrow-left" size={24} color="#FFF" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconRight} onPress={handleBookmark}>
+          <TouchableOpacity style={styles.iconRight} >
             <Icon name="bookmark" size={24} color="#FFF" />
           </TouchableOpacity>
           <Image source={product.image} style={[styles.image, { height: imageHeight }]} />

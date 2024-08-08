@@ -1,91 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather'; 
-import FontAwesome from 'react-native-vector-icons/FontAwesome'; 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MyOrderScreen = ({ route, navigation }) => {
   const [activeTab, setActiveTab] = useState('Ongoing');
-  const [ongoingOrders, setOngoingOrders] = useState([]);
-  const [completedOrders, setCompletedOrders] = useState([]);
-  const [bookmarkedProduct, setBookmarkedProduct] = useState(null);
-
-  useEffect(() => {
-    const loadOrders = async () => {
-      try {
-        const storedOngoingOrders = await AsyncStorage.getItem('ongoingOrders');
-        if (storedOngoingOrders) {
-          setOngoingOrders(JSON.parse(storedOngoingOrders));
-        }
-
-        const storedCompletedOrders = await AsyncStorage.getItem('completedOrders');
-        if (storedCompletedOrders) {
-          setCompletedOrders(JSON.parse(storedCompletedOrders));
-        }
-      } catch (error) {
-        console.error('Failed to load orders', error);
-      }
-    };
-
-    loadOrders();
-  }, []);
-
-  useEffect(() => {
-    if (route.params?.bookmarkedProduct) {
-      const { bookmarkedProduct } = route.params;
-      setBookmarkedProduct(bookmarkedProduct);
-      setOngoingOrders((prevOrders) => [...prevOrders, bookmarkedProduct]);
-    }
-  }, [route.params?.bookmarkedProduct]);
-
-  useEffect(() => {
-    const saveOrders = async () => {
-      try {
-        await AsyncStorage.setItem('ongoingOrders', JSON.stringify(ongoingOrders));
-        await AsyncStorage.setItem('completedOrders', JSON.stringify(completedOrders));
-      } catch (error) {
-        console.error('Failed to save orders', error);
-      }
-    };
-
-    saveOrders();
-  }, [ongoingOrders, completedOrders]);
-
-  const handleRemoveItem = (item) => {
-    setOngoingOrders((prevOrders) => prevOrders.filter(order => order !== item));
-  };
-
-  const renderProductItem = ({ item }) => (
-    <View style={styles.orderItem}>
-      <View style={styles.imageContainer}>
-        <Image source={item.image} style={styles.orderImage} />
-        <View style={styles.ratingContainer}>
-          <FontAwesome name="star" size={14} color="#FFF" />
-          <Text style={styles.orderRating}>{item.rating}</Text>
-        </View>
-      </View>
-      <View style={styles.orderDetails}>
-        <Text style={styles.orderTitle}>{item.title}</Text>
-        <Text style={styles.orderQuantity}>Quantity: {item.quantity}</Text>
-        <Text style={styles.orderSize}>Size: {item.size}</Text>
-        <View style={styles.priceContainer}>
-          <Text style={styles.orderPrice}>${item.currentPrice.toFixed(2)}</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Cart', {
-            product: item,
-            quantity: item.quantity,
-            size: item.size,
-            currentPrice: item.currentPrice
-          })}>
-            <Text style={styles.continueOrder}>Continue Order</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.removeButton} onPress={() => handleRemoveItem(item)}>
-          <Icon name="trash-2" size={20} color="#FF0000" />
-          <Text style={styles.removeLabel}>Remove</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+  
 
   return (
     <View style={styles.container}>
@@ -114,15 +33,8 @@ const MyOrderScreen = ({ route, navigation }) => {
       </View>
       {activeTab === 'Ongoing' ? (
         <View style={styles.orderList}>
-          {ongoingOrders.length > 0 ? (
-            <FlatList
-              data={ongoingOrders}
-              renderItem={renderProductItem}
-              keyExtractor={(item, index) => index.toString()}
-            />
-          ) : (
             <Text style={styles.noOrdersText}>No ongoing orders</Text>
-          )}
+          
         </View>
       ) : (
         <View style={styles.greenContainer}>
