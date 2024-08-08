@@ -51,6 +51,10 @@ const MyOrderScreen = ({ route, navigation }) => {
     saveOrders();
   }, [ongoingOrders, completedOrders]);
 
+  const handleRemoveItem = (item) => {
+    setOngoingOrders((prevOrders) => prevOrders.filter(order => order !== item));
+  };
+
   const renderProductItem = ({ item }) => (
     <View style={styles.orderItem}>
       <View style={styles.imageContainer}>
@@ -75,6 +79,10 @@ const MyOrderScreen = ({ route, navigation }) => {
             <Text style={styles.continueOrder}>Continue Order</Text>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity style={styles.removeButton} onPress={() => handleRemoveItem(item)}>
+          <Icon name="trash-2" size={20} color="#FF0000" />
+          <Text style={styles.removeLabel}>Remove</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -238,6 +246,16 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
+  },
+  removeButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  removeLabel: {
+    marginLeft: 5,
+    color: '#FF0000',
+    fontSize: 16,
   },
   noOrdersText: {
     fontSize: 16,

@@ -65,7 +65,7 @@ const CartScreen = ({ route, navigation }) => {
   };
 
   const handlePlaceOrder = () => {
-    navigation.navigate('Checkout');
+    navigation.navigate('Checkout',{subtotal,cartItems});
   };
 
   const handleChange = () => {

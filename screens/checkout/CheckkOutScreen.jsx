@@ -2,7 +2,9 @@ import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const CheckoutScreen = ({ navigation }) => {
+const CheckoutScreen = ({ route, navigation }) => {
+  const { cartItems = [], subtotal = 0 } = route.params || {};
+  const discount = 0; // Default discount value
 
   const handleDeliveryAddress = () => {
     navigation.navigate('Delivery Address');
@@ -60,15 +62,18 @@ const CheckoutScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.orderSummary}>
-          <Text style={styles.orderItem}>bluebell hand block tiered <Text style={styles.orderItemQty}>2 x $2000.00</Text></Text>
-          <Text style={styles.orderItem}>Men Black Grey Allover Printed: <Text style={styles.orderItemQty}>2 x $1699.00</Text></Text>
-          <Text style={styles.orderItem}>Discount <Text style={styles.orderItemQty}>-$100.00</Text></Text>
+          {cartItems.map((item, index) => (
+            <Text key={index} style={styles.orderItem}>
+              {item.product.title} <Text style={styles.orderItemQty}>{item.quantity} x ${item.currentPrice.toFixed(2)}</Text>
+            </Text>
+          ))}
+          <Text style={styles.orderItem}>Discount <Text style={styles.orderItemQty}>-${discount.toFixed(2)}</Text></Text>
           <Text style={styles.orderItem}>Shipping <Text style={styles.orderItemQty}>FREE Delivery</Text></Text>
         </View>
 
         <View style={styles.totalContainer}>
-          <Text style={styles.totalLabel}>My Order</Text>
-          <Text style={styles.totalAmount}>$3,599.00</Text>
+          <Text style={styles.totalLabel}>Subtotal</Text>
+          <Text style={styles.totalAmount}>${subtotal.toFixed(2)}</Text>
         </View>
 
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmitOrder}>
@@ -96,7 +101,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000', 
+    color: '#000',
   },
   contentContainer: {
     padding: 15,
@@ -125,14 +130,14 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   sectionSubtitle: {
-    color: '#000', 
+    color: '#000',
   },
   notesContainer: {
     marginBottom: 15,
   },
   notesLabel: {
     marginBottom: 5,
-    color: '#000', 
+    color: '#000',
   },
   notesInput: {
     backgroundColor: '#fff',
@@ -153,7 +158,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
     fontSize: 16,
-    color: '#000', 
+    color: '#000',
   },
   orderItemQty: {
     fontWeight: 'bold',
@@ -171,7 +176,7 @@ const styles = StyleSheet.create({
   totalLabel: {
     fontWeight: 'bold',
     fontSize: 18,
-    color: '#000', 
+    color: '#000',
   },
   totalAmount: {
     fontWeight: 'bold',
