@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
-const AddDeliveryAddressScreen = () => {
+const ChangeAddress = () => {
+  const navigation = useNavigation(); // Get navigation object
+
   const [fullName, setFullName] = useState('');
   const [mobileNo, setMobileNo] = useState('');
   const [pinCode, setPinCode] = useState('');
@@ -15,7 +18,7 @@ const AddDeliveryAddressScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Add Delivery Address</Text>
@@ -190,4 +193,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddDeliveryAddressScreen;
+export default ChangeAddress;

@@ -12,6 +12,10 @@ const CheckoutScreen = ({ navigation }) => {
     navigation.navigate('Payment');
   };
 
+  const handleSubmitOrder = () => {
+    navigation.navigate('My Order');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -67,7 +71,7 @@ const CheckoutScreen = ({ navigation }) => {
           <Text style={styles.totalAmount}>$3,599.00</Text>
         </View>
 
-        <TouchableOpacity style={styles.submitButton}>
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmitOrder}>
           <Text style={styles.submitButtonText}>SUBMIT ORDER</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -92,7 +96,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000', // Added black color for header title
+    color: '#000', 
   },
   contentContainer: {
     padding: 15,
@@ -118,17 +122,17 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: '#000', // Added black color for section title
+    color: '#000',
   },
   sectionSubtitle: {
-    color: '#000', // Changed color to black for section subtitle
+    color: '#000', 
   },
   notesContainer: {
     marginBottom: 15,
   },
   notesLabel: {
     marginBottom: 5,
-    color: '#000', // Changed color to black for notes label
+    color: '#000', 
   },
   notesInput: {
     backgroundColor: '#fff',
@@ -149,7 +153,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 10,
     fontSize: 16,
-    color: '#000', // Added black color for order items
+    color: '#000', 
   },
   orderItemQty: {
     fontWeight: 'bold',
@@ -167,7 +171,7 @@ const styles = StyleSheet.create({
   totalLabel: {
     fontWeight: 'bold',
     fontSize: 18,
-    color: '#000', // Added black color for total label
+    color: '#000', 
   },
   totalAmount: {
     fontWeight: 'bold',

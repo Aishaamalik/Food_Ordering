@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const DeliveryAddressScreen = ({ navigation }) => {
+const DeliveryAddress = ({ navigation }) => {
   const [selectedAddress, setSelectedAddress] = useState(null);
 
   const handleChangeAddress = () => {
@@ -19,7 +19,7 @@ const DeliveryAddressScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Delivery Address</Text>
@@ -158,4 +158,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DeliveryAddressScreen;
+export default DeliveryAddress;
