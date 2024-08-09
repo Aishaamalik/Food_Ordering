@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const CheckoutScreen = ({ route, navigation }) => {
   const { cartItems = [], subtotal = 0 } = route.params || {};
-  const discount = 0; // Default discount value
+  const [notes, setNotes] = useState('');
+  const discount = 0; 
 
   const handleDeliveryAddress = () => {
     navigation.navigate('Delivery Address');
@@ -15,7 +16,11 @@ const CheckoutScreen = ({ route, navigation }) => {
   };
 
   const handleSubmitOrder = () => {
-    navigation.navigate('My Order', { ongoingOrders: cartItems });
+    const updatedCartItems = cartItems.map(item => ({
+      ...item,
+      notes,
+    }));
+    navigation.navigate('My Order', { ongoingOrders: updatedCartItems });
   };
 
   return (
@@ -58,6 +63,8 @@ const CheckoutScreen = ({ route, navigation }) => {
             placeholder="Write Here"
             multiline
             numberOfLines={4}
+            value={notes}
+            onChangeText={setNotes}
           />
         </View>
 
@@ -186,41 +193,35 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   orderItemRating: {
-    marginLeft: 5,
     fontSize: 14,
+    marginLeft: 5,
     color: '#FFD700',
   },
   orderItemQty: {
-    fontWeight: 'bold',
+    color: '#000',
   },
   totalContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 15,
-    borderTopWidth: 1,
-    borderColor: '#ddd',
-    backgroundColor: '#fff',
-    marginBottom: 15,
+    marginBottom: 20,
+    paddingHorizontal: 15,
   },
   totalLabel: {
-    fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 16,
     color: '#000',
   },
   totalAmount: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    color: '#4CAF50',
+    fontSize: 16,
+    color: '#000',
   },
   submitButton: {
     backgroundColor: '#4CAF50',
-    borderRadius: 25,
     paddingVertical: 15,
+    borderRadius: 10,
     alignItems: 'center',
   },
   submitButtonText: {
-    color: '#fff',
+    color: '#FFF',
     fontSize: 16,
     fontWeight: 'bold',
   },

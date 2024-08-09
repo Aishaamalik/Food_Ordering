@@ -18,7 +18,16 @@ const MyOrderScreen = ({ route, navigation }) => {
       </View>
       <View style={styles.orderDetails}>
         <Text style={styles.orderItemTitle}>{item.product.title}</Text>
-        <Text style={styles.orderItemQty}>{item.currentPrice.toFixed(2)}</Text>
+        <Text style={styles.orderItemNotes}>{item.notes}</Text>
+        <View style={styles.priceAndButton}>
+          <Text style={styles.orderItemQty}>${item.currentPrice.toFixed(2)}</Text>
+          <TouchableOpacity
+            style={styles.trackOrderButton}
+            onPress={() => navigation.navigate('Track Order', { orderId: item.id })}
+          >
+            <Text style={styles.trackOrderButtonText}>Track Order</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -34,33 +43,28 @@ const MyOrderScreen = ({ route, navigation }) => {
           <Icon name="home" size={24} color="black" />
         </TouchableOpacity>
       </View>
+
       <View style={styles.tabContainer}>
         <TouchableOpacity
-          style={[styles.tabButton, activeTab === 'Ongoing' && styles.tabButtonActive]}
+          style={[styles.tabButton, activeTab === 'Ongoing' && styles.activeTabButton]}
           onPress={() => setActiveTab('Ongoing')}
         >
-          <Text style={[styles.tabText, activeTab === 'Ongoing' && styles.tabTextActive]}>Ongoing</Text>
+          <Text style={[styles.tabButtonText, activeTab === 'Ongoing' && styles.activeTabButtonText]}>Ongoing</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.tabButton, activeTab === 'Completed' && styles.tabButtonActive]}
-          onPress={() => setActiveTab('Completed')}
+          style={[styles.tabButton, activeTab === 'Past' && styles.activeTabButton]}
+          onPress={() => setActiveTab('Past')}
         >
-          <Text style={[styles.tabText, activeTab === 'Completed' && styles.tabTextActive]}>Completed</Text>
+          <Text style={[styles.tabButtonText, activeTab === 'Past' && styles.activeTabButtonText]}>Past</Text>
         </TouchableOpacity>
       </View>
-      {activeTab === 'Ongoing' ? (
-        <FlatList
-          data={ongoingOrders}
-          renderItem={renderOrderItem}
-          keyExtractor={(item, index) => index.toString()}
-          contentContainerStyle={styles.orderList}
-          ListEmptyComponent={<Text style={styles.noOrdersText}>No ongoing orders</Text>}
-        />
-      ) : (
-        <View style={styles.greenContainer}>
-          <Text style={styles.containerText}>Completed Orders</Text>
-        </View>
-      )}
+
+      <FlatList
+        data={ongoingOrders}
+        renderItem={renderOrderItem}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={styles.orderList}
+      />
     </View>
   );
 };
@@ -68,105 +72,113 @@ const MyOrderScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: '#f8f8f8',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    backgroundColor: '#F5F5F5',
+    padding: 15,
+    backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+    borderColor: '#ddd',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#000',
   },
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
   },
   tabButton: {
-    flex: 1,
-    alignItems: 'center',
     paddingVertical: 10,
-    borderRadius: 20,
-    backgroundColor: '#F0F0F0',
+    paddingHorizontal: 20,
   },
-  tabButtonActive: {
-    backgroundColor: '#008000',
+  tabButtonText: {
+    fontSize: 16,
+    color: '#777',
   },
-  tabText: {
-    color: '#000',
+  activeTabButton: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#4CAF50',
   },
-  tabTextActive: {
-    color: '#FFF',
+  activeTabButtonText: {
+    color: '#4CAF50',
   },
   orderList: {
-    paddingHorizontal: 20,
+    padding: 15,
   },
   orderItem: {
     flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: 'gray',
-  },
-  imageContainer: {
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 15,
     position: 'relative',
   },
+  imageContainer: {
+    marginRight: 15,
+  },
   orderImage: {
-    width: 150,
-    height: 150,
+    width: 100,
+    height: 100,
     borderRadius: 10,
   },
   ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'orange',
-    paddingHorizontal: 5,
-    borderRadius: 5,
     position: 'absolute',
-    bottom: 0,
+    bottom: 0, 
     left: 0,
     right: 0,
+    flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'orange', 
+    borderBottomLeftRadius: 10, 
+    borderBottomRightRadius: 10, 
   },
   orderItemRating: {
-    fontSize: 20,
+    fontSize: 14,
     marginLeft: 5,
-    color: '#FFF',
+    color: '#fff',
   },
   orderDetails: {
     flex: 1,
-    marginLeft: 10,
+    justifyContent: 'center',
   },
   orderItemTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'black',
-    marginBottom: 5,
-  },
-  noOrdersText: {
     fontSize: 16,
-    color: 'gray',
-    textAlign: 'center',
-    marginTop: 20,
+    fontWeight: 'bold',
+    color: '#000',
   },
-  greenContainer: {
-    flex: 1,
-    justifyContent: 'center',
+  orderItemNotes: {
+    fontSize: 14,
+    color: '#777',
+    marginVertical: 5,
+  },
+  priceAndButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#E0FFE0',
   },
-  containerText: {
-    fontSize: 18,
-    color: '#008000',
+  orderItemQty: {
+    fontSize: 16,
+    color: '#000',
+  },
+  trackOrderButton: {
+    backgroundColor: '#4CAF50',
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+  },
+  trackOrderButtonText: {
+    color: '#fff',
+    fontSize: 14,
   },
 });
 

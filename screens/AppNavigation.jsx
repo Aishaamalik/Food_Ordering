@@ -10,6 +10,7 @@ import CheckkOutScreen from './checkout/CheckkOutScreen'
 import DeliveryAddress from './checkout/DeliveryAddress'
 import Payment from './checkout/Payment'
 import ChangeAddress from './OtherScreens/ChangeAddress'
+import TrackOrder from './OtherScreens/TrackOrder'
 
 //stack
 const Stack = createNativeStackNavigator();
@@ -51,6 +52,11 @@ const AppNavigation = () => {
         <Stack.Screen
         name='Change Address'
         component={ChangeAddress}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Track Order'
+        component={TrackOrder}
         options={{headerShown: false}}
         />
       </Stack.Navigator>
