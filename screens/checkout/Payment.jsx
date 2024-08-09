@@ -148,13 +148,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: '#ddd',
+    color:'black',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    color:'black',
+
   },
   contentContainer: {
     padding: 15,
+    color:'black',
+
   },
   cardContainer: {
     backgroundColor: '#fff',
@@ -165,30 +170,41 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 10,
     elevation: 5,
+    color:'black',
+
   },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 15,
+    color:'black',
+
   },
   cardTitle: {
     fontSize: 16,
     fontWeight: 'bold',
+    color:'black',
+
   },
   addCardText: {
     color: '#4CAF50',
     fontSize: 16,
+    color:'black',
+
   },
   card: {
     backgroundColor: '#000',
     borderRadius: 10,
     padding: 15,
     position: 'relative',
+    color:'black',
+
   },
   cardType: {
     color: '#fff',
     fontSize: 12,
     marginBottom: 10,
+    
   },
   cardNumber: {
     color: '#fff',
@@ -203,6 +219,7 @@ const styles = StyleSheet.create({
   cardName: {
     color: '#fff',
     fontSize: 14,
+    
   },
   cardExp: {
     color: '#fff',
@@ -218,6 +235,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 15,
     right: 15,
+    color:'black',
+
   },
   paymentMethod: {
     backgroundColor: '#fff',
@@ -230,32 +249,46 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 10,
     elevation: 5,
+    color:'black',
+
   },
   selectedPaymentMethod: {
     borderColor: '#4CAF50',
+    color:'black',
+
   },
   paymentMethodHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    color:'black',
+
   },
   paymentMethodTitle: {
     fontSize: 16,
     marginLeft: 10,
     flex: 1,
+    color:'black',
+
   },
   paymentMethodDescription: {
     fontSize: 14,
     color: '#888',
     marginTop: 10,
+    color:'black',
+
   },
   upiContainer: {
     marginTop: 10,
+    color:'black',
+
   },
   upiLabel: {
     fontSize: 14,
     color: '#888',
     marginBottom: 5,
+    color:'black',
+
   },
   upiInput: {
     borderWidth: 1,
@@ -263,29 +296,40 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
+    color:'black',
+
   },
   upiContinueButton: {
     backgroundColor: '#4CAF50',
     padding: 15,
     alignItems: 'center',
     borderRadius: 5,
+    color:'black',
+
   },
   upiContinueButtonText: {
     color: '#fff',
     fontSize: 16,
+
   },
   upiNote: {
     fontSize: 12,
     color: '#888',
     marginTop: 5,
+    color:'black',
+
   },
   walletContainer: {
     marginTop: 10,
+    color:'black',
+
   },
   walletLabel: {
     fontSize: 14,
     color: '#888',
     marginBottom: 5,
+    color:'black',
+
   },
   walletInput: {
     borderWidth: 1,
@@ -293,12 +337,16 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
+    color:'black',
+
   },
   walletContinueButton: {
     backgroundColor: '#4CAF50',
     padding: 15,
     alignItems: 'center',
     borderRadius: 5,
+    color:'black',
+
   },
   walletContinueButtonText: {
     color: '#fff',
@@ -312,6 +360,8 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     backgroundColor: '#fff',
     alignItems: 'center',
+    color:'black',
+
   },
   netBankingButtonText: {
     fontSize: 16,
