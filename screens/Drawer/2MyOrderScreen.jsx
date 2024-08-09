@@ -1,11 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Feather';
 
 const MyOrderScreen = ({ route, navigation }) => {
   const [activeTab, setActiveTab] = useState('Ongoing');
+  const [ongoingOrders, setOngoingOrders] = useState([]);
+  useEffect(() => {
+    const loadSavedData = async () => {
+      try {
+        const savedTab = await AsyncStorage.getItem('activeTab');
+        const savedOrders = await AsyncStorage.getItem('ongoingOrders');
   
-  const { ongoingOrders = [] } = route.params || {};
+        if (savedTab) {
+          setActiveTab(savedTab);
+        }
+  
+        if (savedOrders) {
+          setOngoingOrders(JSON.parse(savedOrders));
+        } else if (route.params?.ongoingOrders) {
+          setOngoingOrders(route.params.ongoingOrders);
+          await AsyncStorage.setItem('ongoingOrders', JSON.stringify(route.params.ongoingOrders));
+        }
+      } catch (error) {
+        console.error('Failed to load data from AsyncStorage:', error);
+      }
+    };
+  
+    loadSavedData();
+  }, [route.params?.ongoingOrders]);
+  
+
+  useEffect(() => {
+    const saveTab = async () => {
+      try {
+        await AsyncStorage.setItem('activeTab', activeTab);
+      } catch (error) {
+        console.error('Failed to save activeTab to AsyncStorage:', error);
+      }
+    };
+
+    saveTab();
+  }, [activeTab]);
 
   const renderOrderItem = ({ item, index }) => (
     <View key={index} style={styles.orderItem}>
@@ -59,15 +95,25 @@ const MyOrderScreen = ({ route, navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <FlatList
-        data={ongoingOrders}
-        renderItem={renderOrderItem}
-        keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.orderList}
-      />
+      {activeTab === 'Ongoing' ? (
+        ongoingOrders.length === 0 ? (
+          <Text style={styles.emptyMessage}>No ongoing orders found.</Text>
+        ) : (
+          <FlatList
+            data={ongoingOrders}
+            renderItem={renderOrderItem}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={styles.orderList}
+          />
+        )
+      ) : (
+        <Text style={styles.emptyMessage}>No past orders available.</Text>
+      )}
     </View>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -82,6 +128,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: '#ddd',
+  },  
+  emptyMessage: {
+    textAlign: 'center',
+    marginTop: 20,
+    color: '#777',
   },
   headerTitle: {
     fontSize: 18,

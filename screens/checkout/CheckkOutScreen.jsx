@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CheckoutScreen = ({ route, navigation }) => {
   const { cartItems = [], subtotal = 0 } = route.params || {};
@@ -14,14 +15,20 @@ const CheckoutScreen = ({ route, navigation }) => {
   const handlePayment = () => {
     navigation.navigate('Payment');
   };
-
-  const handleSubmitOrder = () => {
+  const handleSubmitOrder = async () => {
     const updatedCartItems = cartItems.map(item => ({
       ...item,
       notes,
     }));
-    navigation.navigate('My Order', { ongoingOrders: updatedCartItems });
+    
+    try {
+      await AsyncStorage.setItem('ongoingOrders', JSON.stringify(updatedCartItems));
+      navigation.navigate('My Order', { ongoingOrders: updatedCartItems });
+    } catch (error) {
+      console.error('Failed to save order to AsyncStorage:', error);
+    }
   };
+  
 
   return (
     <SafeAreaView style={styles.container}>
