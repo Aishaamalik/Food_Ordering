@@ -8,9 +8,11 @@ import HomeScreen from './Stack/HomeScreen'
 import OrderScreen from './Bottom Tab/Order Screens/OrderScreen'
 import CheckkOutScreen from './Bottom Tab/checkout/CheckkOutScreen'
 import DeliveryAddress from './Bottom Tab/checkout/DeliveryAddress'
-import Payment from './Bottom Tab/Payment Screens/Payment'
+import Payment from './Payment Screens/Payment'
 import ChangeAddress from './Bottom Tab/checkout/ChangeAddress'
 import TrackOrder from './Drawer/Other Screens/TrackOrder'
+import AddCard from './Payment Screens/AddCard'
+import NetBanking from './Payment Screens/NetBanking'
 
 //stack
 const Stack = createNativeStackNavigator();
@@ -57,6 +59,16 @@ const AppNavigation = () => {
         <Stack.Screen
         name='Track Order'
         component={TrackOrder}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Add Card'
+        component={AddCard}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Net Banking'
+        component={NetBanking}
         options={{headerShown: false}}
         />
       </Stack.Navigator>

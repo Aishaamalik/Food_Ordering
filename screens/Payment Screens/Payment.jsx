@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native'; 
 
 const PaymentScreen = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [upiId, setUpiId] = useState('');
   const [walletNumber, setWalletNumber] = useState('');
+
+  const navigation = useNavigation(); 
 
   const paymentMethods = [
     {
@@ -46,7 +49,7 @@ const PaymentScreen = () => {
         <View style={styles.cardContainer}>
           <View style={styles.cardHeader}>
             <Text style={styles.cardTitle}>Credit/Debit Card</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Add Card')}>
               <Text style={styles.addCardText}>+ Add Card</Text>
             </TouchableOpacity>
           </View>
@@ -59,7 +62,7 @@ const PaymentScreen = () => {
               <Text style={styles.cardCvv}>CVV 012</Text>
             </View>
             <Image
-              source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg' }} // Replace with actual image URL
+              source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg' }} 
               style={styles.cardBrand}
             />
           </View>
@@ -120,10 +123,14 @@ const PaymentScreen = () => {
               </View>
             )}
             {selectedPaymentMethod === method.id && method.id === 4 && (
-              <TouchableOpacity style={styles.netBankingButton}>
+              <TouchableOpacity
+                style={styles.netBankingButton}
+                onPress={() => navigation.navigate('Net Banking')} 
+              >
                 <Text style={styles.netBankingButtonText}>Net Banking:</Text>
               </TouchableOpacity>
             )}
+            
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -134,6 +141,7 @@ const PaymentScreen = () => {
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -187,9 +195,8 @@ const styles = StyleSheet.create({
 
   },
   addCardText: {
-    color: '#4CAF50',
     fontSize: 16,
-    color:'black',
+    color:'green',
 
   },
   card: {
