@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { StyleSheet, ScrollView, View, Dimensions, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather'; // Importing Feather icons
-import SecondStackSwiperWapper from '../Bottom Tab/SecondStackSwiperWapper';
+import SecondStackSwiperWapper from '../Bottom Tab/Wapper Screens/SecondStackSwiperWapper';
 
 const { width: screenWidth } = Dimensions.get('window');
 

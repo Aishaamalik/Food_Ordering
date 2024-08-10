@@ -8,7 +8,7 @@ import CartScreen from './CartScreen';
 import LikedScreen from './LikedScreen';
 import Main from './Main';
 import ProfileScreen from './ProfileScreen';
-import DrawerSceneWrapper from '../Drawer/DrawerSceneWrapper';
+import DrawerSceneWrapper from '../Drawer/Drawer Navigation/DrawerSceneWrapper';
 
 // Bottom Tab Navigator
 const Bottom = createBottomTabNavigator();

@@ -16,7 +16,7 @@ const DrawerSceneWrapper = ({ children }) => {
           rotateZ: `${interpolate(progress.value, [0, 1], [0, -3], 'clamp')}deg`,
         },
         {
-          translateY: interpolate(progress.value, [0, 1], [0, 40], 'clamp'), // Adds downward animation
+          translateY: interpolate(progress.value, [0, 1], [0, 40], 'clamp'), 
         },
       ],
       borderRadius: interpolate(progress.value, [0, 1], [0, 20], 'clamp'),

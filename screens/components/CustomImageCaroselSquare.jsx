@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { StyleSheet, ScrollView, Text, Animated, Image, View, Dimensions } from 'react-native';
-import StackSwiperWapper from '../Bottom Tab/StackSwiperWapper';
+import StackSwiperWapper from '../Bottom Tab/Wapper Screens/StackSwiperWapper';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -83,13 +83,13 @@ const CustomImageCaroselSquare = ({ data = [] }) => {
 
           const overlayHeight = isMainItem.interpolate({
             inputRange: [0, 1],
-            outputRange: ['30%', '100%'], // Adjusted height for a slower transition
+            outputRange: ['30%', '100%'], 
             extrapolate: 'clamp',
           });
 
           const overlayOpacity = isMainItem.interpolate({
             inputRange: [0, 1],
-            outputRange: [0.3, 1], // Adjusted opacity for a slower transition
+            outputRange: [0.3, 1],
             extrapolate: 'clamp',
           });
 

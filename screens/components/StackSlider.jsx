@@ -1,4 +1,3 @@
-// StackSlider.jsx
 import React from 'react';
 import { View, PanResponder, Animated, StyleSheet, Dimensions } from 'react-native';
 

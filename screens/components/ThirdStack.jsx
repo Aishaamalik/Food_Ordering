@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ThirdStackSwiperWapper from '../Bottom Tab/ThirdStackSwiperWapper';
+import ThirdStackSwiperWapper from '../Bottom Tab/Wapper Screens/ThirdStackSwiperWapper';
 import { useNavigation } from '@react-navigation/native';
 
 const ThirdStack = () => {

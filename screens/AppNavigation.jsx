@@ -5,12 +5,12 @@ import { NavigationContainer } from '@react-navigation/native'
 //screen
 import SplashScreen from './Stack/SplashScreen'
 import HomeScreen from './Stack/HomeScreen'
-import OrderScreen from './Bottom Tab/OrderScreen'
-import CheckkOutScreen from './checkout/CheckkOutScreen'
-import DeliveryAddress from './checkout/DeliveryAddress'
-import Payment from './checkout/Payment'
-import ChangeAddress from './OtherScreens/ChangeAddress'
-import TrackOrder from './OtherScreens/TrackOrder'
+import OrderScreen from './Bottom Tab/Order Screens/OrderScreen'
+import CheckkOutScreen from './Bottom Tab/checkout/CheckkOutScreen'
+import DeliveryAddress from './Bottom Tab/checkout/DeliveryAddress'
+import Payment from './Bottom Tab/Payment Screens/Payment'
+import ChangeAddress from './Bottom Tab/checkout/ChangeAddress'
+import TrackOrder from './Drawer/Other Screens/TrackOrder'
 
 //stack
 const Stack = createNativeStackNavigator();
