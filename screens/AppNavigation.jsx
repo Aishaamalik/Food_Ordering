@@ -13,6 +13,11 @@ import ChangeAddress from './Bottom Tab/checkout/ChangeAddress'
 import TrackOrder from './Drawer/Other Screens/TrackOrder'
 import AddCard from './Payment Screens/AddCard'
 import NetBanking from './Payment Screens/NetBanking'
+import Beverages from './Productsscreens/Beverages'
+import Drinks from './Productsscreens/Drinks'
+import Food from './Productsscreens/Food'
+import Lunch from './Productsscreens/Lunch'
+import Pizza from './Productsscreens/Pizza'
 
 //stack
 const Stack = createNativeStackNavigator();
@@ -69,6 +74,31 @@ const AppNavigation = () => {
         <Stack.Screen
         name='Net Banking'
         component={NetBanking}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Beverages'
+        component={Beverages}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Drinks'
+        component={Drinks}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Food'
+        component={Food}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Lunch'
+        component={Lunch}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Pizza'
+        component={Pizza}
         options={{headerShown: false}}
         />
       </Stack.Navigator>

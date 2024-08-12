@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, FlatList, Modal, StyleSheet } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Beverages from '../Productsscreens/Beverages'; // Import the Beverages component
 
 const PRODUCTS = [
   {
@@ -30,33 +29,28 @@ const PRODUCTS = [
   },
 ];
 
-const ProductScreen = ({ navigation }) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [activeTab, setActiveTab] = useState('Beverages'); // Add state for tabs
+const Food= ({ navigation }) => {
+  const [activeTab, setActiveTab] = useState('Beverages');
 
-
-  const renderModalContent = () => (
-    <View style={styles.modalContent}>
-      <TouchableOpacity onPress={() => {
-        setIsModalVisible(false); 
-        navigation.navigate('Food');}}>
-        <Text style={styles.modalText}>Food</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => {
-        setIsModalVisible(false); 
-        navigation.navigate('Lunch');}}>
-        <Text style={styles.modalText}>Lunch</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => {
-        setIsModalVisible(false); 
-        navigation.navigate('Pizza');}}>
-        <Text style={styles.modalText}>Pizza</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => {
-        setIsModalVisible(false); 
-        navigation.navigate('Drinks');}}>
-        <Text style={styles.modalText}>Drinks</Text>
-      </TouchableOpacity>
+  const renderProductItem = ({ item }) => (
+    <View style={styles.productItem}>
+      <View style={styles.imageContainer}>
+        <Image source={item.image} style={styles.productImage} />
+        <View style={styles.ratingContainer}>
+          <Icon name="star" size={12} color="#FFFFFF" />
+          <Text style={styles.ratingText}>{item.rating}</Text>
+        </View>
+      </View>
+      <View style={styles.productInfo}>
+        <Text style={styles.productName}>{item.name}</Text>
+        <Text style={styles.productCategory}>{item.category}</Text>
+        <Text style={styles.productPrice}>${item.price}</Text>
+      </View>
+      <View style={styles.actionContainer}>
+        <TouchableOpacity style={styles.buyButton}>
+          <Text style={styles.buyButtonText}>Buy</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
@@ -66,29 +60,35 @@ const ProductScreen = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-left" size={24} color="#000000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Products</Text>
-        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-          <Icon name="ellipsis-v" size={24} color="#000000" />
+        <Text style={styles.headerTitle}>Food</Text>
+        <TouchableOpacity>
         </TouchableOpacity>
       </View>
 
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search beverages or foods"
+        placeholderTextColor="#CCCCCC"
+      />
 
-
-      {activeTab === 'Beverages' && <Beverages navigation={navigation} />}
-      {/* Conditionally render Beverages component based on activeTab */}
-
-      <Modal
-        visible={isModalVisible}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => setIsModalVisible(false)}
-      >
-        <TouchableOpacity style={styles.modalOverlay} onPress={() => setIsModalVisible(false)}>
-          <View style={styles.modalContainer}>
-            {renderModalContent()}
-          </View>
+      <View style={styles.tabsContainer}>
+        <TouchableOpacity onPress={() => setActiveTab('Beverages')}>
+          <Text style={activeTab === 'Beverages' ? styles.activeTab : styles.inactiveTab}>Beverages</Text>
         </TouchableOpacity>
-      </Modal>
+        <TouchableOpacity onPress={() => setActiveTab('Brewed Coffee')}>
+          <Text style={activeTab === 'Brewed Coffee' ? styles.activeTab : styles.inactiveTab}>Brewed Coffee</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setActiveTab('Blended Coffee')}>
+          <Text style={activeTab === 'Blended Coffee' ? styles.activeTab : styles.inactiveTab}>Blended Coffee</Text>
+        </TouchableOpacity>
+      </View>
+
+      <FlatList
+        data={PRODUCTS}
+        renderItem={renderProductItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.productList}
+      />
     </View>
   );
 };
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     position: 'absolute',
-    bottom: 8,
+    bottom: 8, 
     left: '30%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 8,
   },
+  
   ratingText: {
     fontSize: 12,
     color: '#FFFFFF',
@@ -203,26 +204,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#4CAF50',
   },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContainer: {
-    backgroundColor: '#FFFFFF',
-    padding: 16,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    maxHeight: '50%',
-  },
-  modalContent: {
-    flexDirection: 'column',
-  },
-  modalText: {
-    fontSize: 18,
-    marginVertical: 10,
-    color: '#000000',
-  },
 });
 
-export default ProductScreen;
+export default Food;
