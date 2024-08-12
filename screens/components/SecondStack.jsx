@@ -1,11 +1,13 @@
 import React, { useRef } from 'react';
-import { StyleSheet, ScrollView, View, Dimensions, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather'; // Importing Feather icons
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather'; 
 import SecondStackSwiperWapper from '../Bottom Tab/WapperScreens/SecondStackSwiperWapper';
+import { useNavigation } from '@react-navigation/native';
 
 const { width: screenWidth } = Dimensions.get('window');
 
 const SecondStack = ({ data = [] }) => {
+  const navigation = useNavigation();
   const BOX_WIDTH = screenWidth * 0.45;
   const BOX_HEIGHT = BOX_WIDTH * 0.4;
   const itemWidth = BOX_WIDTH + 40;
@@ -19,6 +21,24 @@ const SecondStack = ({ data = [] }) => {
 
     if (position >= totalContentWidth - itemWidth) {
       scrollViewRef.current.scrollTo({ x: 0, animated: false });
+    }
+  };
+
+  const handleItemClick = (label1) => {
+    if (label1 === 'Beverages') {
+      navigation.navigate('Beverages'); 
+    }
+    if (label1 === 'Food') {
+      navigation.navigate('Food'); 
+    }
+    if (label1 === 'Pizza') {
+      navigation.navigate('Pizza'); 
+    }
+    if (label1 === 'Drink') {
+      navigation.navigate('Drinks'); 
+    }
+    if (label1 === 'Lunch') {
+      navigation.navigate('Lunch'); 
     }
   };
 
@@ -37,7 +57,7 @@ const SecondStack = ({ data = [] }) => {
         pagingEnabled
       >
         {data.concat(data).map((item, index) => (
-          <View
+          <TouchableOpacity
             key={index}
             style={[
               styles.itemWrapper,
@@ -46,6 +66,7 @@ const SecondStack = ({ data = [] }) => {
                 height: BOX_HEIGHT,
               },
             ]}
+            onPress={() => handleItemClick(item.label1)}
           >
             <View style={[styles.halfBox, styles.greenHalf]}>
               <Icon name={item.icon} size={30} color="white" style={styles.icon} />
@@ -54,7 +75,7 @@ const SecondStack = ({ data = [] }) => {
               <Text style={styles.label1}>{item.label1}</Text>
               <Text style={styles.label2}>{item.label2}</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </SecondStackSwiperWapper>

@@ -3,32 +3,6 @@ import { View, Text, Image, TextInput, TouchableOpacity, FlatList, Modal, StyleS
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Beverages from '../Productsscreens/Beverages'; // Import the Beverages component
 
-const PRODUCTS = [
-  {
-    id: '1',
-    name: 'Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/blackcoffee.jpeg'),
-  },
-  {
-    id: '2',
-    name: 'Creamy Mocha Ombe Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/creamymocha.jpeg'),
-  },
-  {
-    id: '3',
-    name: 'Arabica Latte Ombe Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/Arabicalatte.jpeg'),
-  },
-];
 
 const ProductScreen = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);

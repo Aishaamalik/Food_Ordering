@@ -5,32 +5,49 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const PRODUCTS = [
   {
     id: '1',
-    name: 'Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/blackcoffee.jpeg'),
+    name: 'Lemonade',
+    category: 'Cold Drinks',
+    price: '5.5',
+    rating: '4.5',
+    image: require('../Assets/Drinks/lemonade.jpeg'),
   },
   {
     id: '2',
-    name: 'Creamy Mocha Ombe Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/creamymocha.jpeg'),
+    name: 'Iced Tea',
+    category: 'Cold Drinks',
+    price: '4.5',
+    rating: '4.2',
+    image: require('../Assets/Drinks/icedtea.jpeg'),
   },
   {
     id: '3',
-    name: 'Arabica Latte Ombe Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/Arabicalatte.jpeg'),
+    name: 'Strawberry Smoothie',
+    category: 'Smoothies',
+    price: '6.0',
+    rating: '4.8',
+    image: require('../Assets/Drinks/smoothie.jpeg'),
+  },
+  {
+    id: '4',
+    name: 'Mango Smoothie',
+    category: 'Smoothies',
+    price: '6.5',
+    rating: '4.7',
+    image: require('../Assets/Drinks/mango.jpeg'),
   },
 ];
 
 const Drinks = ({ navigation }) => {
-  const [activeTab, setActiveTab] = useState('Beverages');
+  const [activeTab, setActiveTab] = useState('Cold Drinks');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Filter products based on active tab and search query
+  const filteredProducts = PRODUCTS.filter((product) => {
+    return (
+      product.category === activeTab &&
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   const renderProductItem = ({ item }) => (
     <View style={styles.productItem}>
@@ -57,34 +74,31 @@ const Drinks = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backIcon}>
           <Icon name="arrow-left" size={24} color="#000000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Drinks</Text>
-        <TouchableOpacity>
-        </TouchableOpacity>
       </View>
 
       <TextInput
         style={styles.searchInput}
-        placeholder="Search beverages or foods"
+        placeholder="Search Drinks"
         placeholderTextColor="#CCCCCC"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
       />
 
       <View style={styles.tabsContainer}>
-        <TouchableOpacity onPress={() => setActiveTab('Beverages')}>
-          <Text style={activeTab === 'Beverages' ? styles.activeTab : styles.inactiveTab}>Beverages</Text>
+        <TouchableOpacity onPress={() => setActiveTab('Cold Drinks')}>
+          <Text style={activeTab === 'Cold Drinks' ? styles.activeTab : styles.inactiveTab}>Cold Drinks</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveTab('Brewed Coffee')}>
-          <Text style={activeTab === 'Brewed Coffee' ? styles.activeTab : styles.inactiveTab}>Brewed Coffee</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveTab('Blended Coffee')}>
-          <Text style={activeTab === 'Blended Coffee' ? styles.activeTab : styles.inactiveTab}>Blended Coffee</Text>
+        <TouchableOpacity onPress={() => setActiveTab('Smoothies')}>
+          <Text style={activeTab === 'Smoothies' ? styles.activeTab : styles.inactiveTab}>Smoothies</Text>
         </TouchableOpacity>
       </View>
 
       <FlatList
-        data={PRODUCTS}
+        data={filteredProducts}
         renderItem={renderProductItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.productList}
@@ -102,13 +116,20 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     marginTop: 20,
+    justifyContent: 'center', 
+    position: 'relative',
+  },
+  backIcon: {
+    position: 'absolute',
+    left: 0,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#000000',
+    textAlign: 'center',
+    flex: 1,
   },
   searchInput: {
     height: 40,
@@ -154,7 +175,7 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     position: 'absolute',
-    bottom: 8, 
+    bottom: 8,
     left: '30%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -165,7 +186,6 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 8,
   },
-  
   ratingText: {
     fontSize: 12,
     color: '#FFFFFF',

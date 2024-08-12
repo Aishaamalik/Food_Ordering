@@ -5,32 +5,32 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const PRODUCTS = [
   {
     id: '1',
-    name: 'Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/blackcoffee.jpeg'),
-  },
-  {
-    id: '2',
-    name: 'Creamy Mocha Ombe Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/creamymocha.jpeg'),
+    name: 'Biryani',
+    category: 'Food',
+    price: '9.5',
+    rating: '4.8',
+    image: require('../Assets/Food/baryani.webp'),
   },
   {
     id: '3',
-    name: 'Arabica Latte Ombe Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/Arabicalatte.jpeg'),
+    name: 'Nihari',
+    category: 'Food',
+    price: '13.0',
+    rating: '4.6',
+    image: require('../Assets/Food/nahari.jpeg'), 
+  },
+  {
+    id: '6',
+    name: 'Seekh Kebabs',
+    category: 'Food',
+    price: '9.0',
+    rating: '4.7',
+    image: require('../Assets/Food/kabab.jpeg'),
   },
 ];
 
-const Food= ({ navigation }) => {
-  const [activeTab, setActiveTab] = useState('Beverages');
+const Food = ({ navigation }) => {
+  const [activeTab, setActiveTab] = useState('Food');
 
   const renderProductItem = ({ item }) => (
     <View style={styles.productItem}>
@@ -67,19 +67,13 @@ const Food= ({ navigation }) => {
 
       <TextInput
         style={styles.searchInput}
-        placeholder="Search beverages or foods"
+        placeholder="Search food items"
         placeholderTextColor="#CCCCCC"
       />
 
       <View style={styles.tabsContainer}>
-        <TouchableOpacity onPress={() => setActiveTab('Beverages')}>
-          <Text style={activeTab === 'Beverages' ? styles.activeTab : styles.inactiveTab}>Beverages</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveTab('Brewed Coffee')}>
-          <Text style={activeTab === 'Brewed Coffee' ? styles.activeTab : styles.inactiveTab}>Brewed Coffee</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveTab('Blended Coffee')}>
-          <Text style={activeTab === 'Blended Coffee' ? styles.activeTab : styles.inactiveTab}>Blended Coffee</Text>
+        <TouchableOpacity onPress={() => setActiveTab('Food')}>
+          <Text style={activeTab === 'Food' ? styles.activeTab : styles.inactiveTab}>Food</Text>
         </TouchableOpacity>
       </View>
 
@@ -165,7 +159,6 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 8,
   },
-  
   ratingText: {
     fontSize: 12,
     color: '#FFFFFF',

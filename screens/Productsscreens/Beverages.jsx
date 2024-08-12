@@ -37,7 +37,7 @@ const Beverages = ({ navigation }) => {
       <View style={styles.imageContainer}>
         <Image source={item.image} style={styles.productImage} />
         <View style={styles.ratingContainer}>
-          <Icon name="star" size={12} color="#FFFFFF" />
+          <Icon name="star" size={12} color="white" />
           <Text style={styles.ratingText}>{item.rating}</Text>
         </View>
       </View>
@@ -48,7 +48,10 @@ const Beverages = ({ navigation }) => {
       </View>
       <View style={styles.actionContainer}>
         <TouchableOpacity style={styles.buyButton}>
-          <Text style={styles.buyButtonText}>Buy</Text>
+          <View style={styles.buttonContent}>
+            <Icon name="bug" size={16} color="#4CAF50" style={styles.bugIcon} />
+            <Text style={styles.buyButtonText}>Buy</Text>
+          </View>
         </TouchableOpacity>
       </View>
     </View>
@@ -58,13 +61,12 @@ const Beverages = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Beverages</Text>
-        
       </View>
 
       <TextInput
         style={styles.searchInput}
         placeholder="Search beverages or foods"
-        placeholderTextColor="#CCCCCC"
+        placeholderTextColor="#000000"
       />
 
       <View style={styles.tabsContainer}>
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#000000',
-    alignSelf:'center',
+    alignSelf: 'center',
   },
   searchInput: {
     height: 40,
@@ -151,7 +153,7 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     position: 'absolute',
-    bottom: 8, 
+    bottom: 8,
     left: '30%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -162,10 +164,9 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 8,
   },
-  
   ratingText: {
     fontSize: 12,
-    color: '#FFFFFF',
+    color: 'white',
     marginLeft: 4,
   },
   productInfo: {
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
   },
   productCategory: {
     fontSize: 14,
-    color: '#AAAAAA',
+    color: '#000000',
   },
   productPrice: {
     fontSize: 16,
@@ -195,6 +196,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 6,
     paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  bugIcon: {
+    marginRight: 8,
   },
   buyButtonText: {
     fontSize: 14,
