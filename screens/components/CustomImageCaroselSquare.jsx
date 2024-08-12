@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { StyleSheet, ScrollView, Text, Animated, Image, View, Dimensions } from 'react-native';
-import StackSwiperWapper from '../Bottom Tab/Wapper Screens/StackSwiperWapper';
+import StackSwiperWapper from '../Bottom Tab/WapperScreens/StackSwiperWapper';
 
 const { width: screenWidth } = Dimensions.get('window');
 

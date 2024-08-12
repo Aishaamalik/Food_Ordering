@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native'
 //screen
 import SplashScreen from './Stack/SplashScreen'
 import HomeScreen from './Stack/HomeScreen'
-import OrderScreen from './Bottom Tab/Order Screens/OrderScreen'
+import OrderScreen from './Bottom Tab/OrderScreens/OrderScreen'
 import CheckkOutScreen from './Bottom Tab/checkout/CheckkOutScreen'
 import DeliveryAddress from './Bottom Tab/checkout/DeliveryAddress'
 import Payment from './Payment Screens/Payment'

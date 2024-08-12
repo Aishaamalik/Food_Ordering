@@ -1,148 +1,209 @@
-import React from 'react';
-import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import React, { useState } from 'react';
+import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ProductScreen = () => {
-  return (
-    <ScrollView style={styles.mainContent}>
-      <View style={styles.header}>
-        <Text style={styles.featuredTitle}>Featured Beverages</Text>
-        <Text style={styles.moreText}>More</Text>
+const PRODUCTS = [
+  {
+    id: '1',
+    name: 'Coffee',
+    category: 'Coffee',
+    price: '12.6',
+    rating: '3.8',
+    image: require('../Assets/productspics/blackcoffee.jpeg'),
+  },
+  {
+    id: '2',
+    name: 'Creamy Mocha Ombe Coffee',
+    category: 'Coffee',
+    price: '12.6',
+    rating: '3.8',
+    image: require('../Assets/productspics/creamymocha.jpeg'),
+  },
+  {
+    id: '3',
+    name: 'Arabica Latte Ombe Coffee',
+    category: 'Coffee',
+    price: '12.6',
+    rating: '3.8',
+    image: require('../Assets/productspics/Arabicalatte.jpeg'),
+  },
+];
+
+const ProductScreen = ({ navigation }) => {
+  const [activeTab, setActiveTab] = useState('Beverages');
+
+  const renderProductItem = ({ item }) => (
+    <View style={styles.productItem}>
+      <View style={styles.imageContainer}>
+        <Image source={item.image} style={styles.productImage} />
+        <View style={styles.ratingContainer}>
+          <Icon name="star" size={12} color="#FFFFFF" />
+          <Text style={styles.ratingText}>{item.rating}</Text>
+        </View>
       </View>
-      <ProductList />
-    </ScrollView>
-  );
-};
-
-const ProductList = () => {
-  const products = [
-    {
-      title: "Hot Creamy Cappuccino Latte Ombe",
-      price: "12.6",
-      points: "50 Pts",
-      rating: "3.8",
-      image: require('../Assets/productspics/cofee.jpeg'),
-    },
-    {
-      title: "Creamy Mocha Ome Coffee",
-      price: "12.6",
-      points: "50 Pts",
-      rating: "3.8",
-      image: require('../Assets/productspics/cofee.jpeg'),
-    },
-    {
-      title: "Arabica Latte Ombe Coffee",
-      price: "12.6",
-      points: "50 Pts",
-      rating: "3.8",
-      image: require('../Assets/productspics/cofee.jpeg'),
-    },
-    {
-      title: "Original Hot Coffee",
-      price: "12.6",
-      points: "50 Pts",
-      rating: "3.8",
-      image: require('../Assets/productspics/cofee.jpeg'),
-    },
-  ];
-
-  return (
-    <View>
-      {products.map((product, index) => (
-        <ProductCard key={index} product={product} />
-      ))}
+      <View style={styles.productInfo}>
+        <Text style={styles.productName}>{item.name}</Text>
+        <Text style={styles.productCategory}>{item.category}</Text>
+        <Text style={styles.productPrice}>${item.price}</Text>
+      </View>
+      <View style={styles.actionContainer}>
+        <TouchableOpacity style={styles.buyButton}>
+          <Text style={styles.buyButtonText}>Buy</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
-};
 
-const ProductCard = ({ product }) => {
   return (
-    <View style={styles.productCard}>
-      <Image source={product.image} style={styles.productImage} />
-      <View style={styles.productDetails}>
-        <Text style={styles.productTitle}>{product.title}</Text>
-        <Text style={styles.productPrice}>${product.price}</Text>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-left" size={24} color="#000000" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Products</Text>
+        <TouchableOpacity>
+          <Icon name="ellipsis-v" size={24} color="#000000" />
+        </TouchableOpacity>
       </View>
-      <View style={styles.productPoints}>
-        <Text style={styles.pointsText}>{product.points}</Text>
+
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search beverages or foods"
+        placeholderTextColor="#CCCCCC"
+      />
+
+      <View style={styles.tabsContainer}>
+        <TouchableOpacity onPress={() => setActiveTab('Beverages')}>
+          <Text style={activeTab === 'Beverages' ? styles.activeTab : styles.inactiveTab}>Beverages</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setActiveTab('Brewed Coffee')}>
+          <Text style={activeTab === 'Brewed Coffee' ? styles.activeTab : styles.inactiveTab}>Brewed Coffee</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setActiveTab('Blended Coffee')}>
+          <Text style={activeTab === 'Blended Coffee' ? styles.activeTab : styles.inactiveTab}>Blended Coffee</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.productRating}>
-        <Icon name="star" size={16} color="#fff" />
-        <Text style={styles.ratingText}>{product.rating}</Text>
-      </View>
+
+      <FlatList
+        data={PRODUCTS}
+        renderItem={renderProductItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.productList}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  mainContent: {
+  container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
+    marginTop: 20,
   },
-  featuredTitle: {
-    fontSize: 18,
+  headerTitle: {
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#000000',
   },
-  moreText: {
-    fontSize: 14,
-    color: 'green',
+  searchInput: {
+    height: 40,
+    backgroundColor: '#F7F7F7',
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    marginTop: 20,
   },
-  productCard: {
+  tabsContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: '#f9f9f9',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 2,
+    marginTop: 20,
   },
-  productImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 8,
-    marginRight: 12,
-  },
-  productDetails: {
-    flex: 1,
-  },
-  productTitle: {
+  activeTab: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#4CAF50',
+    borderBottomWidth: 2,
+    borderBottomColor: '#4CAF50',
+    paddingBottom: 8,
+    marginRight: 20,
   },
-  productPrice: {
-    fontSize: 14,
-    color: '#333',
+  inactiveTab: {
+    fontSize: 16,
+    color: '#AAAAAA',
+    paddingBottom: 8,
+    marginRight: 20,
   },
-  productPoints: {
-    marginRight: 8,
+  productList: {
+    paddingTop: 20,
   },
-  pointsText: {
-    fontSize: 14,
-    color: 'green',
-  },
-  productRating: {
+  productItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'orange',
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    marginBottom: 20,
   },
+  imageContainer: {
+    position: 'relative',
+  },
+  productImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+  },
+  ratingContainer: {
+    position: 'absolute',
+    bottom: 8, 
+    left: '30%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FF6347',
+    marginBottom: -20,
+    borderRadius: 8,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+  },
+  
   ratingText: {
-    fontSize: 14,
-    color: '#fff',
+    fontSize: 12,
+    color: '#FFFFFF',
     marginLeft: 4,
+  },
+  productInfo: {
+    flex: 1,
+    marginLeft: 15,
+  },
+  productName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  productCategory: {
+    fontSize: 14,
+    color: '#AAAAAA',
+  },
+  productPrice: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginTop: 5,
+  },
+  actionContainer: {
+    alignItems: 'center',
+  },
+  buyButton: {
+    backgroundColor: '#E0F2F1',
+    borderRadius: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+  },
+  buyButtonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#4CAF50',
   },
 });
 
