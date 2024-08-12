@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import CustomImageCaroselSquare from '../components/CustomImageCaroselSquare';
 import SecondStack from '../components/SecondStack';
 import ThirdStack from '../components/ThirdStack';
+import Beverages from '../Productsscreens/Beverages';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -64,7 +65,7 @@ const Main = () => {
             <Text style={styles.categoriesTitle}>Categories</Text>
           </View>
           <View style={styles.Container2}>
-            <SecondStack data={data2} />
+            <SecondStack data={data2} navigation={navigation}/>
           </View>
           <View style={styles.featuredContainer}>
             <View style={styles.featuredHeader}>
@@ -76,7 +77,7 @@ const Main = () => {
           </View>
           <View style={styles.Container3}>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-              <ThirdStack />
+              <Beverages/>
             </ScrollView>
           </View>
         </View>

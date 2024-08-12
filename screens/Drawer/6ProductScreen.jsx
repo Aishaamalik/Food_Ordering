@@ -45,6 +45,7 @@ const ProductScreen = ({ navigation }) => {
           <Icon name="ellipsis-v" size={24} color="#000000" />
         </TouchableOpacity>
       </View>
+      
 
 
 
@@ -78,6 +79,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 20,
+  },
+  header2: {
+    flexDirection: 'row',
+    alignItems:'center',
   },
   headerTitle: {
     fontSize: 20,

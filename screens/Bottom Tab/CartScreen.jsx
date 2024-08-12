@@ -24,20 +24,23 @@ const CartScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (product) {
-      setCartItems((prevItems) => [...prevItems, { product, quantity, size, currentPrice }]);
+      setCartItems((prevItems) => {
+        const updatedItems = [...prevItems, { product, quantity, size, currentPrice }];
+        saveCartItems(updatedItems); 
+        return updatedItems;
+      });
     }
   }, [product]);
 
-  useEffect(() => {
-    const saveCartItems = async () => {
-      try {
-        await AsyncStorage.setItem('cartItems', JSON.stringify(cartItems));
-      } catch (error) {
-        console.error('Failed to save cart items', error);
-      }
-    };
-    saveCartItems();
+  const saveCartItems = async (items) => {
+    try {
+      await AsyncStorage.setItem('cartItems', JSON.stringify(items));
+    } catch (error) {
+      console.error('Failed to save cart items', error);
+    }
+  };
 
+  useEffect(() => {
     const total = cartItems.reduce((sum, item) => sum + item.currentPrice * item.quantity, 0);
     setSubtotal(total);
   }, [cartItems]);
@@ -46,6 +49,7 @@ const CartScreen = ({ route, navigation }) => {
     setCartItems((prevItems) => {
       const updatedItems = [...prevItems];
       updatedItems[index].quantity += 1;
+      saveCartItems(updatedItems);
       return updatedItems;
     });
   };
@@ -55,26 +59,31 @@ const CartScreen = ({ route, navigation }) => {
       const updatedItems = [...prevItems];
       if (updatedItems[index].quantity > 1) {
         updatedItems[index].quantity -= 1;
+        saveCartItems(updatedItems);
       }
       return updatedItems;
     });
   };
 
   const removeItem = (index) => {
-    setCartItems((prevItems) => prevItems.filter((_, i) => i !== index));
+    setCartItems((prevItems) => {
+      const updatedItems = prevItems.filter((_, i) => i !== index);
+      saveCartItems(updatedItems);
+      return updatedItems;
+    });
   };
-
   const handlePlaceOrder = () => {
-    navigation.navigate('Checkout',{subtotal,cartItems});
+    navigation.navigate('Checkout', { subtotal, cartItems });
   };
 
   const handleChange = () => {
     navigation.navigate('Change Address');
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle} >My Cart</Text>
+        <Text style={styles.headerTitle}>My Cart</Text>
         <TouchableOpacity style={styles.changeLocation} onPress={handleChange}>
           <Icon name="location-on" size={20} color="#4CAF50" />
           <Text style={styles.changeLocationText}>Change</Text>
@@ -98,7 +107,7 @@ const CartScreen = ({ route, navigation }) => {
             <View key={index} style={styles.productCard}>
               <Image source={item.product.image} style={styles.productImage} />
               <View style={styles.productDetails}>
-                <Text style={styles.productTitle}>{item.product.title}</Text>
+                <Text style={styles.productTitle}>{item.product.name}</Text>
                 <Text style={styles.productSize}>Size: {item.size}</Text>
                 <View style={styles.quantityContainer}>
                   <TouchableOpacity onPress={() => decreaseQuantity(index)} style={styles.quantityButton}>
@@ -119,11 +128,9 @@ const CartScreen = ({ route, navigation }) => {
           ))}
         </View>
       </ScrollView>
-      <View>
-        <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>
-          <Text style={styles.placeOrderText}>Place Order</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>
+        <Text style={styles.placeOrderText}>Place Order</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -131,95 +138,85 @@ const CartScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
-    padding: 20,
+    backgroundColor: 'white',
   },
   header: {
+    padding: 16,
+    backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
     color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   changeLocation: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   changeLocationText: {
-    color: '#4CAF50',
-    marginLeft: 5,
-  },
-  placeOrderButton: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-  },
-  placeOrderText: {
-    color: 'white',
+    color: 'green',
     fontSize: 16,
-    fontWeight: 'bold',
+    marginLeft: 8,
   },
   itemCountContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginTop: 20,
+    padding: 16,
+    backgroundColor: '#f0f0f0',
   },
   itemText: {
     fontSize: 16,
-    color: 'black',
   },
   deliverTo: {
-    fontSize: 16,
-    color: 'black',
+    fontSize: 14,
+    color: '#888888',
   },
   subtotal: {
+    padding: 16,
+    backgroundColor: '#ffffff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eeeeee',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 20,
-    borderBottomWidth: 1,
-    borderColor: '#ddd',
-    paddingBottom: 10,
   },
   price: {
-    fontWeight: 'bold',
     fontSize: 18,
-    color: 'black',
+    fontWeight: 'bold',
   },
   deliveryEligible: {
+    padding: 16,
+    backgroundColor: '#e8f5e9',
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
   },
   deliveryEligibleText: {
-    color: '#4CAF50',
-    marginLeft: 10,
+    marginLeft: 8,
+    fontSize: 16,
   },
   productContainer: {
-    flex: 1,
+    padding: 16,
   },
   productCard: {
     flexDirection: 'row',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    marginVertical: 10,
-    padding: 10,
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    shadowColor: '#000000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 2,
+    marginBottom: 16,
+    padding: 16,
   },
   productImage: {
-    width: 100,
-    height: 100,
-    resizeMode: 'contain',
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+    marginRight: 16,
   },
   productDetails: {
-    marginLeft: 10,
-    justifyContent: 'center',
+    flex: 1,
   },
   productTitle: {
     fontSize: 16,
@@ -228,41 +225,50 @@ const styles = StyleSheet.create({
   },
   productSize: {
     fontSize: 14,
-    color: 'black',
+    color: '#888888',
   },
   quantityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 8,
   },
   quantityButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'green',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 5,
+    backgroundColor: '#4CAF50',
+    borderRadius: 4,
+    padding: 4,
+    marginHorizontal: 8,
   },
   quantityText: {
     fontSize: 16,
-    marginHorizontal: 10,
-    color: 'black',
+    fontWeight: 'bold',
+    width: 40,
+    textAlign: 'center',
   },
   removeButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 10,
+    marginTop: 8,
   },
   removeText: {
     color: 'green',
     fontSize: 14,
-    marginRight: 0,
-    marginLeft: 0,
+    marginLeft: 4,
   },
   productPrice: {
-    fontSize: 14,
-    color: 'black',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 8,
+  },
+  placeOrderButton: {
+    backgroundColor: '#4CAF50',
+    padding: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  placeOrderText: {
+    color: '#ffffff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

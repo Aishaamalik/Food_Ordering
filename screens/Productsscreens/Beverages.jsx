@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { useNavigation } from '@react-navigation/native';
 const PRODUCTS = [
   {
     id: '1',
@@ -61,9 +62,10 @@ const PRODUCTS = [
   },
 ];
 
-const Beverages = ({ navigation }) => {
+const Beverages = () => {
   const [activeTab, setActiveTab] = useState('Beverages');
   const [searchQuery, setSearchQuery] = useState('');
+  const navigation = useNavigation(); 
 
   const filteredProducts = PRODUCTS.filter((product) => {
     return (
@@ -71,6 +73,14 @@ const Beverages = ({ navigation }) => {
       product.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   });
+
+  const handleBuy = (product) => {
+    const quantity = 1;
+    const size = 'Regular'; 
+    const currentPrice = parseFloat(product.price);
+
+    navigation.navigate('Cart', { product, quantity, size, currentPrice });
+  };
 
   const renderProductItem = ({ item }) => (
     <View style={styles.productItem}>
@@ -87,9 +97,12 @@ const Beverages = ({ navigation }) => {
         <Text style={styles.productPrice}>${item.price}</Text>
       </View>
       <View style={styles.actionContainer}>
-        <TouchableOpacity style={styles.buyButton}>
+        <TouchableOpacity 
+          style={styles.buyButton} 
+          onPress={() => handleBuy(item)}
+        >
           <View style={styles.buttonContent}>
-            <Icon name="bug" size={16} color="#4CAF50" style={styles.bugIcon} />
+            <Icon name="shopping-cart" size={16} color="#4CAF50" style={styles.cartIcon} />
             <Text style={styles.buyButtonText}>Buy</Text>
           </View>
         </TouchableOpacity>
@@ -99,30 +112,7 @@ const Beverages = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Beverages</Text>
-      </View>
-
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search beverages"
-        placeholderTextColor="#000000"
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
-
-      <View style={styles.tabsContainer}>
-        <TouchableOpacity onPress={() => setActiveTab('Beverages')}>
-          <Text style={activeTab === 'Beverages' ? styles.activeTab : styles.inactiveTab}>Beverages</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveTab('Brewed Coffee')}>
-          <Text style={activeTab === 'Brewed Coffee' ? styles.activeTab : styles.inactiveTab}>Brewed Coffee</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveTab('Blended Coffee')}>
-          <Text style={activeTab === 'Blended Coffee' ? styles.activeTab : styles.inactiveTab}>Blended Coffee</Text>
-        </TouchableOpacity>
-      </View>
-
+      {/* Tabs, search bar, and product list */}
       <FlatList
         data={filteredProducts}
         renderItem={renderProductItem}
@@ -132,6 +122,8 @@ const Beverages = ({ navigation }) => {
     </View>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -161,7 +153,7 @@ const styles = StyleSheet.create({
   tabsContainer: {
     flexDirection: 'row',
     marginTop: 20,
-    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   activeTab: {
     fontSize: 16,
