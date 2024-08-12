@@ -5,32 +5,72 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const PRODUCTS = [
   {
     id: '1',
-    name: 'Coffee',
-    category: 'Coffee',
+    name: 'Iced Tea',
+    category: 'Beverages',
+    price: '4.5',
+    rating: '4.2',
+    image: require('../Assets/Drinks/icedtea.jpeg'),
+  },
+  {
+    id: '2',
+    name: 'Lemonade',
+    category: 'Beverages',
+    price: '5.5',
+    rating: '4.5',
+    image: require('../Assets/Drinks/lemonade.jpeg'),
+  },
+  {
+    id: '3',
+    name: 'Black Coffee',
+    category: 'Brewed Coffee',
     price: '12.6',
     rating: '3.8',
     image: require('../Assets/productspics/blackcoffee.jpeg'),
   },
   {
-    id: '2',
+    id: '4',
     name: 'Creamy Mocha Ombe Coffee',
-    category: 'Coffee',
+    category: 'Brewed Coffee',
     price: '12.6',
     rating: '3.8',
     image: require('../Assets/productspics/creamymocha.jpeg'),
   },
   {
-    id: '3',
+    id: '5',
     name: 'Arabica Latte Ombe Coffee',
-    category: 'Coffee',
+    category: 'Brewed Coffee',
     price: '12.6',
     rating: '3.8',
     image: require('../Assets/productspics/Arabicalatte.jpeg'),
+  },
+  {
+    id: '6',
+    name: 'Mocha Frappe',
+    category: 'Blended Coffee',
+    price: '13.0',
+    rating: '4.2',
+    image: require('../Assets/productspics/mochafrappe.jpeg'),
+  },
+  {
+    id: '7',
+    name: 'Caramel Frappe',
+    category: 'Blended Coffee',
+    price: '13.5',
+    rating: '4.4',
+    image: require('../Assets/productspics/caramelfrappe.jpeg'),
   },
 ];
 
 const Beverages = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState('Beverages');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredProducts = PRODUCTS.filter((product) => {
+    return (
+      (activeTab === 'Beverages' || product.category === activeTab) &&
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   const renderProductItem = ({ item }) => (
     <View style={styles.productItem}>
@@ -65,8 +105,10 @@ const Beverages = ({ navigation }) => {
 
       <TextInput
         style={styles.searchInput}
-        placeholder="Search beverages or foods"
+        placeholder="Search beverages"
         placeholderTextColor="#000000"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
       />
 
       <View style={styles.tabsContainer}>
@@ -82,7 +124,7 @@ const Beverages = ({ navigation }) => {
       </View>
 
       <FlatList
-        data={PRODUCTS}
+        data={filteredProducts}
         renderItem={renderProductItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.productList}
@@ -119,6 +161,7 @@ const styles = StyleSheet.create({
   tabsContainer: {
     flexDirection: 'row',
     marginTop: 20,
+    flexWrap: 'wrap',
   },
   activeTab: {
     fontSize: 16,

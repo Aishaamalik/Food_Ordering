@@ -2,35 +2,71 @@ import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+// Updated PRODUCTS array
 const PRODUCTS = [
+  // Vegetarian Items
   {
     id: '1',
-    name: 'Biryani',
-    category: 'Food',
+    name: 'Vegetable Biryani',
+    category: 'Vegetarian',
     price: '9.5',
     rating: '4.8',
-    image: require('../Assets/Food/baryani.webp'),
+    image: require('../Assets/Food/vegbaryani.jpeg'),
+  },
+  {
+    id: '2',
+    name: 'Paneer Tikka',
+    category: 'Vegetarian',
+    price: '10.0',
+    rating: '4.7',
+    image: require('../Assets/Food/paneer.jpeg'),
   },
   {
     id: '3',
+    name: 'Chole Bhature',
+    category: 'Vegetarian',
+    price: '8.5',
+    rating: '4.6',
+    image: require('../Assets/Food/chole.jpeg'),
+  },
+
+  {
+    id: '5',
     name: 'Nihari',
-    category: 'Food',
+    category: 'Non-Vegetarian',
     price: '13.0',
     rating: '4.6',
-    image: require('../Assets/Food/nahari.jpeg'), 
+    image: require('../Assets/Food/nahari.jpeg'),
   },
   {
     id: '6',
     name: 'Seekh Kebabs',
-    category: 'Food',
+    category: 'Non-Vegetarian',
     price: '9.0',
     rating: '4.7',
     image: require('../Assets/Food/kabab.jpeg'),
   },
+  {
+    id: '7',
+    name: 'Chiken Baryani',
+    category: 'Non-Vegetarian',
+    price: '12.0',
+    rating: '4.8',
+    image: require('../Assets/Food/baryani.webp'),
+  },
 ];
 
 const Food = ({ navigation }) => {
-  const [activeTab, setActiveTab] = useState('Food');
+  const [activeTab, setActiveTab] = useState('Vegetarian');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Filter products based on active tab and search query
+  const filteredProducts = PRODUCTS.filter((product) => {
+    return (
+      (activeTab === 'All' || product.category === activeTab) &&
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   const renderProductItem = ({ item }) => (
     <View style={styles.productItem}>
@@ -61,24 +97,31 @@ const Food = ({ navigation }) => {
           <Icon name="arrow-left" size={24} color="#000000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Food</Text>
-        <TouchableOpacity>
-        </TouchableOpacity>
+        <TouchableOpacity />
       </View>
 
       <TextInput
         style={styles.searchInput}
         placeholder="Search food items"
         placeholderTextColor="#CCCCCC"
+        value={searchQuery}
+        onChangeText={setSearchQuery}
       />
 
       <View style={styles.tabsContainer}>
-        <TouchableOpacity onPress={() => setActiveTab('Food')}>
-          <Text style={activeTab === 'Food' ? styles.activeTab : styles.inactiveTab}>Food</Text>
+        <TouchableOpacity onPress={() => setActiveTab('All')}>
+          <Text style={activeTab === 'All' ? styles.activeTab : styles.inactiveTab}>All</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setActiveTab('Vegetarian')}>
+          <Text style={activeTab === 'Vegetarian' ? styles.activeTab : styles.inactiveTab}>Vegetarian</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setActiveTab('Non-Vegetarian')}>
+          <Text style={activeTab === 'Non-Vegetarian' ? styles.activeTab : styles.inactiveTab}>Non-Vegetarian</Text>
         </TouchableOpacity>
       </View>
 
       <FlatList
-        data={PRODUCTS}
+        data={filteredProducts}
         renderItem={renderProductItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.productList}
