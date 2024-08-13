@@ -1,36 +1,43 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 const PRODUCTS = [
   {
     id: '1',
-    name: 'Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/blackcoffee.jpeg'),
+    name: 'Margherita Pizza',
+    category: 'Pizza',
+    price: '10.5',
+    rating: '4.2',
+    image: require('../Assets/pizza/mar.jpeg'),
   },
   {
     id: '2',
-    name: 'Creamy Mocha Ombe Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/creamymocha.jpeg'),
+    name: 'Pepperoni Pizza',
+    category: 'Pizza',
+    price: '12.0',
+    rating: '4.5',
+    image: require('../Assets/pizza/pep.jpeg'),
   },
   {
     id: '3',
-    name: 'Arabica Latte Ombe Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/Arabicalatte.jpeg'),
+    name: 'BBQ Chicken Pizza',
+    category: 'Pizza',
+    price: '13.5',
+    rating: '4.6',
+    image: require('../Assets/pizza/bbq.jpeg'),
   },
 ];
 
 const Pizza = ({ navigation }) => {
-  const [activeTab, setActiveTab] = useState('Beverages');
+  const handleBuy = (product) => {
+    const quantity = 1;
+    const size = 'Regular'; 
+    const currentPrice = parseFloat(product.price);
+
+    navigation.navigate('OrderScreen', { product, quantity, size, currentPrice });
+  };
 
   const renderProductItem = ({ item }) => (
     <View style={styles.productItem}>
@@ -47,7 +54,8 @@ const Pizza = ({ navigation }) => {
         <Text style={styles.productPrice}>${item.price}</Text>
       </View>
       <View style={styles.actionContainer}>
-        <TouchableOpacity style={styles.buyButton}>
+        <TouchableOpacity style={styles.buyButton}
+          onPress={() => handleBuy(item)}>
           <Text style={styles.buyButtonText}>Buy</Text>
         </TouchableOpacity>
       </View>
@@ -67,21 +75,9 @@ const Pizza = ({ navigation }) => {
 
       <TextInput
         style={styles.searchInput}
-        placeholder="Search beverages or foods"
+        placeholder="Search pizzas"
         placeholderTextColor="#CCCCCC"
       />
-
-      <View style={styles.tabsContainer}>
-        <TouchableOpacity onPress={() => setActiveTab('Beverages')}>
-          <Text style={activeTab === 'Beverages' ? styles.activeTab : styles.inactiveTab}>Beverages</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveTab('Brewed Coffee')}>
-          <Text style={activeTab === 'Brewed Coffee' ? styles.activeTab : styles.inactiveTab}>Brewed Coffee</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveTab('Blended Coffee')}>
-          <Text style={activeTab === 'Blended Coffee' ? styles.activeTab : styles.inactiveTab}>Blended Coffee</Text>
-        </TouchableOpacity>
-      </View>
 
       <FlatList
         data={PRODUCTS}
@@ -116,25 +112,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 16,
     marginTop: 20,
-  },
-  tabsContainer: {
-    flexDirection: 'row',
-    marginTop: 20,
-  },
-  activeTab: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#4CAF50',
-    borderBottomWidth: 2,
-    borderBottomColor: '#4CAF50',
-    paddingBottom: 8,
-    marginRight: 20,
-  },
-  inactiveTab: {
-    fontSize: 16,
-    color: '#AAAAAA',
-    paddingBottom: 8,
-    marginRight: 20,
   },
   productList: {
     paddingTop: 20,

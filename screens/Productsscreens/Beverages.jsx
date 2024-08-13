@@ -79,7 +79,7 @@ const Beverages = () => {
     const size = 'Regular'; 
     const currentPrice = parseFloat(product.price);
 
-    navigation.navigate('Cart', { product, quantity, size, currentPrice });
+    navigation.navigate('OrderScreen', { product, quantity, size, currentPrice });
   };
 
   const renderProductItem = ({ item }) => (

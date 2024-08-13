@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 const PRODUCTS = [
   {
@@ -48,7 +49,14 @@ const Drinks = ({ navigation }) => {
       product.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   });
+  
+  const handleBuy = (product) => {
+    const quantity = 1;
+    const size = 'Regular'; 
+    const currentPrice = parseFloat(product.price);
 
+    navigation.navigate('OrderScreen', { product, quantity, size, currentPrice });
+  };
   const renderProductItem = ({ item }) => (
     <View style={styles.productItem}>
       <View style={styles.imageContainer}>
@@ -64,17 +72,21 @@ const Drinks = ({ navigation }) => {
         <Text style={styles.productPrice}>${item.price}</Text>
       </View>
       <View style={styles.actionContainer}>
-        <TouchableOpacity style={styles.buyButton}>
-          <Text style={styles.buyButtonText}>Buy</Text>
+        <TouchableOpacity style={styles.buyButton}
+
+          onPress={() => handleBuy(item)}        >
+          <Icon name="shopping-cart" size={16} color="#4CAF50" style={styles.buyIcon} />
+          <Text style={styles.buyButtonText}> Buy</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
+  
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backIcon}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backIcon}>
           <Icon name="arrow-left" size={24} color="#000000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Drinks</Text>
@@ -223,6 +235,26 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: '#4CAF50',
+  },
+  actionContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  buyButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E0F2F1',
+    borderRadius: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+  },
+  buyButtonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#4CAF50',
+  },
+  buyIcon: {
+    marginRight: 8,
   },
 });
 

@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import CustomImageCaroselSquare from '../components/CustomImageCaroselSquare';
 import SecondStack from '../components/SecondStack';
-import ThirdStack from '../components/ThirdStack';
 import Beverages from '../Productsscreens/Beverages';
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -30,59 +29,65 @@ const Main = () => {
   ];
 
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <View style={styles.topBar}>
-          <View style={styles.greetingContainer}>
-            <Text style={styles.greeting}>Good Morning</Text>
-            <Text style={styles.name}>William</Text>
-          </View>
-          <View style={styles.iconsContainer}>
-            <TouchableOpacity style={styles.iconButton}>
-              <Icon name="shopping-cart" size={24} color="#388e3c" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.iconButton}
-              onPress={() => navigation.openDrawer()}
-            >
-              <Icon name="menu" size={24} color="#388e3c" />
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.content}>
-          <View style={styles.searchContainer}>
-            <Icon name="search" size={24} color="#388e3c" style={styles.searchIcon} />
-            <TextInput
-              style={styles.searchBar}
-              placeholder="Search beverages or foods"
-              placeholderTextColor="gray"
-            />
-          </View>
-          <View style={styles.Container1}>
-            <CustomImageCaroselSquare data={data} />
-          </View>
-          <View style={styles.categoriesContainer}>
-            <Text style={styles.categoriesTitle}>Categories</Text>
-          </View>
-          <View style={styles.Container2}>
-            <SecondStack data={data2} navigation={navigation}/>
-          </View>
-          <View style={styles.featuredContainer}>
-            <View style={styles.featuredHeader}>
-              <Text style={styles.featuredTitle}>Featured Beverages</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Products')}>
-                <Text style={styles.moreText}>More</Text>
+    <FlatList
+      data={[]} // FlatList requires `data`, but we'll use it only for rendering components
+      keyExtractor={(item, index) => index.toString()}
+      ListHeaderComponent={
+        <>
+          <View style={styles.topBar}>
+            <View style={styles.greetingContainer}>
+              <Text style={styles.greeting}>Good Morning</Text>
+              <Text style={styles.name}>William</Text>
+            </View>
+            <View style={styles.iconsContainer}>
+              <TouchableOpacity style={styles.iconButton}>
+                <Icon name="shopping-cart" size={24} color="#388e3c" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.iconButton}
+                onPress={() => navigation.openDrawer()}
+              >
+                <Icon name="menu" size={24} color="#388e3c" />
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.Container3}>
-            <ScrollView contentContainerStyle={styles.scrollViewContent}>
-              <Beverages/>
-            </ScrollView>
+
+          <View style={styles.content}>
+            <View style={styles.searchContainer}>
+              <Icon name="search" size={24} color="#388e3c" style={styles.searchIcon} />
+              <TextInput
+                style={styles.searchBar}
+                placeholder="Search beverages or foods"
+                placeholderTextColor="gray"
+              />
+            </View>
+            <View style={styles.Container1}>
+              <CustomImageCaroselSquare data={data} />
+            </View>
+            <View style={styles.categoriesContainer}>
+              <Text style={styles.categoriesTitle}>Categories</Text>
+            </View>
+            <View style={styles.Container2}>
+              <SecondStack data={data2} navigation={navigation} />
+            </View>
+            <View style={styles.featuredContainer}>
+              <View style={styles.featuredHeader}>
+                <Text style={styles.featuredTitle}>Featured Beverages</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Products')}>
+                  <Text style={styles.moreText}>More</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
+        </>
+      }
+      ListFooterComponent={
+        <View style={styles.Container3}>
+          <Beverages />
         </View>
-      </ScrollView>
-    </View>
+      }
+      contentContainerStyle={styles.scrollViewContent}
+    />
   );
 };
 

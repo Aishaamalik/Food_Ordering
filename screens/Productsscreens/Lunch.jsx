@@ -1,36 +1,54 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 const PRODUCTS = [
   {
     id: '1',
-    name: 'Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/blackcoffee.jpeg'),
+    name: 'Grilled Chicken Sandwich',
+    category: 'Lunch',
+    price: '10.5',
+    rating: '4.7',
+    image: require('../Assets/lunch/geill.jpeg'),
   },
   {
     id: '2',
-    name: 'Creamy Mocha Ombe Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/creamymocha.jpeg'),
+    name: 'Caesar Salad',
+    category: 'Lunch',
+    price: '8.0',
+    rating: '4.5',
+    image: require('../Assets/lunch/ca.jpeg'),
   },
   {
     id: '3',
-    name: 'Arabica Latte Ombe Coffee',
-    category: 'Coffee',
-    price: '12.6',
-    rating: '3.8',
-    image: require('../Assets/productspics/Arabicalatte.jpeg'),
+    name: 'Vegetable Wrap',
+    category: 'Lunch',
+    price: '9.0',
+    rating: '4.6',
+    image: require('../Assets/lunch/veg.jpeg'),
+  },
+  {
+    id: '4',
+    name: 'Beef Burger',
+    category: 'Lunch',
+    price: '11.0',
+    rating: '4.8',
+    image: require('../Assets/lunch/beef.jpeg'),
   },
 ];
 
-const Lunch = ({ navigation }) => {
-  const [activeTab, setActiveTab] = useState('Beverages');
+const Lunch = () => {
+  const [activeTab, setActiveTab] = useState('Lunch');
+  const navigation = useNavigation(); // Access navigation here
+
+  const handleBuy = (product) => {
+    const quantity = 1;
+    const size = 'Regular';
+    const currentPrice = parseFloat(product.price);
+
+    navigation.navigate('OrderScreen', { product, quantity, size, currentPrice });
+  };
 
   const renderProductItem = ({ item }) => (
     <View style={styles.productItem}>
@@ -47,7 +65,10 @@ const Lunch = ({ navigation }) => {
         <Text style={styles.productPrice}>${item.price}</Text>
       </View>
       <View style={styles.actionContainer}>
-        <TouchableOpacity style={styles.buyButton}>
+        <TouchableOpacity style={styles.buyButton}
+          onPress={() => handleBuy(item)}
+        >
+          <Icon name="shopping-cart" size={16} color="#4CAF50" style={styles.buyIcon} />
           <Text style={styles.buyButtonText}>Buy</Text>
         </TouchableOpacity>
       </View>
@@ -61,25 +82,18 @@ const Lunch = ({ navigation }) => {
           <Icon name="arrow-left" size={24} color="#000000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Lunch</Text>
-        <TouchableOpacity>
-        </TouchableOpacity>
+        <TouchableOpacity />
       </View>
 
       <TextInput
         style={styles.searchInput}
-        placeholder="Search beverages or foods"
+        placeholder="Search lunch items"
         placeholderTextColor="#CCCCCC"
       />
 
       <View style={styles.tabsContainer}>
-        <TouchableOpacity onPress={() => setActiveTab('Beverages')}>
-          <Text style={activeTab === 'Beverages' ? styles.activeTab : styles.inactiveTab}>Beverages</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveTab('Brewed Coffee')}>
-          <Text style={activeTab === 'Brewed Coffee' ? styles.activeTab : styles.inactiveTab}>Brewed Coffee</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setActiveTab('Blended Coffee')}>
-          <Text style={activeTab === 'Blended Coffee' ? styles.activeTab : styles.inactiveTab}>Blended Coffee</Text>
+        <TouchableOpacity onPress={() => setActiveTab('Lunch')}>
+          <Text style={activeTab === 'Lunch' ? styles.activeTab : styles.inactiveTab}>Lunch</Text>
         </TouchableOpacity>
       </View>
 
@@ -154,7 +168,7 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     position: 'absolute',
-    bottom: 8, 
+    bottom: 8,
     left: '30%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -165,7 +179,6 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 8,
   },
-  
   ratingText: {
     fontSize: 12,
     color: '#FFFFFF',
@@ -194,6 +207,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buyButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#E0F2F1',
     borderRadius: 10,
     paddingVertical: 6,
@@ -203,6 +218,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: '#4CAF50',
+    marginLeft: 8,
+  },
+  buyIcon: {
+    marginRight: 8,
   },
 });
 

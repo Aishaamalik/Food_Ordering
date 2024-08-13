@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
-// Updated PRODUCTS array
 const PRODUCTS = [
-  // Vegetarian Items
   {
     id: '1',
     name: 'Vegetable Biryani',
@@ -67,6 +66,14 @@ const Food = ({ navigation }) => {
       product.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   });
+  
+  const handleBuy = (product) => {
+    const quantity = 1;
+    const size = 'Regular'; 
+    const currentPrice = parseFloat(product.price);
+
+    navigation.navigate('OrderScreen', { product, quantity, size, currentPrice });
+  };
 
   const renderProductItem = ({ item }) => (
     <View style={styles.productItem}>
@@ -83,7 +90,9 @@ const Food = ({ navigation }) => {
         <Text style={styles.productPrice}>${item.price}</Text>
       </View>
       <View style={styles.actionContainer}>
-        <TouchableOpacity style={styles.buyButton}>
+        <TouchableOpacity style={styles.buyButton}
+          onPress={() => handleBuy(item)}
+        >
           <Text style={styles.buyButtonText}>Buy</Text>
         </TouchableOpacity>
       </View>
@@ -191,7 +200,7 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     position: 'absolute',
-    bottom: 8, 
+    bottom: 8,
     left: '30%',
     flexDirection: 'row',
     alignItems: 'center',

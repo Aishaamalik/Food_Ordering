@@ -8,42 +8,41 @@ const { width, height } = Dimensions.get('window');
 const sizeOptions = ['Small', 'Medium', 'Large', 'Extra Large'];
 
 const OrderScreen = ({ route }) => {
-  const navigation = useNavigation(); 
-  const { product } = route.params; 
+  const navigation = useNavigation();
+  const { product, quantity, size, currentPrice } = route.params;
 
   const [imageHeight, setImageHeight] = useState(height / 2);
-  const [size, setSize] = useState('Small');
-  const [quantity, setQuantity] = useState(1);
+  const [sizeLabel, setSizeLabel] = useState(size);
+  const [quantityValue, setQuantityValue] = useState(quantity);
   const [sliderValue, setSliderValue] = useState(0);
   const [basePrice, setBasePrice] = useState(parseFloat(product.price));
-  const [currentPrice, setCurrentPrice] = useState(basePrice);
+  const [updatedPrice, setUpdatedPrice] = useState(basePrice);
 
   useEffect(() => {
-    setCurrentPrice(basePrice * quantity);
-  }, [quantity]);
+    setUpdatedPrice(basePrice * quantityValue);
+  }, [quantityValue]);
 
   const handleSliderValueChange = (value) => {
     setSliderValue(value);
     const newHeight = Math.max(height / 4, Math.min(height / 2 + value * (height / 4), height / 2));
     setImageHeight(newHeight);
     const sizeIndex = Math.round(value * (sizeOptions.length - 1));
-    setSize(sizeOptions[sizeIndex]);
+    setSizeLabel(sizeOptions[sizeIndex]);
   };
 
   const increaseQuantity = () => {
-    setQuantity(quantity + 1);
+    setQuantityValue(quantityValue + 1);
   };
 
   const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+    if (quantityValue > 1) {
+      setQuantityValue(quantityValue - 1);
     }
   };
 
   const handlePlaceOrder = () => {
-    navigation.navigate('Cart', { product, quantity, size, currentPrice });
+    navigation.navigate('Cart', { product, quantity: quantityValue, size: sizeLabel, currentPrice: updatedPrice });
   };
-
 
   return (
     <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -52,7 +51,7 @@ const OrderScreen = ({ route }) => {
           <TouchableOpacity style={styles.iconLeft} onPress={() => navigation.goBack()}>
             <Icon name="arrow-left" size={24} color="#FFF" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconRight} >
+          <TouchableOpacity style={styles.iconRight}>
             <Icon name="bookmark" size={24} color="#FFF" />
           </TouchableOpacity>
           <Image source={product.image} style={[styles.image, { height: imageHeight }]} />
@@ -62,7 +61,7 @@ const OrderScreen = ({ route }) => {
             <Text style={styles.ratingText}>{product.rating}</Text>
           </View>
           <View style={styles.content}>
-            <Text style={styles.title}>{product.title}</Text>
+            <Text style={styles.title}>{product.name}</Text>
             <Text style={styles.description}>
               “Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore”
             </Text>
@@ -78,21 +77,21 @@ const OrderScreen = ({ route }) => {
             />
             <View style={styles.sizeLabelsContainer}>
               {sizeOptions.map((option, index) => (
-                <Text key={index} style={[styles.sizeLabel, size === option && styles.selectedSizeLabel]}>
+                <Text key={index} style={[styles.sizeLabel, sizeLabel === option && styles.selectedSizeLabel]}>
                   {option}
                 </Text>
               ))}
             </View>
             <View style={styles.priceQuantityContainer}>
               <View style={styles.priceContainer}>
-                <Text style={styles.currentPrice}>${currentPrice.toFixed(2)}</Text>
+                <Text style={styles.currentPrice}>${updatedPrice.toFixed(2)}</Text>
                 <Text style={styles.originalPrice}>${product.price}</Text>
               </View>
               <View style={styles.quantityContainer}>
                 <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
                   <Icon name="minus" size={16} color="gray" />
                 </TouchableOpacity>
-                <Text style={styles.quantityText}>{quantity}</Text>
+                <Text style={styles.quantityText}>{quantityValue}</Text>
                 <TouchableOpacity onPress={increaseQuantity} style={styles.quantityButton}>
                   <Icon name="plus" size={16} color="gray" />
                 </TouchableOpacity>
@@ -102,7 +101,7 @@ const OrderScreen = ({ route }) => {
               *)Dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
             </Text>
             <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>
-              <Text style={styles.placeOrderText}>PLACE ORDER ${(currentPrice * quantity).toFixed(2)}</Text>
+              <Text style={styles.placeOrderText}>PLACE ORDER ${(updatedPrice * quantityValue).toFixed(2)}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -233,7 +232,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginHorizontal: 16,
-    color: 'gray',
   },
   note: {
     fontSize: 14,
@@ -242,13 +240,13 @@ const styles = StyleSheet.create({
   },
   placeOrderButton: {
     backgroundColor: 'green',
+    paddingVertical: 16,
     borderRadius: 25,
     alignItems: 'center',
-    paddingVertical: 16,
   },
   placeOrderText: {
+    color: 'white',
     fontSize: 18,
-    color: '#FFF',
     fontWeight: 'bold',
   },
 });
