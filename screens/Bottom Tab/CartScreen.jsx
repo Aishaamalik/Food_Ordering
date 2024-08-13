@@ -26,7 +26,7 @@ const CartScreen = ({ route, navigation }) => {
     if (product) {
       setCartItems((prevItems) => {
         const updatedItems = [...prevItems, { product, quantity, size, currentPrice }];
-        saveCartItems(updatedItems); 
+        saveCartItems(updatedItems);
         return updatedItems;
       });
     }
@@ -72,6 +72,7 @@ const CartScreen = ({ route, navigation }) => {
       return updatedItems;
     });
   };
+
   const handlePlaceOrder = () => {
     navigation.navigate('Checkout', { subtotal, cartItems });
   };

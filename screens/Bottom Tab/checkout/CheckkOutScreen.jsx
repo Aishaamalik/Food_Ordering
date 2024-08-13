@@ -15,12 +15,13 @@ const CheckoutScreen = ({ route, navigation }) => {
   const handlePayment = () => {
     navigation.navigate('Payment');
   };
+
   const handleSubmitOrder = async () => {
     const updatedCartItems = cartItems.map(item => ({
       ...item,
       notes,
     }));
-    
+
     try {
       await AsyncStorage.setItem('ongoingOrders', JSON.stringify(updatedCartItems));
       navigation.navigate('My Order', { ongoingOrders: updatedCartItems });
@@ -28,7 +29,6 @@ const CheckoutScreen = ({ route, navigation }) => {
       console.error('Failed to save order to AsyncStorage:', error);
     }
   };
-  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -80,10 +80,10 @@ const CheckoutScreen = ({ route, navigation }) => {
             <View key={index} style={styles.orderItem}>
               <Image source={item.product.image} style={styles.orderImage} />
               <View style={styles.orderDetails}>
-                <Text style={styles.orderItemTitle}>{item.product.title}</Text>
+              <Text style={styles.cartItemTitle}>{item.product.name}</Text>
                 <View style={styles.ratingContainer}>
                   <Icon name="star" size={14} color="#FFD700" />
-                  <Text style={styles.orderItemRating}>{item.product.rating}</Text>
+                  <Text style={styles.orderItemRating}>{item.product.rating || 'No Rating'}</Text>
                 </View>
                 <Text style={styles.orderItemQty}>{item.quantity} x ${item.currentPrice.toFixed(2)}</Text>
               </View>
@@ -145,6 +145,11 @@ const styles = StyleSheet.create({
   },
   sectionDetails: {
     flex: 1,
+  },
+  cartItemTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
   },
   sectionTitle: {
     fontWeight: 'bold',
