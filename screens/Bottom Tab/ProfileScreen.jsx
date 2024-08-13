@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Icon2 from 'react-native-vector-icons/AntDesign';
+import { useNavigation } from '@react-navigation/native';
 
 const mostOrderedItems = [
   {
@@ -25,22 +25,36 @@ const mostOrderedItems = [
 ];
 
 const Profile = () => {
+  const navigation = useNavigation();
+  
+  const [profileData, setProfileData] = useState({
+    fullName: 'Ash Yellow',
+    mobileNumber: '+92 7268372663',
+    email: 'example@gmail.com',
+    location: 'abc, Corner abc, 24125151',
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.iconButton}>
+        <TouchableOpacity style={styles.iconButton}
+        onPress={() => navigation.navigate('Cart')}
+        >
           <Icon name="arrow-back" size={24} color="#2E8B57" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Rewards</Text>
-        <TouchableOpacity style={styles.iconButton}>
+        <TouchableOpacity 
+          style={styles.iconButton}
+          onPress={() => navigation.navigate('Edit', { ...profileData, updateProfile: setProfileData })}
+        >
           <Icon name="edit" size={24} color="#2E8B57" />
         </TouchableOpacity>
       </View>
 
       <View style={styles.profileSection}>
         <Image source={require('../Assets/Profile/profile.jpg')} style={styles.profileImage} />
-        <Text style={styles.profileName}>Ash Yellow</Text>
-        <Text style={styles.profileLocation}>Attock, Pakistan</Text>
+        <Text style={styles.profileName}>{profileData.fullName}</Text>
+        <Text style={styles.profileLocation}>{profileData.location}</Text>
       </View>
 
       <View style={styles.contactSection}>
@@ -50,7 +64,7 @@ const Profile = () => {
           </View>
           <View style={styles.contactText}>
             <Text style={styles.contactLabel}>Mobile Phone</Text>
-            <Text style={styles.contactValue}>+92 7268372663</Text>
+            <Text style={styles.contactValue}>{profileData.mobileNumber}</Text>
           </View>
         </View>
         <View style={styles.contactItem}>
@@ -59,7 +73,7 @@ const Profile = () => {
           </View>
           <View style={styles.contactText}>
             <Text style={styles.contactLabel}>Email Address</Text>
-            <Text style={styles.contactValue}>example@gmail.com</Text>
+            <Text style={styles.contactValue}>{profileData.email}</Text>
           </View>
         </View>
         <View style={styles.contactItem}>
@@ -68,7 +82,7 @@ const Profile = () => {
           </View>
           <View style={styles.contactText}>
             <Text style={styles.contactLabel}>Address</Text>
-            <Text style={styles.contactValue}>abc, Corner abc, 24125151</Text>
+            <Text style={styles.contactValue}>{profileData.location}</Text>
           </View>
         </View>
       </View>
@@ -85,8 +99,6 @@ const Profile = () => {
               <Text style={styles.itemName}>{item.name}</Text>
               <View style={styles.textContainer1}>
                 <Text style={styles.itemCategory}>{item.category}</Text>
-
-
               </View>
             </View>
           </View>

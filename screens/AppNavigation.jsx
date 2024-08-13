@@ -18,6 +18,7 @@ import Drinks from './Productsscreens/Drinks'
 import Food from './Productsscreens/Food'
 import Lunch from './Productsscreens/Lunch'
 import Pizza from './Productsscreens/Pizza'
+import Edit from './Bottom Tab/Edit'
 
 //stack
 const Stack = createNativeStackNavigator();
@@ -101,6 +102,12 @@ const AppNavigation = () => {
         component={Pizza}
         options={{headerShown: false}}
         />
+        <Stack.Screen
+        name='Edit'
+        component={Edit}
+        options={{headerShown: false}}
+        />
+
       </Stack.Navigator>
 
     </NavigationContainer>
