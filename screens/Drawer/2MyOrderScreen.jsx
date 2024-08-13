@@ -6,16 +6,17 @@ import Icon from 'react-native-vector-icons/Feather';
 const MyOrderScreen = ({ route, navigation }) => {
   const [activeTab, setActiveTab] = useState('Ongoing');
   const [ongoingOrders, setOngoingOrders] = useState([]);
+
   useEffect(() => {
     const loadSavedData = async () => {
       try {
         const savedTab = await AsyncStorage.getItem('activeTab');
         const savedOrders = await AsyncStorage.getItem('ongoingOrders');
-  
+
         if (savedTab) {
           setActiveTab(savedTab);
         }
-  
+
         if (savedOrders) {
           setOngoingOrders(JSON.parse(savedOrders));
         } else if (route.params?.ongoingOrders) {
@@ -26,10 +27,9 @@ const MyOrderScreen = ({ route, navigation }) => {
         console.error('Failed to load data from AsyncStorage:', error);
       }
     };
-  
+
     loadSavedData();
   }, [route.params?.ongoingOrders]);
-  
 
   useEffect(() => {
     const saveTab = async () => {
@@ -53,7 +53,7 @@ const MyOrderScreen = ({ route, navigation }) => {
         </View>
       </View>
       <View style={styles.orderDetails}>
-        <Text style={styles.orderItemTitle}>{item.product.title}</Text>
+        <Text style={styles.cartItemTitle}>{item.product.name}</Text>
         <Text style={styles.orderItemNotes}>{item.notes}</Text>
         <View style={styles.priceAndButton}>
           <Text style={styles.orderItemQty}>${item.currentPrice.toFixed(2)}</Text>
@@ -88,10 +88,10 @@ const MyOrderScreen = ({ route, navigation }) => {
           <Text style={[styles.tabButtonText, activeTab === 'Ongoing' && styles.activeTabButtonText]}>Ongoing</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.tabButton, activeTab === 'Past' && styles.activeTabButton]}
-          onPress={() => setActiveTab('Past')}
+          style={[styles.tabButton, activeTab === 'Completed' && styles.activeTabButton]}
+          onPress={() => setActiveTab('Completed')}
         >
-          <Text style={[styles.tabButtonText, activeTab === 'Past' && styles.activeTabButtonText]}>Past</Text>
+          <Text style={[styles.tabButtonText, activeTab === 'Completed' && styles.activeTabButtonText]}>Completed</Text>
         </TouchableOpacity>
       </View>
 
@@ -107,13 +107,11 @@ const MyOrderScreen = ({ route, navigation }) => {
           />
         )
       ) : (
-        <Text style={styles.emptyMessage}>No past orders available.</Text>
+        <Text style={styles.emptyMessage}>No completed orders available.</Text>
       )}
     </View>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -128,7 +126,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: '#ddd',
-  },  
+  },
+  cartItemTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
+  },
   emptyMessage: {
     textAlign: 'center',
     marginTop: 20,
