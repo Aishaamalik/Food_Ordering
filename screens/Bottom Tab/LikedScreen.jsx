@@ -1,27 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, FlatList, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const likedItems = [
-  {
-    id: '1',
-    name: 'Sample Item',
-    variant: 'Sample Variant',
-    price: 50,
-    image: require('../Assets/productspics/cofee.jpeg'),
-  },
-];
+const LikedScreen = ({ route }) => {
+  const [likedItems, setLikedItems] = useState([]);
+  const [removingItem, setRemovingItem] = useState(null);
 
-const LikedScreen = () => {
+  useEffect(() => {
+    const loadItems = async () => {
+      try {
+        const storedItems = await AsyncStorage.getItem('likedItems');
+        if (storedItems) {
+          setLikedItems(JSON.parse(storedItems));
+        }
+      } catch (error) {
+        console.error('Failed to load items:', error);
+      }
+    };
+
+    loadItems();
+  }, []);
+
+  useEffect(() => {
+    const saveItems = async () => {
+      try {
+        await AsyncStorage.setItem('likedItems', JSON.stringify(likedItems));
+      } catch (error) {
+        console.error('Failed to save items:', error);
+      }
+    };
+
+    saveItems();
+  }, [likedItems]);
+
+  useEffect(() => {
+    const { newItem } = route.params || {}; 
+    if (newItem) {
+      setLikedItems(prevItems => {
+        const updatedItems = [...prevItems, newItem];
+        return updatedItems;
+      });
+    }
+  }, [route.params]);
+
+  const handleRemoveItem = (item) => {
+    setRemovingItem(item.id);
+    setTimeout(() => {
+      setLikedItems(prevItems => prevItems.filter(i => i.id !== item.id));
+      setRemovingItem(null);
+    }, 1000);
+  };
+
   const totalItems = likedItems.length;
   const totalPrice = likedItems.reduce((sum, item) => sum + item.price, 0);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-      <Text style={styles.headerTitle}>Wishlist</Text>
+        <Text style={styles.headerTitle}>Wishlist</Text>
         <Icon name="search" size={24} color="#000" />
-        
       </View>
 
       <View style={styles.summary}>
@@ -38,11 +76,14 @@ const LikedScreen = () => {
             <Image source={item.image} style={styles.itemImage} />
             <View style={styles.itemDetails}>
               <Text style={styles.itemName}>{item.name}</Text>
-              <Text style={styles.itemVariant}>Variant: {item.variant}</Text>
               <Text style={styles.itemPrice}>${item.price.toFixed(2)}</Text>
             </View>
-            <TouchableOpacity>
-              <Icon name="favorite" size={24} color="red" />
+            <TouchableOpacity onPress={() => handleRemoveItem(item)}>
+              <Icon
+                name="favorite"
+                size={24}
+                color={removingItem === item.id ? 'green' : 'red'}
+              />
             </TouchableOpacity>
           </View>
         )}
@@ -109,19 +150,23 @@ const styles = StyleSheet.create({
   itemDetails: {
     flex: 1,
     marginLeft: 10,
+    color: 'black',
   },
   itemName: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: 'black',
   },
   itemVariant: {
     fontSize: 12,
     color: '#888',
     marginVertical: 5,
+    color: 'black',
   },
   itemPrice: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: 'black',
   },
 });
 

@@ -1,3 +1,4 @@
+// OrderScreen.jsx
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -45,7 +46,14 @@ const OrderScreen = ({ route }) => {
   };
 
   const handleBookmarkPress = () => {
-    navigation.navigate('Liked');
+    navigation.navigate('Liked', {
+      newItem: {
+        id: product.id,
+        name: product.name,
+        price: updatedPrice,
+        image: product.image,
+      }
+    });
   };
 
   return (
@@ -113,6 +121,7 @@ const OrderScreen = ({ route }) => {
     </ScrollView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
