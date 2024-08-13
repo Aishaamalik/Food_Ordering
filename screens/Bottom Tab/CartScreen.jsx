@@ -135,7 +135,6 @@ const CartScreen = ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -164,18 +163,20 @@ const styles = StyleSheet.create({
   },
   itemCountContainer: {
     padding: 16,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: 'white',
   },
   itemText: {
     fontSize: 16,
+    color: 'black',
   },
   deliverTo: {
     fontSize: 14,
-    color: '#888888',
+    color: 'black',
+
   },
   subtotal: {
     padding: 16,
-    backgroundColor: '#ffffff',
+    backgroundColor: 'white',
     borderBottomWidth: 1,
     borderBottomColor: '#eeeeee',
     flexDirection: 'row',
@@ -184,6 +185,8 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: 'black',
+
   },
   deliveryEligible: {
     padding: 16,
@@ -194,6 +197,8 @@ const styles = StyleSheet.create({
   deliveryEligibleText: {
     marginLeft: 8,
     fontSize: 16,
+    color: 'green',
+
   },
   productContainer: {
     padding: 16,
@@ -244,6 +249,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     width: 40,
     textAlign: 'center',
+    color: 'green',
+
   },
   removeButton: {
     flexDirection: 'row',

@@ -30,7 +30,7 @@ const Main = () => {
 
   return (
     <FlatList
-      data={[]} // FlatList requires `data`, but we'll use it only for rendering components
+      data={[]} 
       keyExtractor={(item, index) => index.toString()}
       ListHeaderComponent={
         <>
@@ -52,7 +52,6 @@ const Main = () => {
             </View>
           </View>
 
-          <View style={styles.content}>
             <View style={styles.searchContainer}>
               <Icon name="search" size={24} color="#388e3c" style={styles.searchIcon} />
               <TextInput
@@ -78,7 +77,6 @@ const Main = () => {
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
         </>
       }
       ListFooterComponent={
@@ -98,6 +96,8 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     flexGrow: 1,
+    backgroundColor: 'white',
+
   },
   topBar: {
     flexDirection: 'row',
@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 16,
+    backgroundColor:'white',
   },
   searchContainer: {
     flexDirection: 'row',
