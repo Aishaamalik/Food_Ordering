@@ -7,20 +7,39 @@ const CartScreen = ({ route, navigation }) => {
   const { product, quantity, size, currentPrice } = route.params || {};
   const [cartItems, setCartItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
+  const [deliveryAddress, setDeliveryAddress] = useState('');
+
+  const loadCartItems = async () => {
+    try {
+      const storedCartItems = await AsyncStorage.getItem('cartItems');
+      if (storedCartItems) {
+        setCartItems(JSON.parse(storedCartItems));
+      }
+    } catch (error) {
+      console.error('Failed to load cart items', error);
+    }
+  };
+
+  const loadProfileData = async () => {
+    try {
+      const storedProfile = await AsyncStorage.getItem('profileData');
+      if (storedProfile) {
+        const profileData = JSON.parse(storedProfile);
+        setDeliveryAddress(profileData.location);
+      }
+    } catch (error) {
+      console.error('Failed to load profile data', error);
+    }
+  };
 
   useEffect(() => {
-    const loadCartItems = async () => {
-      try {
-        const storedCartItems = await AsyncStorage.getItem('cartItems');
-        if (storedCartItems) {
-          setCartItems(JSON.parse(storedCartItems));
-        }
-      } catch (error) {
-        console.error('Failed to load cart items', error);
-      }
-    };
-    loadCartItems();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadCartItems();
+      loadProfileData();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     if (product) {
@@ -92,7 +111,7 @@ const CartScreen = ({ route, navigation }) => {
       </View>
       <View style={styles.itemCountContainer}>
         <Text style={styles.itemText}>Item(s): {cartItems.length}</Text>
-        <Text style={styles.deliverTo}>Delivered to:</Text>
+        <Text style={styles.deliverTo}>Delivered to: {deliveryAddress}</Text>
       </View>
       <View style={styles.subtotal}>
         <Text style={{ color: 'black' }}>Subtotal</Text>
@@ -135,6 +154,7 @@ const CartScreen = ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -172,10 +192,9 @@ const styles = StyleSheet.create({
   deliverTo: {
     fontSize: 14,
     color: 'black',
-
   },
   subtotal: {
-    padding: 16,
+    padding: 10,
     backgroundColor: 'white',
     borderBottomWidth: 1,
     borderBottomColor: '#eeeeee',
@@ -186,7 +205,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: 'black',
-
   },
   deliveryEligible: {
     padding: 16,
@@ -198,7 +216,6 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     fontSize: 16,
     color: 'green',
-
   },
   productContainer: {
     padding: 16,
@@ -250,7 +267,6 @@ const styles = StyleSheet.create({
     width: 40,
     textAlign: 'center',
     color: 'green',
-
   },
   removeButton: {
     flexDirection: 'row',
@@ -265,6 +281,7 @@ const styles = StyleSheet.create({
   productPrice: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: 'black',
     marginTop: 8,
   },
   placeOrderButton: {
@@ -274,7 +291,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   placeOrderText: {
-    color: '#ffffff',
+    color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
   },
