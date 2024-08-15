@@ -35,6 +35,7 @@ const Profile = () => {
     location: 'abc, Corner abc, 24125151',
     profileImage: require('../Assets/Profile/profile.jpg'), 
   });
+
   useEffect(() => {
     const loadProfileData = async () => {
       try {
@@ -62,13 +63,10 @@ const Profile = () => {
     saveProfileData();
   }, [profileData]);
 
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.iconButton}
-        onPress={() => navigation.navigate('Cart')}
-        >
+        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Cart')}>
           <Icon name="arrow-back" size={24} color="#2E8B57" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Rewards</Text>

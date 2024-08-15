@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
 import CustomImageCaroselSquare from '../components/CustomImageCaroselSquare';
 import SecondStack from '../components/SecondStack';
 import Beverages from '../Productsscreens/Beverages';
@@ -9,7 +10,27 @@ import Beverages from '../Productsscreens/Beverages';
 const { width: screenWidth } = Dimensions.get('window');
 
 const Main = () => {
+  const [profileData, setProfileData] = useState({ 
+    fullName: 'Ash Yellow',
+  });
+
+  useEffect(() => {
+    const loadProfileData = async () => {
+      try {
+        const storedProfile = await AsyncStorage.getItem('profileData');
+        if (storedProfile) {
+          setProfileData(JSON.parse(storedProfile));
+        }
+      } catch (error) {
+        console.error('Failed to load profile data', error);
+      }
+    };
+
+    loadProfileData();
+  }, []);
+
   const navigation = useNavigation();
+
   const getGreeting = () => {
     const hours = new Date().getHours();
     if (hours < 12) {
@@ -49,7 +70,7 @@ const Main = () => {
           <View style={styles.topBar}>
             <View style={styles.greetingContainer}>
               <Text style={styles.greeting}>{getGreeting()}</Text>
-              <Text style={styles.name}>William</Text>
+              <Text style={styles.subtitle}>{profileData.fullName}</Text>
             </View>
             <View style={styles.iconsContainer}>
               <TouchableOpacity style={styles.iconButton}>
@@ -100,6 +121,8 @@ const Main = () => {
     />
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -216,6 +239,11 @@ const styles = StyleSheet.create({
   },
   Container3: {
     flex: 1,
+  },
+  subtitle: {
+    color: 'black',
+    fontSize: 25,
+    fontWeight: 'bold',
   },
 });
 
