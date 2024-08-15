@@ -33,6 +33,7 @@ const Profile = () => {
     mobileNumber: '+92 7268372663',
     email: 'example@gmail.com',
     location: 'abc, Corner abc, 24125151',
+    profileImage: require('../Assets/Profile/profile.jpg'), 
   });
   useEffect(() => {
     const loadProfileData = async () => {
@@ -80,7 +81,7 @@ const Profile = () => {
       </View>
 
       <View style={styles.profileSection}>
-        <Image source={require('../Assets/Profile/profile.jpg')} style={styles.profileImage} />
+        <Image source={profileData.profileImage} style={styles.profileImage} />
         <Text style={styles.profileName}>{profileData.fullName}</Text>
         <Text style={styles.profileLocation}>{profileData.location}</Text>
       </View>

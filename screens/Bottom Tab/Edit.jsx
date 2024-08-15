@@ -7,13 +7,13 @@ import { launchImageLibrary } from 'react-native-image-picker';
 const EditProfileScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const { fullName, mobileNumber, email, location, updateProfile } = route.params;
+  const { fullName, mobileNumber, email, location, profileImage, updateProfile } = route.params;
 
   const [name, setName] = useState(fullName);
   const [number, setNumber] = useState(mobileNumber);
   const [userEmail, setUserEmail] = useState(email);
   const [userLocation, setUserLocation] = useState(location);
-  const [profileImage, setProfileImage] = useState(require('../Assets/Profile/profile.jpg')); // Default profile image
+  const [profileImg, setProfileImg] = useState(profileImage || require('../Assets/Profile/profile.jpg')); // Default profile image
 
   const handleUpdateProfile = () => {
     updateProfile({
@@ -21,8 +21,9 @@ const EditProfileScreen = () => {
       mobileNumber: number,
       email: userEmail,
       location: userLocation,
+      profileImage: profileImg,
     });
-    
+
     navigation.goBack();
   };
 
@@ -39,7 +40,7 @@ const EditProfileScreen = () => {
         } else if (response.errorCode) {
           console.log('ImagePicker Error: ', response.errorMessage);
         } else {
-          setProfileImage({ uri: response.assets[0].uri });
+          setProfileImg({ uri: response.assets[0].uri });
         }
       }
     );
@@ -56,7 +57,7 @@ const EditProfileScreen = () => {
       </View>
 
       <View style={styles.profileSection}>
-        <Image source={profileImage} style={styles.profileImage} />
+        <Image source={profileImg} style={styles.profileImage} />
         <TouchableOpacity style={styles.editIcon} onPress={handleSelectImage}>
           <Icon name="edit" size={20} color="#fff" />
         </TouchableOpacity>
