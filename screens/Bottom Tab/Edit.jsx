@@ -81,7 +81,6 @@ const EditProfileScreen = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -104,6 +103,7 @@ const styles = StyleSheet.create({
   profileSection: {
     alignItems: 'center',
     marginVertical: 20,
+    position: 'relative',
   },
   profileImage: {
     width: 120,
@@ -112,11 +112,13 @@ const styles = StyleSheet.create({
   },
   editIcon: {
     position: 'absolute',
-    bottom: 10,
+    alignSelf: 'flex-start',
+    top: 90,
     right: 10,
     backgroundColor: '#4CAF50',
     borderRadius: 20,
     padding: 6,
+    marginRight: 120,
   },
   inputSection: {
     paddingHorizontal: 20,
