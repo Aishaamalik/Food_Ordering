@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const mostOrderedItems = [
   {
@@ -33,6 +34,33 @@ const Profile = () => {
     email: 'example@gmail.com',
     location: 'abc, Corner abc, 24125151',
   });
+  useEffect(() => {
+    const loadProfileData = async () => {
+      try {
+        const storedProfile = await AsyncStorage.getItem('profileData');
+        if (storedProfile) {
+          setProfileData(JSON.parse(storedProfile));
+        }
+      } catch (error) {
+        console.error('Failed to load profile data', error);
+      }
+    };
+
+    loadProfileData();
+  }, []);
+
+  useEffect(() => {
+    const saveProfileData = async () => {
+      try {
+        await AsyncStorage.setItem('profileData', JSON.stringify(profileData));
+      } catch (error) {
+        console.error('Failed to save profile data', error);
+      }
+    };
+
+    saveProfileData();
+  }, [profileData]);
+
 
   return (
     <SafeAreaView style={styles.container}>
