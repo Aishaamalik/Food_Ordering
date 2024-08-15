@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, FlatList, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
+
 
 const notifications = [
   {
@@ -66,6 +68,7 @@ const notifications = [
 ];
 
 const NotificationScreen = () => {
+  const navigation = useNavigation();
   const renderItem = ({ item }) => (
     <View style={styles.notificationItem}>
       <Image source={item.image} style={styles.notificationImage} />
@@ -79,11 +82,11 @@ const NotificationScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Notifications (12)</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Search')}>
           <Icon name="search" size={24} color="#000" />
         </TouchableOpacity>
       </View>

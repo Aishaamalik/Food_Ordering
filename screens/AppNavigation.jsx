@@ -20,6 +20,7 @@ import Lunch from './Productsscreens/Lunch'
 import Pizza from './Productsscreens/Pizza'
 import Edit from './Bottom Tab/Edit'
 import Notifications from './MainScreens/Notifications'
+import Search from './MainScreens/Search'
 
 //stack
 const Stack = createNativeStackNavigator();
@@ -111,6 +112,11 @@ const AppNavigation = () => {
         <Stack.Screen
         name='Notifications'
         component={Notifications}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Search'
+        component={Search}
         options={{headerShown: false}}
         />
 
