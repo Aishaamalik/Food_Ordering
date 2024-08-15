@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const EditProfileScreen = () => {
   const route = useRoute();
@@ -12,6 +13,7 @@ const EditProfileScreen = () => {
   const [number, setNumber] = useState(mobileNumber);
   const [userEmail, setUserEmail] = useState(email);
   const [userLocation, setUserLocation] = useState(location);
+  const [profileImage, setProfileImage] = useState(require('../Assets/Profile/profile.jpg')); // Default profile image
 
   const handleUpdateProfile = () => {
     updateProfile({
@@ -22,6 +24,25 @@ const EditProfileScreen = () => {
     });
     
     navigation.goBack();
+  };
+
+  const handleSelectImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 1,
+        includeBase64: false,
+      },
+      (response) => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.errorCode) {
+          console.log('ImagePicker Error: ', response.errorMessage);
+        } else {
+          setProfileImage({ uri: response.assets[0].uri });
+        }
+      }
+    );
   };
 
   return (
@@ -35,8 +56,8 @@ const EditProfileScreen = () => {
       </View>
 
       <View style={styles.profileSection}>
-        <Image source={require('../Assets/Profile/profile.jpg')} style={styles.profileImage} />
-        <TouchableOpacity style={styles.editIcon}>
+        <Image source={profileImage} style={styles.profileImage} />
+        <TouchableOpacity style={styles.editIcon} onPress={handleSelectImage}>
           <Icon name="edit" size={20} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -112,13 +133,11 @@ const styles = StyleSheet.create({
   },
   editIcon: {
     position: 'absolute',
-    alignSelf: 'flex-start',
-    top: 90,
+    top: 10,
     right: 10,
     backgroundColor: '#4CAF50',
     borderRadius: 20,
     padding: 6,
-    marginRight: 120,
   },
   inputSection: {
     paddingHorizontal: 20,
