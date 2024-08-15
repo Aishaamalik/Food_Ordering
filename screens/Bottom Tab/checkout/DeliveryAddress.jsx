@@ -12,7 +12,6 @@ const DeliveryAddress = ({ navigation }) => {
   const addresses = [
     { id: 1, label: 'Home Address', address: '123 Main Street, Anytown, USA 12345', icon: 'home' },
     { id: 2, label: 'Office Address', address: '456 Elm Avenue, Smallville, CA 98765', icon: 'location-on' },
-    { id: 3, label: 'Home Address', address: '789 Maple Lane, Suburbia, NY 54321', icon: 'home' },
     { id: 4, label: 'Shop Address', address: '654 Pine Road, Countryside, FL 34567', icon: 'store' },
   ];
 
@@ -56,7 +55,7 @@ const DeliveryAddress = ({ navigation }) => {
       </ScrollView>
 
       <TouchableOpacity style={styles.saveButton}>
-        <Text style={styles.saveButtonText}>SAVE ADDRESS</Text>
+        <Text style={styles.saveButtonText} >SAVE ADDRESS</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

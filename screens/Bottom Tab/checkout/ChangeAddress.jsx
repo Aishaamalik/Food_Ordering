@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import { useNavigation } from '@react-navigation/native'; 
 
 const ChangeAddress = () => {
-  const navigation = useNavigation(); // Get navigation object
+  const navigation = useNavigation(); 
 
   const [fullName, setFullName] = useState('');
   const [mobileNo, setMobileNo] = useState('');
@@ -14,6 +14,9 @@ const ChangeAddress = () => {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [addressType, setAddressType] = useState('Home');
+  const handleChangeAddress = () => {
+    navigation.navigate('Delivery Address');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -112,7 +115,7 @@ const ChangeAddress = () => {
       </ScrollView>
 
       <TouchableOpacity style={styles.saveButton}>
-        <Text style={styles.saveButtonText}>SAVE ADDRESS</Text>
+        <Text style={styles.saveButtonText} onPress={handleChangeAddress}>SAVE ADDRESS</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
