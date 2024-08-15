@@ -10,6 +10,18 @@ const { width: screenWidth } = Dimensions.get('window');
 
 const Main = () => {
   const navigation = useNavigation();
+  const getGreeting = () => {
+    const hours = new Date().getHours();
+    if (hours < 12) {
+      return 'Good Morning';
+    } else if (hours < 18) {
+      return 'Good Afternoon';
+    } else if (hours < 21) {
+      return 'Good Evening';
+    } else {
+      return 'Good Night';
+    }
+  };
 
   const data = [
     { image: require('../Assets/chai.png'), label1: 'Chai', label2: '$ 5.8' },
@@ -36,7 +48,7 @@ const Main = () => {
         <>
           <View style={styles.topBar}>
             <View style={styles.greetingContainer}>
-              <Text style={styles.greeting}>Good Morning</Text>
+              <Text style={styles.greeting}>{getGreeting()}</Text>
               <Text style={styles.name}>William</Text>
             </View>
             <View style={styles.iconsContainer}>
