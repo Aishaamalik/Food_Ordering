@@ -12,8 +12,8 @@ import PagesScreen from './4PagesScreen';
 import ComponentScreen from './5ComponentScreen';
 import ProductScreen from './6ProductScreen';
 import ChatListScreen from './7ChatListScreen';
-import ProfileScreen from './8ProfileScreen';
 import LogoutScreen from './9LogoutScreen';
+import Profile from '../Bottom Tab/ProfileScreen.jsx';
 
 // Define Colors object
 const Colors = {
@@ -165,7 +165,7 @@ function DrawerNavigation() {
       />
       <Drawer.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={Profile}
         options={{
           drawerIcon: ({ focused }) => (
             <Icon name="user" size={24} color={focused ? Colors.active : Colors.inactive} />
