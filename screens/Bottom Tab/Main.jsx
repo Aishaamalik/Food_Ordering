@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomImageCaroselSquare from '../components/CustomImageCaroselSquare';
 import SecondStack from '../components/SecondStack';
 import Beverages from '../Productsscreens/Beverages';
@@ -14,22 +14,40 @@ const Main = () => {
     fullName: 'Ash Yellow',
   });
 
-  useEffect(() => {
-    const loadProfileData = async () => {
-      try {
-        const storedProfile = await AsyncStorage.getItem('profileData');
-        if (storedProfile) {
-          setProfileData(JSON.parse(storedProfile));
-        }
-      } catch (error) {
-        console.error('Failed to load profile data', error);
-      }
-    };
+  const navigation = useNavigation();
 
+  const loadProfileData = async () => {
+    try {
+      const storedProfile = await AsyncStorage.getItem('profileData');
+      if (storedProfile) {
+        setProfileData(JSON.parse(storedProfile));
+      }
+    } catch (error) {
+      console.error('Failed to load profile data', error);
+    }
+  };
+
+  useEffect(() => {
     loadProfileData();
   }, []);
 
-  const navigation = useNavigation();
+  useFocusEffect(
+    useCallback(() => {
+      loadProfileData();
+    }, [])
+  );
+
+  useEffect(() => {
+    const updateProfile = async () => {
+      try {
+        await AsyncStorage.setItem('profileData', JSON.stringify(profileData));
+      } catch (error) {
+        console.error('Failed to update profile data', error);
+      }
+    };
+
+    updateProfile();
+  }, [profileData]);
 
   const getGreeting = () => {
     const hours = new Date().getHours();
@@ -121,6 +139,7 @@ const Main = () => {
     />
   );
 };
+
 
 
 
