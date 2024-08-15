@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import Icon1 from 'react-native-vector-icons/Entypo';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomImageCaroselSquare from '../components/CustomImageCaroselSquare';
@@ -91,8 +92,9 @@ const Main = () => {
               <Text style={styles.subtitle}>{profileData.fullName}</Text>
             </View>
             <View style={styles.iconsContainer}>
-              <TouchableOpacity style={styles.iconButton}>
-                <Icon name="shopping-cart" size={24} color="#388e3c" />
+              <TouchableOpacity style={styles.iconButton}
+              onPress={() => navigation.navigate('Notifications')}>
+                <Icon1 name="notification" size={24} color="#388e3c" />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.iconButton}
