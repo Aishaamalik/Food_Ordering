@@ -139,6 +139,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#4CAF50',
     borderRadius: 20,
     padding: 6,
+    marginRight:115,
+    marginTop: 70,
   },
   inputSection: {
     paddingHorizontal: 20,
