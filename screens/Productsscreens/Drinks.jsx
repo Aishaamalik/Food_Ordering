@@ -3,7 +3,7 @@ import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
-const PRODUCTS = [
+export const PRODUCTS1 = [
   {
     id: '1',
     name: 'Lemonade',
@@ -42,8 +42,7 @@ const Drinks = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState('Cold Drinks');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Filter products based on active tab and search query
-  const filteredProducts = PRODUCTS.filter((product) => {
+  const filteredProducts = PRODUCTS1.filter((product) => {
     return (
       product.category === activeTab &&
       product.name.toLowerCase().includes(searchQuery.toLowerCase())

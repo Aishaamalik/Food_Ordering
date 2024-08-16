@@ -3,7 +3,7 @@ import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
-const PRODUCTS = [
+export const PRODUCTS3 = [
   {
     id: '1',
     name: 'Grilled Chicken Sandwich',
@@ -40,7 +40,7 @@ const PRODUCTS = [
 
 const Lunch = () => {
   const [activeTab, setActiveTab] = useState('Lunch');
-  const navigation = useNavigation(); // Access navigation here
+  const navigation = useNavigation();
 
   const handleBuy = (product) => {
     const quantity = 1;
@@ -98,7 +98,7 @@ const Lunch = () => {
       </View>
 
       <FlatList
-        data={PRODUCTS}
+        data={PRODUCTS3}
         renderItem={renderProductItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.productList}

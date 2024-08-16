@@ -3,7 +3,7 @@ import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { useNavigation } from '@react-navigation/native';
-const PRODUCTS = [
+export const PRODUCTS = [
   {
     id: '1',
     name: 'Iced Tea',
@@ -112,7 +112,6 @@ const Beverages = () => {
 
   return (
     <View style={styles.container}>
-      {/* Tabs, search bar, and product list */}
       <FlatList
         data={filteredProducts}
         renderItem={renderProductItem}

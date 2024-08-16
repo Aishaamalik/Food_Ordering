@@ -1,36 +1,64 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, FlatList, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
-
-const initialSearchHistory = [
-  'Sweet Lemon Indonesian Tea',
-  'Hot Cappuccino Latte with Mocha',
-  'Arabica Latte Ombe Coffee',
-  'Original Hot Coffee',
-];
+import { PRODUCTS } from '../Productsscreens/Beverages';
+import { PRODUCTS1 } from '../Productsscreens/Drinks';
+import { PRODUCTS2 } from '../Productsscreens/Food';
+import { PRODUCTS3 } from '../Productsscreens/Lunch';
+import { PRODUCTS4 } from '../Productsscreens/Pizza';
 
 const SearchHistoryScreen = () => {
-  const [searchHistory, setSearchHistory] = useState(initialSearchHistory);
+  const [query, setQuery] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filteredProducts1, setFilteredProducts1] = useState([]);
+  const [filteredProducts2, setFilteredProducts2] = useState([]);
+  const [filteredProducts3, setFilteredProducts3] = useState([]);
+  const [filteredProducts4, setFilteredProducts4] = useState([]);
+
   const navigation = useNavigation();
 
-  const handleClearAll = () => {
-    setSearchHistory([]);
+  const handleSearch = (text) => {
+    setQuery(text);
+
+    const filteredProducts = (PRODUCTS || []).filter(product =>
+      product.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredProducts(filteredProducts);
+
+    const filteredProducts1 = (PRODUCTS1 || []).filter(product =>
+      product.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredProducts1(filteredProducts1);
+    
+    const filteredProducts2 = (PRODUCTS2 || []).filter(product =>
+      product.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredProducts2(filteredProducts2);
+    
+    const filteredProducts3 = (PRODUCTS3 || []).filter(product =>
+      product.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredProducts3(filteredProducts3);
+    
+    const filteredProducts4 = (PRODUCTS4 || []).filter(product =>
+      product.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredProducts4(filteredProducts4);
+    
+  
   };
 
-  const handleRemoveItem = (itemToRemove) => {
-    setSearchHistory(prevHistory => prevHistory.filter(item => item !== itemToRemove));
-  };
+  const combinedFilteredProducts = [...filteredProducts, ...filteredProducts1, ...filteredProducts2, ...filteredProducts3, ...filteredProducts4];
 
-  const renderItem = ({ item }) => (
-    <View style={styles.historyItem}>
-      <Icon name="history" size={24} color="#4CAF50" />
-      <Text style={styles.historyText}>{item}</Text>
-      <TouchableOpacity onPress={() => handleRemoveItem(item)}>
-        <Icon name="close" size={24} color="#FF5722" />
-      </TouchableOpacity>
-    </View>
-  );
+  const renderItem = ({ item, index }) => {
+    return (
+      <View style={styles.productItem} key={index}>
+        <Image source={item.image} style={styles.productImage} />
+        <Text style={styles.productText}>{item.name}</Text>
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -40,23 +68,18 @@ const SearchHistoryScreen = () => {
         </TouchableOpacity>
         <TextInput 
           style={styles.searchInput} 
+          value={query}
+          onChangeText={handleSearch}
           placeholder="Search Best Items For You" 
           placeholderTextColor="#888"
         />
       </View>
 
-      <View style={styles.historyHeader}>
-        <Text style={styles.historyTitle}>Search History</Text>
-        <TouchableOpacity onPress={handleClearAll}>
-          <Text style={styles.clearAll}>Clear All</Text>
-        </TouchableOpacity>
-      </View>
-
       <FlatList
-        data={searchHistory}
+        data={combinedFilteredProducts}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.historyList}
+        keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()} 
+        contentContainerStyle={styles.productList}
       />
     </SafeAreaView>
   );
@@ -91,38 +114,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
   },
-  historyHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    backgroundColor: '#ffffff',
-    borderBottomWidth: 1,
-    borderColor: '#ddd',
-  },
-  historyTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  clearAll: {
-    fontSize: 16,
-    color: '#4CAF50',
-  },
-  historyList: {
+  productList: {
     paddingHorizontal: 15,
   },
-  historyItem: {
+  productItem: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderColor: '#ddd',
   },
-  historyText: {
-    flex: 1,
-    marginLeft: 15,
+  productImage: {
+    width: 50,
+    height: 50,
+    marginRight: 15,
+    borderRadius: 25,
+  },
+  productText: {
     fontSize: 16,
     color: '#333',
   },

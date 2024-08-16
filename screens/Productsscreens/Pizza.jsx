@@ -3,7 +3,7 @@ import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
-const PRODUCTS = [
+export const PRODUCTS4 = [
   {
     id: '1',
     name: 'Margherita Pizza',
@@ -80,7 +80,7 @@ const Pizza = ({ navigation }) => {
       />
 
       <FlatList
-        data={PRODUCTS}
+        data={PRODUCTS4}
         renderItem={renderProductItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.productList}
