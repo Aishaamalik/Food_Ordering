@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,7 @@ import { PRODUCTS1 } from '../Productsscreens/Drinks';
 import { PRODUCTS2 } from '../Productsscreens/Food';
 import { PRODUCTS3 } from '../Productsscreens/Lunch';
 import { PRODUCTS4 } from '../Productsscreens/Pizza';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Search = () => {
   const [query, setQuery] = useState('');
@@ -29,7 +30,20 @@ const Search = () => {
   const [clickHistory, setClickHistory] = useState([]); // State to store click history
 
   const navigation = useNavigation();
+  useEffect(() => {
+    const loadHistory = async () => {
+      try {
+        const storedHistory = await AsyncStorage.getItem('clickHistory');
+        if (storedHistory) {
+          setClickHistory(JSON.parse(storedHistory));
+        }
+      } catch (error) {
+        console.error('Failed to load history:', error);
+      }
+    };
 
+    loadHistory();
+  }, []);
   const handleSearch = (text) => {
     setQuery(text);
 
@@ -54,35 +68,32 @@ const Search = () => {
     ));
   };
 
-  const handleItemPress = (item) => {
-    // Update the click history
-    setClickHistory(prevHistory => [item, ...prevHistory]);
+  const handleItemPress = async (item) => {
+    try {
+      const storedHistory = await AsyncStorage.getItem('clickHistory');
+      const history = storedHistory ? JSON.parse(storedHistory) : [];
+
+      const updatedHistory = [item, ...history];
+      setClickHistory(updatedHistory);
+
+      await AsyncStorage.setItem('clickHistory', JSON.stringify(updatedHistory));
+    } catch (error) {
+      console.error('Failed to save history:', error);
+    }
 
     switch (item.category) {
       case 'Beverages':
-        navigation.navigate('Beverages', { product: item });
-        break;
       case 'Brewed Coffee':
-        navigation.navigate('Beverages', { product: item });
-        break;
       case 'Blended Coffee':
         navigation.navigate('Beverages', { product: item });
         break;
       case 'Drinks':
-        navigation.navigate('Drinks', { product: item });
-        break;
       case 'Cold Drinks':
-        navigation.navigate('Drinks', { product: item });
-        break;
       case 'Smoothies':
         navigation.navigate('Drinks', { product: item });
         break;
       case 'Food':
-        navigation.navigate('Food', { product: item });
-        break;
       case 'Vegetarian':
-        navigation.navigate('Food', { product: item });
-        break;
       case 'Non-Vegetarian':
         navigation.navigate('Food', { product: item });
         break;
@@ -97,6 +108,16 @@ const Search = () => {
         break;
     }
   };
+  const removeHistoryItem = async (itemToRemove) => {
+    try {
+      const updatedHistory = clickHistory.filter(item => item !== itemToRemove);
+      setClickHistory(updatedHistory);
+      await AsyncStorage.setItem('clickHistory', JSON.stringify(updatedHistory));
+    } catch (error) {
+      console.error('Failed to remove history item:', error);
+    }
+  };
+  
 
   const renderItem = ({ item, index }) => (
     <TouchableOpacity onPress={() => handleItemPress(item)}>
@@ -111,7 +132,7 @@ const Search = () => {
     <View style={styles.historyItem}>
       <Icon name="history" size={24} color="#4CAF50" />
       <Text style={styles.historyText}>{item.name}</Text>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => removeHistoryItem(item)}>
         <Icon name="close" size={24} color="#000" />
       </TouchableOpacity>
     </View>
