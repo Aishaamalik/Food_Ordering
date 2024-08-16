@@ -21,44 +21,33 @@ const SearchHistoryScreen = () => {
   const handleSearch = (text) => {
     setQuery(text);
 
-    const filteredProducts = (PRODUCTS || []).filter(product =>
+    setFilteredProducts((PRODUCTS || []).filter(product =>
       product.name.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredProducts(filteredProducts);
+    ));
 
-    const filteredProducts1 = (PRODUCTS1 || []).filter(product =>
+    setFilteredProducts1((PRODUCTS1 || []).filter(product =>
       product.name.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredProducts1(filteredProducts1);
+    ));
     
-    const filteredProducts2 = (PRODUCTS2 || []).filter(product =>
+    setFilteredProducts2((PRODUCTS2 || []).filter(product =>
       product.name.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredProducts2(filteredProducts2);
+    ));
     
-    const filteredProducts3 = (PRODUCTS3 || []).filter(product =>
+    setFilteredProducts3((PRODUCTS3 || []).filter(product =>
       product.name.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredProducts3(filteredProducts3);
+    ));
     
-    const filteredProducts4 = (PRODUCTS4 || []).filter(product =>
+    setFilteredProducts4((PRODUCTS4 || []).filter(product =>
       product.name.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredProducts4(filteredProducts4);
-    
-  
+    ));
   };
 
-  const combinedFilteredProducts = [...filteredProducts, ...filteredProducts1, ...filteredProducts2, ...filteredProducts3, ...filteredProducts4];
-
-  const renderItem = ({ item, index }) => {
-    return (
-      <View style={styles.productItem} key={index}>
-        <Image source={item.image} style={styles.productImage} />
-        <Text style={styles.productText}>{item.name}</Text>
-      </View>
-    );
-  };
+  const renderItem = ({ item, index }) => (
+    <View style={styles.productItem} key={index}>
+      <Image source={item.image} style={styles.productImage} />
+      <Text style={styles.productText}>{item.name}</Text>
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -75,12 +64,65 @@ const SearchHistoryScreen = () => {
         />
       </View>
 
-      <FlatList
-        data={combinedFilteredProducts}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()} 
-        contentContainerStyle={styles.productList}
-      />
+      {filteredProducts.length > 0 && (
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoryTitle}>Beverages</Text>
+          <FlatList
+            data={filteredProducts}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()} 
+            contentContainerStyle={styles.productList}
+          />
+        </View>
+      )}
+
+      {filteredProducts1.length > 0 && (
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoryTitle}>Drinks</Text>
+          <FlatList
+            data={filteredProducts1}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()} 
+            contentContainerStyle={styles.productList}
+          />
+        </View>
+      )}
+
+      {filteredProducts2.length > 0 && (
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoryTitle}>Food</Text>
+          <FlatList
+            data={filteredProducts2}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()} 
+            contentContainerStyle={styles.productList}
+          />
+        </View>
+      )}
+
+      {filteredProducts3.length > 0 && (
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoryTitle}>Lunch</Text>
+          <FlatList
+            data={filteredProducts3}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()} 
+            contentContainerStyle={styles.productList}
+          />
+        </View>
+      )}
+
+      {filteredProducts4.length > 0 && (
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoryTitle}>Pizza</Text>
+          <FlatList
+            data={filteredProducts4}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()} 
+            contentContainerStyle={styles.productList}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -114,6 +156,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
   },
+  categoryContainer: {
+    marginBottom: 20,
+  },
+  categoryTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    color: '#333',
+  },
   productList: {
     paddingHorizontal: 15,
   },
@@ -123,6 +175,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderColor: '#ddd',
+    backgroundColor: '#ffffff',
   },
   productImage: {
     width: 50,
