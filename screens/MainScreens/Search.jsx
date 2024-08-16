@@ -21,15 +21,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Search = () => {
   const [query, setQuery] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [filteredProducts1, setFilteredProducts1] = useState([]);
-  const [filteredProducts2, setFilteredProducts2] = useState([]);
-  const [filteredProducts3, setFilteredProducts3] = useState([]);
-  const [filteredProducts4, setFilteredProducts4] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState(PRODUCTS);
+  const [filteredProducts1, setFilteredProducts1] = useState(PRODUCTS1);
+  const [filteredProducts2, setFilteredProducts2] = useState(PRODUCTS2);
+  const [filteredProducts3, setFilteredProducts3] = useState(PRODUCTS3);
+  const [filteredProducts4, setFilteredProducts4] = useState(PRODUCTS4);
   const [modalVisible, setModalVisible] = useState(false);
-  const [clickHistory, setClickHistory] = useState([]); // State to store click history
+  const [clickHistory, setClickHistory] = useState([]);
 
   const navigation = useNavigation();
+
   useEffect(() => {
     const loadHistory = async () => {
       try {
@@ -44,6 +45,7 @@ const Search = () => {
 
     loadHistory();
   }, []);
+
   const handleSearch = (text) => {
     setQuery(text);
 
@@ -108,6 +110,7 @@ const Search = () => {
         break;
     }
   };
+
   const removeHistoryItem = async (itemToRemove) => {
     try {
       const updatedHistory = clickHistory.filter(item => item !== itemToRemove);
@@ -117,7 +120,6 @@ const Search = () => {
       console.error('Failed to remove history item:', error);
     }
   };
-  
 
   const renderItem = ({ item, index }) => (
     <TouchableOpacity onPress={() => handleItemPress(item)}>
@@ -155,66 +157,13 @@ const Search = () => {
           <Icon name="history" size={24} color="#4CAF50" />
         </TouchableOpacity>
       </View>
+      <FlatList
+        data={[...filteredProducts, ...filteredProducts1, ...filteredProducts2, ...filteredProducts3, ...filteredProducts4]}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => `${item.id ? item.id : index}-${item.category}`}
+        contentContainerStyle={styles.productList}
+      />
 
-      {filteredProducts.length > 0 && (
-        <View style={styles.categoryContainer}>
-          <Text style={styles.categoryTitle}>Beverages</Text>
-          <FlatList
-            data={filteredProducts}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()}
-            contentContainerStyle={styles.productList}
-          />
-        </View>
-      )}
-
-      {filteredProducts1.length > 0 && (
-        <View style={styles.categoryContainer}>
-          <Text style={styles.categoryTitle}>Drinks</Text>
-          <FlatList
-            data={filteredProducts1}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()}
-            contentContainerStyle={styles.productList}
-          />
-        </View>
-      )}
-
-      {filteredProducts2.length > 0 && (
-        <View style={styles.categoryContainer}>
-          <Text style={styles.categoryTitle}>Food</Text>
-          <FlatList
-            data={filteredProducts2}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()}
-            contentContainerStyle={styles.productList}
-          />
-        </View>
-      )}
-
-      {filteredProducts3.length > 0 && (
-        <View style={styles.categoryContainer}>
-          <Text style={styles.categoryTitle}>Lunch</Text>
-          <FlatList
-            data={filteredProducts3}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()}
-            contentContainerStyle={styles.productList}
-          />
-        </View>
-      )}
-
-      {filteredProducts4.length > 0 && (
-        <View style={styles.categoryContainer}>
-          <Text style={styles.categoryTitle}>Pizza</Text>
-          <FlatList
-            data={filteredProducts4}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()}
-            contentContainerStyle={styles.productList}
-          />
-        </View>
-      )}
 
       <Modal
         transparent={true}
@@ -240,6 +189,7 @@ const Search = () => {
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
