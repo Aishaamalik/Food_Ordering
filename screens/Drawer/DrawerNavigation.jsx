@@ -7,13 +7,14 @@ import { View, Text, StyleSheet } from 'react-native';
 // Import other screens
 import MainHome from './1MainHome';
 import MyOrderScreen from './2MyOrderScreen';
-import TransactionScreen from './3TransactionScreen';
 import PagesScreen from './4PagesScreen';
 import ComponentScreen from './5ComponentScreen';
 import ProductScreen from './6ProductScreen';
 import ChatListScreen from './7ChatListScreen';
 import LogoutScreen from './9LogoutScreen';
 import Profile from '../Bottom Tab/ProfileScreen.jsx';
+import Payment from '../Payment Screens/Payment.jsx'
+
 
 // Define Colors object
 const Colors = {
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.header,
     textAlign: 'center',
-    marginVertical: 10,  // Adjust vertical margin as needed
+    marginVertical: 10,  
   },
   mainmenucomtainer: {
     textAlign: 'left',
@@ -120,7 +121,7 @@ function DrawerNavigation() {
       />
       <Drawer.Screen
         name="Transactions"
-        component={TransactionScreen}
+        component={Payment}
         options={{
           drawerIcon: ({ focused }) => (
             <Icon name="credit-card" size={24} color={focused ? Colors.active : Colors.inactive} />

@@ -245,6 +245,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginHorizontal: 16,
+    color: 'black',
   },
   note: {
     fontSize: 14,
