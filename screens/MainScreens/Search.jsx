@@ -25,8 +25,8 @@ const Search = () => {
   const [filteredProducts2, setFilteredProducts2] = useState([]);
   const [filteredProducts3, setFilteredProducts3] = useState([]);
   const [filteredProducts4, setFilteredProducts4] = useState([]);
-
   const [modalVisible, setModalVisible] = useState(false);
+  const [clickHistory, setClickHistory] = useState([]); // State to store click history
 
   const navigation = useNavigation();
 
@@ -55,6 +55,9 @@ const Search = () => {
   };
 
   const handleItemPress = (item) => {
+    // Update the click history
+    setClickHistory(prevHistory => [item, ...prevHistory]);
+
     switch (item.category) {
       case 'Beverages':
         navigation.navigate('Beverages', { product: item });
@@ -104,17 +107,10 @@ const Search = () => {
     </TouchableOpacity>
   );
 
-  const searchHistory = [
-    'Sweet Lemon Indonesian Tea',
-    'Hot Cappuccino Latte with Mocha',
-    'Arabica Latte Ombe Coffee',
-    'Original Hot Coffee',
-  ];
-
   const renderHistoryItem = ({ item }) => (
     <View style={styles.historyItem}>
       <Icon name="history" size={24} color="#4CAF50" />
-      <Text style={styles.historyText}>{item}</Text>
+      <Text style={styles.historyText}>{item.name}</Text>
       <TouchableOpacity>
         <Icon name="close" size={24} color="#000" />
       </TouchableOpacity>
@@ -213,7 +209,7 @@ const Search = () => {
             </TouchableOpacity>
           </View>
           <FlatList
-            data={searchHistory}
+            data={clickHistory}
             renderItem={renderHistoryItem}
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={styles.historyList}
@@ -236,6 +232,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: '#ddd',
+    color: 'black',
   },
   searchInput: {
     flex: 1,
@@ -248,25 +245,22 @@ const styles = StyleSheet.create({
   },
   categoryContainer: {
     padding: 15,
-    color: 'black',
-
   },
   categoryTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
     color: 'black',
-
   },
   productList: {
     paddingBottom: 15,
+    color: 'black',
   },
   productItem: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
     color: 'black',
-
   },
   productImage: {
     width: 50,
@@ -277,21 +271,20 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     color: 'black',
-
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)', 
-    marginTop: 'auto',
-    padding: 20,
+    backgroundColor: '#fff',
+    marginTop: 100,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   modalHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-    color: 'black',
-
+    padding: 15,
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
   },
   modalTitle: {
     fontSize: 18,
@@ -299,29 +292,18 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   historyList: {
-    paddingBottom: 15,
+    padding: 15,
   },
   historyItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 10,
-    backgroundColor: '#fff',
-    borderRadius: 10,
     marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    color: 'black',
-
   },
   historyText: {
+    marginLeft: 10,
     fontSize: 16,
     flex: 1,
-    marginLeft: 10,
     color: 'black',
-
   },
 });
 
