@@ -31,6 +31,7 @@ import FQA from './other/FQA'
 import Review from './other/Review'
 import Rewards from './other/Rewards'
 import Error from './other/Error'
+import CustomStarRating from './other/CustomStarRating'
 
 //stack
 const Stack = createNativeStackNavigator();
@@ -177,6 +178,11 @@ const AppNavigation = () => {
         <Stack.Screen
         name='Error'
         component={Error}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Rating'
+        component={CustomStarRating}
         options={{headerShown: false}}
         />
         
