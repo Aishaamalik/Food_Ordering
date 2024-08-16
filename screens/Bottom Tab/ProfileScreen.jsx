@@ -19,7 +19,7 @@ const mostOrderedItems = [
   },
   {
     id: '4',
-    name: 'OweweCoffee Latte',
+    name: 'Owewe Coffee Latte',
     category: 'Beverages',
     image: require('../Assets/productspics/cofee.jpeg'),
   },
@@ -120,21 +120,17 @@ const Profile = () => {
         keyExtractor={item => item.id}
         horizontal
         renderItem={({ item }) => (
-          <View style={styles.textContainer}>
-            <Image
-              source={item.image || require('../Assets/Profile/profile.jpg')}
-              style={styles.itemImage}
-            />
-            <Text style={styles.itemName}>{item.name}</Text>
-            <View style={styles.textContainer1}>
+          <View style={styles.itemContainer}>
+            <Image source={item.image} style={styles.itemImage} />
+            <View style={styles.textContainer}>
+              <Text style={styles.itemName}>{item.name}</Text>
               <Text style={styles.itemCategory}>{item.category}</Text>
             </View>
           </View>
-  )
-}
-contentContainerStyle = { styles.listContent }
-  />
-    </SafeAreaView >
+        )}
+        contentContainerStyle={styles.listContent}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -231,7 +227,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     marginRight: 10,
-    alignItems: 'flex-start',
+    alignItems: 'center',
     width: 250,
   },
   itemImage: {
@@ -242,20 +238,14 @@ const styles = StyleSheet.create({
   textContainer: {
     marginLeft: 10,
     flex: 1,
-    justifyContent: 'space-between',
-  },
-  textContainer1: {
-    marginLeft: 10,
-    flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   itemName: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
   },
   itemCategory: {
-    marginTop: 15,
     fontSize: 15,
     color: 'white',
   },
