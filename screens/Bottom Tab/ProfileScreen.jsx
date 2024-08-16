@@ -69,7 +69,7 @@ const Profile = () => {
         <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Cart')}>
           <Icon name="arrow-back" size={24} color="#2E8B57" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Rewards</Text>
+        <Text style={styles.headerTitle}>Profile</Text>
         <TouchableOpacity 
           style={styles.iconButton}
           onPress={() => navigation.navigate('Edit', { ...profileData, updateProfile: setProfileData })}

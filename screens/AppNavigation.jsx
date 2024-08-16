@@ -21,6 +21,16 @@ import Pizza from './Productsscreens/Pizza'
 import Edit from './Bottom Tab/Edit'
 import Notifications from './MainScreens/Notifications'
 import Search from './MainScreens/Search'
+import SignUp from './Loginscreen/SignUp'
+import SignIn from './Loginscreen/SignIn'
+import Onboarding from './Loginscreen/Onboarding'
+import ForgetPassword from './Loginscreen/ForgetPassword'
+import CodeOPT from './Loginscreen/CodeOPT'
+import Chat from './Drawer/Other Screens/Chat'
+import FQA from './other/FQA'
+import Review from './other/Review'
+import Rewards from './other/Rewards'
+import Error from './other/Error'
 
 //stack
 const Stack = createNativeStackNavigator();
@@ -119,6 +129,57 @@ const AppNavigation = () => {
         component={Search}
         options={{headerShown: false}}
         />
+        <Stack.Screen
+        name='SignUp'
+        component={SignUp}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='SignIn'
+        component={SignIn}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Onboarding'
+        component={Onboarding}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Forget Password'
+        component={ForgetPassword}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='CodeOPT'
+        component={CodeOPT}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Chat'
+        component={Chat}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='FQA'
+        component={FQA}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Review'
+        component={Review}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Rewards'
+        component={Rewards}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Error'
+        component={Error}
+        options={{headerShown: false}}
+        />
+        
 
       </Stack.Navigator>
 
