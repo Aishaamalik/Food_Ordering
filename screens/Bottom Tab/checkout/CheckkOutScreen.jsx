@@ -68,6 +68,7 @@ const CheckoutScreen = ({ route, navigation }) => {
           <TextInput
             style={styles.notesInput}
             placeholder="Write Here"
+            placeholderTextColor={'gray'}
             multiline
             numberOfLines={4}
             value={notes}
@@ -89,8 +90,8 @@ const CheckoutScreen = ({ route, navigation }) => {
               </View>
             </View>
           ))}
-          <Text style={styles.orderItem}>Discount <Text style={styles.orderItemQty}>-${discount.toFixed(2)}</Text></Text>
-          <Text style={styles.orderItem}>Shipping <Text style={styles.orderItemQty}>FREE Delivery</Text></Text>
+          <Text style={styles.orderItem}>Discount:  <Text style={styles.orderItemQty}>-${discount.toFixed(2)}</Text></Text>
+          <Text style={styles.orderItem}>Shipping:  <Text style={styles.orderItemQty}>FREE Delivery</Text></Text>
         </View>
 
         <View style={styles.totalContainer}>
@@ -173,6 +174,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     textAlignVertical: 'top',
+    color:'black',
   },
   orderSummary: {
     backgroundColor: '#fff',
@@ -184,6 +186,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
+    color: 'black',
   },
   orderImage: {
     width: 60,
