@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, FlatList, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Search from '../MainScreens/Search';
+import { useNavigation } from '@react-navigation/native';
+
 
 const LikedScreen = ({ route }) => {
   const [likedItems, setLikedItems] = useState([]);
   const [removingItem, setRemovingItem] = useState(null);
+  const navigation = useNavigation(); 
 
   useEffect(() => {
     const loadItems = async () => {
@@ -58,8 +62,11 @@ const LikedScreen = ({ route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Wishlist</Text>
+        <Text style={styles.headerTitle} >Wishlist</Text>
+        <TouchableOpacity onPress={() => navigation.navigate(Search)}>
         <Icon name="search" size={24} color="#000" />
+        </TouchableOpacity>
+
       </View>
 
       <View style={styles.summary}>

@@ -55,9 +55,11 @@ export const PRODUCTS2 = [
   },
 ];
 
-const Food = ({ navigation }) => {
+const Food = () => {
   const [activeTab, setActiveTab] = useState('Vegetarian');
   const [searchQuery, setSearchQuery] = useState('');
+  const navigation = useNavigation(); 
+
 
   const filteredProducts = PRODUCTS2.filter((product) => {
     return (

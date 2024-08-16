@@ -38,9 +38,11 @@ export const PRODUCTS1 = [
   },
 ];
 
-const Drinks = ({ navigation }) => {
+const Drinks = () => {
   const [activeTab, setActiveTab] = useState('Cold Drinks');
   const [searchQuery, setSearchQuery] = useState('');
+  const navigation = useNavigation();
+
 
   const filteredProducts = PRODUCTS1.filter((product) => {
     return (
@@ -85,9 +87,12 @@ const Drinks = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backIcon}>
+        <TouchableOpacity 
+          style={styles.backIcon} 
+          onPress={() => navigation.goBack()} 
+        >
+          </TouchableOpacity>
           <Icon name="arrow-left" size={24} color="#000000" />
-        </TouchableOpacity>
         <Text style={styles.headerTitle}>Drinks</Text>
       </View>
 
@@ -134,6 +139,7 @@ const styles = StyleSheet.create({
   backIcon: {
     position: 'absolute',
     left: 0,
+    padding: 5,
   },
   headerTitle: {
     fontSize: 20,
