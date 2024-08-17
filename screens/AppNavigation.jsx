@@ -32,6 +32,7 @@ import Review from './other/Review'
 import Rewards from './other/Rewards'
 import Error from './other/Error'
 import CustomStarRating from './other/CustomStarRating'
+import Splash2 from './Loginscreen/Splash2'
 
 //stack
 const Stack = createNativeStackNavigator();
@@ -183,6 +184,11 @@ const AppNavigation = () => {
         <Stack.Screen
         name='Rating'
         component={CustomStarRating}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Splash2'
+        component={Splash2}
         options={{headerShown: false}}
         />
         

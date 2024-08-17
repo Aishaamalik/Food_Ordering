@@ -11,9 +11,9 @@ import PagesScreen from './4PagesScreen';
 import ComponentScreen from './5ComponentScreen';
 import ProductScreen from './6ProductScreen';
 import ChatListScreen from './7ChatListScreen';
-import LogoutScreen from './9LogoutScreen';
 import Profile from '../Bottom Tab/ProfileScreen.jsx';
 import Payment from '../Payment Screens/Payment.jsx'
+import Splash2 from '../Loginscreen/Splash2.jsx';
 
 
 // Define Colors object
@@ -175,7 +175,7 @@ function DrawerNavigation() {
       />
       <Drawer.Screen
         name="Logout"
-        component={LogoutScreen}
+        component={Splash2}
         options={{
           drawerIcon: ({ focused }) => (
             <Icon name="log-out" size={24} color={focused ? Colors.active : Colors.inactive} />
