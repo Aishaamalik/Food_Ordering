@@ -1,21 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignIn = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [storedUserDetails, setStoredUserDetails] = useState(null);
   const navigation = useNavigation();
 
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const userDetails = await AsyncStorage.getItem('userDetails');
+        if (userDetails) {
+          setStoredUserDetails(JSON.parse(userDetails));
+        }
+      } catch (error) {
+        console.error('Error fetching user details', error);
+      }
+    };
 
-  const handleLogin = () => {
-    if (username === 'Ash' && password === '111') {
-      navigation.navigate('APP'); 
+    fetchUserDetails();
+  }, []);
+
+  const handleLogin = async () => {
+    if (storedUserDetails) {
+      if (username === storedUserDetails.username && password === storedUserDetails.password) {
+        try {
+          await AsyncStorage.setItem('signedInUser', JSON.stringify({ fullName: username }));
+          navigation.navigate('H');
+        } catch (error) {
+          console.error('Error saving user data', error);
+        }
+      } else {
+        Alert.alert('Login Failed', 'Incorrect username or password');
+      }
     } else {
-      Alert.alert('Login Failed', 'Incorrect username or password');
+      Alert.alert('Login Failed', 'No user details found');
     }
   };
 
@@ -62,13 +86,14 @@ const SignIn = () => {
       </View>
       <View style={styles.createAccountContainer}>
         <Text style={styles.noAccountText}>Don't have an account?</Text>
-        <TouchableOpacity style={styles.createAccountButton}>
+        <TouchableOpacity style={styles.createAccountButton} onPress={() => navigation.navigate('SignUp')}>
           <Text style={styles.createAccountButtonText}>CREATE AN ACCOUNT</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -90,15 +115,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginLeft: 10,
-    color:'black',
+    color: 'black',
   },
   signInText: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
-    color:'black',
-
+    color: 'black',
   },
   descriptionText: {
     textAlign: 'center',
@@ -117,8 +141,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#CCCCCC',
     paddingVertical: 5,
     paddingHorizontal: 10,
-    color:'black',
-
+    color: 'black',
   },
   passwordContainer: {
     flexDirection: 'row',

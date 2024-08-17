@@ -206,7 +206,7 @@ const AppNavigation = () => {
         options={{headerShown: false}}
         />
         <Stack.Screen
-        name='APP'
+        name='H'
         component={SplashScreen}
         options={{headerShown: false}}
         />

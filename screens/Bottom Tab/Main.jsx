@@ -12,21 +12,21 @@ const { width: screenWidth } = Dimensions.get('window');
 
 const Main = () => {
   const [profileData, setProfileData] = useState({ 
-    fullName: 'Ash Yellow',
+    fullName: '',
   });
 
   const navigation = useNavigation();
 
   const loadProfileData = async () => {
     try {
-      const storedProfile = await AsyncStorage.getItem('profileData');
+      const storedProfile = await AsyncStorage.getItem('signedInUser');
       if (storedProfile) {
         setProfileData(JSON.parse(storedProfile));
       }
     } catch (error) {
       console.error('Failed to load profile data', error);
     }
-  };
+  }
 
   useEffect(() => {
     loadProfileData();
