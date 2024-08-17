@@ -11,11 +11,9 @@ const SignUp = ({ navigation }) => {
 
   const handleSignUp = async () => {
     try {
-      // Save user details to AsyncStorage
       await AsyncStorage.setItem('userDetails', JSON.stringify({ username, email, password }));
 
-      // Navigate to SignIn screen
-      navigation.navigate('SignIn');
+      navigation.navigate('Onboarding1');
     } catch (error) {
       console.error('Error saving data', error);
     }
@@ -122,8 +120,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   inputLabel: {
-    color: '#888888',
     marginBottom: 5,
+    color: 'black',
+
   },
   input: {
     borderBottomWidth: 1,

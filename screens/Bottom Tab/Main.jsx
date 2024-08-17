@@ -21,12 +21,20 @@ const Main = () => {
     try {
       const storedProfile = await AsyncStorage.getItem('signedInUser');
       if (storedProfile) {
-        setProfileData(JSON.parse(storedProfile));
+        const profile = JSON.parse(storedProfile);
+        if (!profile.fullName) {
+          profile.fullName = 'Ash Yellow';
+        }
+        setProfileData(profile);
+      } else {
+        setProfileData({ fullName: 'Ash Yellow' });
       }
     } catch (error) {
       console.error('Failed to load profile data', error);
+      setProfileData({ fullName: 'Ash Yellow' }); 
     }
-  }
+  };
+  
 
   useEffect(() => {
     loadProfileData();
