@@ -33,6 +33,10 @@ import Rewards from './other/Rewards'
 import Error from './other/Error'
 import CustomStarRating from './other/CustomStarRating'
 import Splash2 from './Loginscreen/Splash2'
+import Onboarding1 from './Loginscreen/Onboarding1'
+import Main from './Bottom Tab/Main'
+import App from '../App'
+import MainHome from './Drawer/1MainHome'
 
 //stack
 const Stack = createNativeStackNavigator();
@@ -189,6 +193,21 @@ const AppNavigation = () => {
         <Stack.Screen
         name='Splash2'
         component={Splash2}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Onboarding1'
+        component={Onboarding1}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Main Home'
+        component={Main}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='APP'
+        component={SplashScreen}
         options={{headerShown: false}}
         />
         

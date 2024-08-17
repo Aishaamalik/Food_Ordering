@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Feather'; // Import Feathers icon library
+import Icon from 'react-native-vector-icons/Feather'; 
 
 // Screens
 import CartScreen from './CartScreen';
@@ -10,7 +10,6 @@ import Main from './Main';
 import ProfileScreen from './ProfileScreen';
 import DrawerSceneWrapper from '../Drawer/Drawer Navigation/DrawerSceneWrapper';
 
-// Bottom Tab Navigator
 const Bottom = createBottomTabNavigator();
 
 const ButtomNavigator = ({children}) => {

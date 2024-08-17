@@ -23,7 +23,7 @@ const Splash2 = ({ navigation }) => {
 
     Animated.stagger(200, animations).start(() => {
       setTimeout(() => {
-        navigation.replace('Onboarding');
+        navigation.replace('Onboarding1');
       }, 1500);
     });
   }, []);
