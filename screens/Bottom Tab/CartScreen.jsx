@@ -127,9 +127,9 @@ const CartScreen = ({ route, navigation }) => {
       <ScrollView>
         <View style={styles.productContainer}>
           {cartItems.map((item, index) => (
-            <View key={index} style={styles.productCard}>
+            <View key={index} style={[styles.productCard , { backgroundColor : isDay ? 'white' : 'black'}]}>
               <Image source={item.product.image} style={styles.productImage} />
-              <View style={styles.productDetails}>
+              <View style={[styles.productDetails ,{ backgroundColor: isDay ? 'white' : 'black'}]}>
                 <Text style={[styles.productTitle, { color: isDay ? 'black' : 'white' }]}>{item.product.name}</Text>
                 <Text style={[styles.productSize, { color: isDay ? '#888888' : '#e0e0e0' }]}>Size: {item.size}</Text>
                 <View style={styles.quantityContainer}>
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   productContainer: {
-    padding: 16,
+    padding: 15,
   },
   productCard: {
     flexDirection: 'row',
@@ -268,13 +268,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   placeOrderButton: {
-    padding: 16,
+    padding: 15,
     backgroundColor: '#4CAF50',
     alignItems: 'center',
+    borderRadius: 20,
+    margin: 16,
   },
   placeOrderText: {
     color: 'white',
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
   },
 });
