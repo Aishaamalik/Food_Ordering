@@ -38,6 +38,8 @@ import Main from './Bottom Tab/Main'
 import App from '../App'
 import MainHome from './Drawer/1MainHome'
 import CustomSwitch from './Drawer/CustomSwitch'
+import themeReducer from './Themes/ThemeReducer'
+import store from './Themes/Store'
 
 //stack
 const Stack = createNativeStackNavigator();

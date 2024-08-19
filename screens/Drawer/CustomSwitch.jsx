@@ -1,40 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleTheme } from '../Themes/ThemeAction';
 
 const CustomSwitch = () => {
-  const [isDay, setIsDay] = useState(true);
-  const translateX = new Animated.Value(isDay ? 0 : 60); 
+  const isDay = useSelector(state => state.theme.isDay);
+  const dispatch = useDispatch();
+  const translateX = new Animated.Value(isDay ? 0 : 60);
+
   useEffect(() => {
     Animated.timing(translateX, {
-      toValue: isDay ? 0 : 60, 
-      duration: 4000,
+      toValue: isDay ? 0 : 60,
+      duration: 400,
       useNativeDriver: true,
     }).start();
   }, [isDay]);
 
-  const toggleSwitch = () => {
-    setIsDay(!isDay);
+  const handleToggleSwitch = () => {
+    dispatch(toggleTheme());
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={toggleSwitch} style={styles.iconWrapper}>
+    <View style={[styles.container, { backgroundColor: isDay ? 'white' : 'black' }]}>
+      <TouchableOpacity onPress={handleToggleSwitch} style={styles.iconWrapper}>
         <View style={styles.iconBackgroundWrapper}>
           <Animated.View
             style={[
               styles.iconBackground,
               {
-                transform: [{ translateX }]
-              }
+                transform: [{ translateX }],
+                backgroundColor: isDay ? 'green' : 'green',
+              },
             ]}
           />
-          <Icon name="day-sunny" size={30} color={isDay ? 'white' : 'gray'} />
+          <Icon name="day-sunny" size={30} color={isDay ? 'black' : 'gray'} />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={toggleSwitch} style={styles.iconWrapper}>
+      <TouchableOpacity onPress={handleToggleSwitch} style={styles.iconWrapper}>
         <View style={styles.iconBackgroundWrapper}>
-          <Icon name="night-clear" size={30} color={!isDay ? 'white' : 'gray'} />
+          <Icon name="night-clear" size={30} color={!isDay ? 'black' : 'gray'} />
         </View>
       </TouchableOpacity>
     </View>
@@ -56,7 +61,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.9,
     shadowRadius: 6,
     elevation: 12,
-    backgroundColor: 'white',
     borderRadius: 50,
     width: 140,
     height: 60,
@@ -80,7 +84,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'green',
     zIndex: -1,
   },
 });
