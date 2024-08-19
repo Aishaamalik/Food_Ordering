@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView, Image, TouchableOpacity, FlatList
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
 
 const mostOrderedItems = [
   {
@@ -27,6 +28,7 @@ const mostOrderedItems = [
 
 const Profile = () => {
   const navigation = useNavigation();
+  const isDay = useSelector(state => state.theme.isDay); 
 
   const [profileData, setProfileData] = useState({
     fullName: 'Ash Yellow',
@@ -64,67 +66,67 @@ const Profile = () => {
   }, [profileData]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#ffffff' : '#333333' }]}>
+      <View style={[styles.header, { backgroundColor: isDay ? '#ffffff' : '#444444' }]}>
         <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Cart')}>
-          <Icon name="arrow-back" size={24} color="#2E8B57" />
+          <Icon name="arrow-back" size={24} color={isDay ? '#2E8B57' : '#a2d9a2'} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Profile</Text>
+        <Text style={[styles.headerTitle, { color: isDay ? '#000000' : '#ffffff' }]}>Profile</Text>
         <TouchableOpacity
           style={styles.iconButton}
           onPress={() => navigation.navigate('Edit', { ...profileData, updateProfile: setProfileData })}
         >
-          <Icon name="edit" size={24} color="#2E8B57" />
+          <Icon name="edit" size={24} color={isDay ? '#2E8B57' : '#a2d9a2'} />
         </TouchableOpacity>
       </View>
 
       <View style={styles.profileSection}>
         <Image source={profileData.profileImage || require('../Assets/Profile/profile.jpg')} style={styles.profileImage} />
-        <Text style={styles.profileName}>{profileData.fullName}</Text>
-        <Text style={styles.profileLocation}>{profileData.location}</Text>
+        <Text style={[styles.profileName, { color: isDay ? '#000000' : '#ffffff' }]}>{profileData.fullName}</Text>
+        <Text style={[styles.profileLocation, { color: isDay ? '#888888' : '#aaaaaa' }]}>{profileData.location}</Text>
       </View>
 
       <View style={styles.contactSection}>
         <View style={styles.contactItem}>
-          <View style={styles.contactIcon}>
-            <Icon name="phone" size={24} color="#2E8B57" />
+          <View style={[styles.contactIcon, { backgroundColor: isDay ? '#ffffff' : '#555555' }]}>
+            <Icon name="phone" size={24} color={isDay ? '#2E8B57' : '#a2d9a2'} />
           </View>
           <View style={styles.contactText}>
-            <Text style={styles.contactLabel}>Mobile Phone</Text>
-            <Text style={styles.contactValue}>{profileData.mobileNumber}</Text>
+            <Text style={[styles.contactLabel, { color: isDay ? '#888888' : '#aaaaaa' }]}>Mobile Phone</Text>
+            <Text style={[styles.contactValue, { color: isDay ? '#000000' : '#ffffff' }]}>{profileData.mobileNumber}</Text>
           </View>
         </View>
         <View style={styles.contactItem}>
-          <View style={styles.contactIcon}>
-            <Icon name="email" size={24} color="#2E8B57" />
+          <View style={[styles.contactIcon, { backgroundColor: isDay ? '#ffffff' : '#555555' }]}>
+            <Icon name="email" size={24} color={isDay ? '#2E8B57' : '#a2d9a2'} />
           </View>
           <View style={styles.contactText}>
-            <Text style={styles.contactLabel}>Email Address</Text>
-            <Text style={styles.contactValue}>{profileData.email}</Text>
+            <Text style={[styles.contactLabel, { color: isDay ? '#888888' : '#aaaaaa' }]}>Email Address</Text>
+            <Text style={[styles.contactValue, { color: isDay ? '#000000' : '#ffffff' }]}>{profileData.email}</Text>
           </View>
         </View>
         <View style={styles.contactItem}>
-          <View style={styles.contactIcon}>
-            <Icon name="location-on" size={24} color="#2E8B57" />
+          <View style={[styles.contactIcon, { backgroundColor: isDay ? '#ffffff' : '#555555' }]}>
+            <Icon name="location-on" size={24} color={isDay ? '#2E8B57' : '#a2d9a2'} />
           </View>
           <View style={styles.contactText}>
-            <Text style={styles.contactLabel}>Address</Text>
-            <Text style={styles.contactValue}>{profileData.location}</Text>
+            <Text style={[styles.contactLabel, { color: isDay ? '#888888' : '#aaaaaa' }]}>Address</Text>
+            <Text style={[styles.contactValue, { color: isDay ? '#000000' : '#ffffff' }]}>{profileData.location}</Text>
           </View>
         </View>
       </View>
 
-      <Text style={styles.sectionTitle}>Most Ordered</Text>
+      <Text style={[styles.sectionTitle, { color: isDay ? '#000000' : '#ffffff' }]}>Most Ordered</Text>
       <FlatList
         data={mostOrderedItems}
         keyExtractor={item => item.id}
         horizontal
         renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
+          <View style={[styles.itemContainer, { backgroundColor: isDay ? '#2E8B57' : '#444444' }]}>
             <Image source={item.image} style={styles.itemImage} />
             <View style={styles.textContainer}>
-              <Text style={styles.itemName}>{item.name}</Text>
-              <Text style={styles.itemCategory}>{item.category}</Text>
+              <Text style={[styles.itemName, { color: '#ffffff' }]}>{item.name}</Text>
+              <Text style={[styles.itemCategory, { color: '#ffffff' }]}>{item.category}</Text>
             </View>
           </View>
         )}
@@ -137,14 +139,12 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 15,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: '#ddd',
   },
@@ -156,7 +156,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#000',
   },
   profileSection: {
     alignItems: 'center',
@@ -171,11 +170,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginVertical: 10,
-    color: '#000',
   },
   profileLocation: {
     fontSize: 14,
-    color: '#888',
   },
   contactSection: {
     padding: 20,
@@ -186,9 +183,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   contactIcon: {
-    backgroundColor: 'white',
     borderRadius: 30,
-    borderColor: 'black',
     padding: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -203,19 +198,16 @@ const styles = StyleSheet.create({
   },
   contactLabel: {
     fontSize: 14,
-    color: '#888',
   },
   contactValue: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000',
   },
   sectionTitle: {
     fontSize: 25,
     fontWeight: 'bold',
     paddingHorizontal: 20,
     marginVertical: 10,
-    color: '#000',
   },
   listContent: {
     paddingHorizontal: 10,
@@ -223,7 +215,6 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flexDirection: 'row',
-    backgroundColor: '#2E8B57',
     borderRadius: 20,
     padding: 10,
     marginRight: 10,
@@ -243,11 +234,9 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'white',
   },
   itemCategory: {
     fontSize: 15,
-    color: 'white',
   },
 });
 
