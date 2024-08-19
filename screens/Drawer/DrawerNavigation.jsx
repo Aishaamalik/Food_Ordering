@@ -53,6 +53,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 10,  
   },
+  drawerText2: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: Colors.header,
+    marginLeft: 20,
+    marginVertical: 10,  
+  },
+  drawerText3: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'gray',
+    marginLeft: 20,
+  },
   mainmenucomtainer: {
     textAlign: 'left',
   },
@@ -74,6 +87,14 @@ const CustomDrawerContent = (props) => {
       <Text style={styles.drawerText}>Main Menu</Text>
       </View>
       <DrawerItemList {...props} />
+      <View>
+      <Text style={styles.drawerText}>Theme</Text>
+      </View>
+      <View>
+      <Text style={styles.drawerText2}>Ombe Coffe Shop</Text>
+      <Text style={styles.drawerText3}> App Version 1.1</Text>
+      </View>
+
     </DrawerContentScrollView>
   );
 };
