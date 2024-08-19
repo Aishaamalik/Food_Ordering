@@ -3,6 +3,7 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '
 import Icon from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import { View, Text, StyleSheet } from 'react-native';
+import CustomSwitch from '../Drawer/CustomSwitch.jsx';
 
 // Import other screens
 import MainHome from './1MainHome';
@@ -12,9 +13,8 @@ import ComponentScreen from './5ComponentScreen';
 import ProductScreen from './6ProductScreen';
 import ChatListScreen from './7ChatListScreen';
 import Profile from '../Bottom Tab/ProfileScreen.jsx';
-import Payment from '../Payment Screens/Payment.jsx'
+import Payment from '../Payment Screens/Payment.jsx';
 import Splash2 from '../Loginscreen/Splash2.jsx';
-
 
 // Define Colors object
 const Colors = {
@@ -25,6 +25,7 @@ const Colors = {
   background: 'white',
   header: 'black',
 };
+
 const styles = StyleSheet.create({
   drawerContent: {
     flex: 1,
@@ -57,20 +58,26 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: Colors.header,
-    marginLeft: 20,
     marginVertical: 10,  
   },
   drawerText3: {
     fontSize: 15,
     fontWeight: 'bold',
     color: 'gray',
-    marginLeft: 20,
   },
   mainmenucomtainer: {
     textAlign: 'left',
   },
+  themeView: {
+    flex: 1,
+    width: 100,  
+    height: 62, 
+  },
+  viewbuttom: {
+    flex: 1,
+    padding:37,
+  },
 });
-
 
 const Drawer = createDrawerNavigator();
 
@@ -84,21 +91,19 @@ const CustomDrawerContent = (props) => {
         </View>
       </View>
       <View>
-      <Text style={styles.drawerText}>Main Menu</Text>
+        <Text style={styles.drawerText}>Main Menu</Text>
       </View>
       <DrawerItemList {...props} />
-      <View>
-      <Text style={styles.drawerText}>Theme</Text>
+      <View style={styles.themeView}>
+        <CustomSwitch /> 
       </View>
-      <View>
-      <Text style={styles.drawerText2}>Ombe Coffe Shop</Text>
-      <Text style={styles.drawerText3}> App Version 1.1</Text>
+      <View style={styles.viewbuttom}>
+        <Text style={styles.drawerText2}>Ombe Coffee Shop</Text>
+        <Text style={styles.drawerText3}>App Version 1.1</Text>
       </View>
-
     </DrawerContentScrollView>
   );
 };
-
 
 function DrawerNavigation() {
   return (

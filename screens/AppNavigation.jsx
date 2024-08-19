@@ -37,6 +37,7 @@ import Onboarding1 from './Loginscreen/Onboarding1'
 import Main from './Bottom Tab/Main'
 import App from '../App'
 import MainHome from './Drawer/1MainHome'
+import CustomSwitch from './Drawer/CustomSwitch'
 
 //stack
 const Stack = createNativeStackNavigator();
@@ -208,6 +209,11 @@ const AppNavigation = () => {
         <Stack.Screen
         name='H'
         component={SplashScreen}
+        options={{headerShown: false}}
+        />
+        <Stack.Screen
+        name='Custom Switch'
+        component={CustomSwitch}
         options={{headerShown: false}}
         />
         
