@@ -4,12 +4,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Search from '../MainScreens/Search';
 import { useNavigation } from '@react-navigation/native';
-
+import { useSelector } from 'react-redux'; 
 
 const LikedScreen = ({ route }) => {
   const [likedItems, setLikedItems] = useState([]);
   const [removingItem, setRemovingItem] = useState(null);
   const navigation = useNavigation(); 
+  const isDay = useSelector(state => state.theme.isDay);
 
   useEffect(() => {
     const loadItems = async () => {
@@ -60,36 +61,35 @@ const LikedScreen = ({ route }) => {
   const totalPrice = likedItems.reduce((sum, item) => sum + item.price, 0);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle} >Wishlist</Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#f8f8f8' : '#333' }]}>
+      <View style={[styles.header, { backgroundColor: isDay ? '#fff' : '#444' }]}>
+        <Text style={[styles.headerTitle, { color: isDay ? 'black' : 'white' }]}>Wishlist</Text>
         <TouchableOpacity onPress={() => navigation.navigate(Search)}>
-        <Icon name="search" size={24} color="#000" />
+          <Icon name="search" size={24} color={isDay ? '#000' : '#fff'} />
         </TouchableOpacity>
-
       </View>
 
-      <View style={styles.summary}>
-        <Text style={styles.summaryText}>{totalItems} Items</Text>
-        <Text style={styles.summaryText}>•</Text>
-        <Text style={styles.summaryText}>Total: ${totalPrice.toFixed(2)}</Text>
+      <View style={[styles.summary, { backgroundColor: isDay ? '#fff' : '#444' }]}>
+        <Text style={[styles.summaryText, { color: isDay ? '#000' : '#fff' }]}>{totalItems} Items</Text>
+        <Text style={[styles.summaryText, { color: isDay ? '#000' : '#fff' }]}>•</Text>
+        <Text style={[styles.summaryText, { color: isDay ? '#000' : '#fff' }]}>Total: ${totalPrice.toFixed(2)}</Text>
       </View>
 
       <FlatList
         data={likedItems}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
+          <View style={[styles.itemContainer, { backgroundColor: isDay ? '#fff' : '#444' }]}>
             <Image source={item.image} style={styles.itemImage} />
             <View style={styles.itemDetails}>
-              <Text style={styles.itemName}>{item.name}</Text>
-              <Text style={styles.itemPrice}>${item.price.toFixed(2)}</Text>
+              <Text style={[styles.itemName, { color: isDay ? 'black' : 'white' }]}>{item.name}</Text>
+              <Text style={[styles.itemPrice, { color: isDay ? 'black' : 'white' }]}>${item.price.toFixed(2)}</Text>
             </View>
             <TouchableOpacity onPress={() => handleRemoveItem(item)}>
               <Icon
                 name="favorite"
                 size={24}
-                color={removingItem === item.id ? 'green' : 'red'}
+                color={removingItem === item.id ? 'green' : (isDay ? 'red' : 'lightcoral')}
               />
             </TouchableOpacity>
           </View>
@@ -103,34 +103,29 @@ const LikedScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 15,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: 'white',
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color:'black',
   },
   summary: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: 'white',
   },
   summaryText: {
     fontSize: 14,
-    color: '#000',
     marginHorizontal: 5,
   },
   listContent: {
@@ -139,7 +134,6 @@ const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
     padding: 10,
     marginBottom: 10,
     borderRadius: 10,
@@ -157,23 +151,14 @@ const styles = StyleSheet.create({
   itemDetails: {
     flex: 1,
     marginLeft: 10,
-    color: 'black',
   },
   itemName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'black',
-  },
-  itemVariant: {
-    fontSize: 12,
-    color: '#888',
-    marginVertical: 5,
-    color: 'black',
   },
   itemPrice: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'black',
   },
 });
 
