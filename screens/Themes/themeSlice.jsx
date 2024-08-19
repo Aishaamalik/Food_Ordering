@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const themeSlice = createSlice({
   name: 'theme',
   initialState: {
-    isDay: true, // Default to light theme
+    isDay: true, 
   },
   reducers: {
     toggleTheme(state) {

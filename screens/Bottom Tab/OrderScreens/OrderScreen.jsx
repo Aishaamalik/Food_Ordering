@@ -1,9 +1,9 @@
-// OrderScreen.jsx
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux'; 
 
 const { width, height } = Dimensions.get('window');
 const sizeOptions = ['Small', 'Medium', 'Large', 'Extra Large'];
@@ -12,6 +12,7 @@ const OrderScreen = ({ route }) => {
   const navigation = useNavigation();
   const { product, quantity, size, currentPrice } = route.params;
 
+  const isDay = useSelector(state => state.theme.isDay);
   const [imageHeight, setImageHeight] = useState(height / 2);
   const [sizeLabel, setSizeLabel] = useState(size);
   const [quantityValue, setQuantityValue] = useState(quantity);
@@ -57,24 +58,24 @@ const OrderScreen = ({ route }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.contentContainer}>
-      <View style={styles.container}>
-        <View style={styles.upperContainer}>
+    <ScrollView contentContainerStyle={[styles.contentContainer, { backgroundColor: isDay ? '#F5F5F5' : '#333' }]}>
+      <View style={[styles.container, { backgroundColor: isDay ? '#F5F5F5' : '#222' }]}>
+        <View style={[styles.upperContainer, { backgroundColor: isDay ? 'green' : '#444' }]}>
           <TouchableOpacity style={styles.iconLeft} onPress={() => navigation.goBack()}>
-            <Icon name="arrow-left" size={24} color="#FFF" />
+            <Icon name="arrow-left" size={24} color={isDay ? '#FFF' : '#AAA'} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconRight} onPress={handleBookmarkPress}>
-            <Icon name="bookmark" size={24} color="#FFF" />
+            <Icon name="bookmark" size={24} color={isDay ? '#FFF' : '#AAA'} />
           </TouchableOpacity>
           <Image source={product.image} style={[styles.image, { height: imageHeight }]} />
         </View>
-        <View style={styles.lowerContainer}>
+        <View style={[styles.lowerContainer, { backgroundColor: isDay ? '#FFF' : '#444' }]}>
           <View style={styles.ratingContainer}>
-            <Text style={styles.ratingText}>{product.rating}</Text>
+            <Text style={[styles.ratingText, { color: isDay ? '#FFF' : '#AAA' }]}>{product.rating}</Text>
           </View>
           <View style={styles.content}>
-            <Text style={styles.title}>{product.name}</Text>
-            <Text style={styles.description}>
+            <Text style={[styles.title, { color: isDay ? 'black' : 'white' }]}>{product.name}</Text>
+            <Text style={[styles.description, { color: isDay ? 'gray' : '#CCC' }]}>
               “Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore”
             </Text>
             <Slider
@@ -84,36 +85,36 @@ const OrderScreen = ({ route }) => {
               step={0.4}
               value={sliderValue}
               onValueChange={handleSliderValueChange}
-              minimumTrackTintColor="#3b5998"
-              maximumTrackTintColor="#ccc"
+              minimumTrackTintColor={isDay ? '#3b5998' : '#1e90ff'}
+              maximumTrackTintColor={isDay ? '#ccc' : '#555'}
             />
             <View style={styles.sizeLabelsContainer}>
               {sizeOptions.map((option, index) => (
-                <Text key={index} style={[styles.sizeLabel, sizeLabel === option && styles.selectedSizeLabel]}>
+                <Text key={index} style={[styles.sizeLabel, sizeLabel === option && styles.selectedSizeLabel, { color: isDay ? 'black' : 'white' }]}>
                   {option}
                 </Text>
               ))}
             </View>
             <View style={styles.priceQuantityContainer}>
               <View style={styles.priceContainer}>
-                <Text style={styles.currentPrice}>${updatedPrice.toFixed(2)}</Text>
-                <Text style={styles.originalPrice}>${product.price}</Text>
+                <Text style={[styles.currentPrice, { color: isDay ? 'green' : '#0f0' }]}>${updatedPrice.toFixed(2)}</Text>
+                <Text style={[styles.originalPrice, { color: isDay ? 'gray' : '#999' }]}>${product.price}</Text>
               </View>
               <View style={styles.quantityContainer}>
                 <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
-                  <Icon name="minus" size={16} color="gray" />
+                  <Icon name="minus" size={16} color={isDay ? 'gray' : '#AAA'} />
                 </TouchableOpacity>
-                <Text style={styles.quantityText}>{quantityValue}</Text>
+                <Text style={[styles.quantityText, { color: isDay ? 'black' : 'black' }]}>{quantityValue}</Text>
                 <TouchableOpacity onPress={increaseQuantity} style={styles.quantityButton}>
-                  <Icon name="plus" size={16} color="gray" />
+                  <Icon name="plus" size={16} color={isDay ? 'gray' : '#AAA'} />
                 </TouchableOpacity>
               </View>
             </View>
-            <Text style={styles.note}>
+            <Text style={[styles.note, { color: isDay ? 'gray' : '#BBB' }]}>
               *)Dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
             </Text>
-            <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>
-              <Text style={styles.placeOrderText}>PLACE ORDER ${(updatedPrice * quantityValue).toFixed(2)}</Text>
+            <TouchableOpacity style={[styles.placeOrderButton, { backgroundColor: isDay ? 'green' : '#333' }]} onPress={handlePlaceOrder}>
+              <Text style={[styles.placeOrderText, { color: isDay ? 'white' : '#FFF' }]}>PLACE ORDER ${(updatedPrice * quantityValue).toFixed(2)}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -122,15 +123,12 @@ const OrderScreen = ({ route }) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
   },
   upperContainer: {
     flex: 0.3,
-    backgroundColor: 'green',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
@@ -149,7 +147,6 @@ const styles = StyleSheet.create({
   },
   lowerContainer: {
     flex: 0.7,
-    backgroundColor: 'white',
     paddingTop: 10,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -168,7 +165,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ratingText: {
-    color: '#FFF',
     fontWeight: 'bold',
     padding: 2,
   },
@@ -182,11 +178,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 8,
-    color: 'black',
   },
   description: {
     fontSize: 16,
-    color: 'gray',
     marginBottom: 16,
   },
   slider: {
@@ -202,7 +196,6 @@ const styles = StyleSheet.create({
   sizeLabel: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'gray',
     width: (width - 32) / sizeOptions.length,
     textAlign: 'center',
   },
@@ -222,11 +215,9 @@ const styles = StyleSheet.create({
   currentPrice: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'green',
   },
   originalPrice: {
     fontSize: 16,
-    color: 'gray',
     textDecorationLine: 'line-through',
     marginLeft: 8,
   },
@@ -245,21 +236,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginHorizontal: 16,
-    color: 'black',
   },
   note: {
     fontSize: 14,
-    color: 'gray',
     marginVertical: 16,
   },
   placeOrderButton: {
-    backgroundColor: 'green',
     paddingVertical: 16,
     borderRadius: 25,
     alignItems: 'center',
   },
   placeOrderText: {
-    color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
   },
