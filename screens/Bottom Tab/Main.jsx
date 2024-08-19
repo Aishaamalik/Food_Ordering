@@ -118,13 +118,13 @@ const Main = () => {
               placeholderTextColor={isDay ? 'gray' : 'lightgray'}
             />
           </View>
-          <View style={[styles.Container1, { backgroundColor: isDay ? 'white' : '#333' }]}>
+          <View style={[styles.Container1, { backgroundColor: isDay ? 'white' : '#333', borderColor: isDay ? 'white' : 'black' }]}>
             <CustomImageCaroselSquare data={data} />
           </View>
           <View style={styles.categoriesContainer}>
             <Text style={[styles.categoriesTitle, { color: isDay ? 'black' : 'white' }]}>Categories</Text>
           </View>
-          <View style={[styles.Container2, { backgroundColor: isDay ? 'white' : 'black' }]}>
+          <View style={[styles.Container2, { backgroundColor: isDay ? 'white' : 'black' , borderColor: isDay ? 'white' : 'black'}]}>
             <SecondStack data={data2} navigation={navigation} />
           </View>
           <View style={styles.featuredContainer}>
@@ -203,6 +203,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignSelf: 'center',
     marginBottom: 16,
+    borderColor: 'white',
   },
   categoriesContainer: {
     paddingHorizontal: 16,
@@ -222,6 +223,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignSelf: 'center',
     marginBottom: 16,
+    borderColor: 'white',
   },
   featuredContainer: {
     marginBottom: 16,
