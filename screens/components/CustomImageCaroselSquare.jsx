@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { StyleSheet, ScrollView, Text, Animated, Image, View, Dimensions } from 'react-native';
+import { useSelector } from 'react-redux'; 
 import StackSwiperWapper from '../Bottom Tab/WapperScreens/StackSwiperWapper';
 
 const { width: screenWidth } = Dimensions.get('window');
 
 const CustomImageCaroselSquare = ({ data = [] }) => {
+  const isDay = useSelector(state => state.theme.isDay); 
   const FIXED_SIZE = screenWidth * 0.6; 
   const scrollViewRef = useRef(null);
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -102,6 +104,8 @@ const CustomImageCaroselSquare = ({ data = [] }) => {
                   width: FIXED_SIZE,
                   height: FIXED_SIZE,
                   transform: [{ scale }],
+                  backgroundColor: isDay ? 'white' : 'gray',
+                  shadowColor: isDay ? '#2E8B57' : '#2E8B57',  
                 },
               ]}
             >
@@ -114,6 +118,7 @@ const CustomImageCaroselSquare = ({ data = [] }) => {
                 style={[
                   styles.overlay,
                   { height: overlayHeight, opacity: overlayOpacity },
+                  { backgroundColor: isDay ? '#2E8B57' : '#2E8B57' },
                 ]}
               />
               <View style={styles.itemContent}>
@@ -147,9 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 150,
-    backgroundColor: 'white', 
     elevation: 10, 
-    shadowColor: '#2E8B57',
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.9, 
     shadowRadius: 20, 
@@ -185,7 +188,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#2E8B57',
     zIndex: 1,
   },
 });

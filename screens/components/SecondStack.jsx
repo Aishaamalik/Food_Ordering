@@ -3,11 +3,13 @@ import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Dimensions } from
 import Icon from 'react-native-vector-icons/Feather'; 
 import SecondStackSwiperWapper from '../Bottom Tab/WapperScreens/SecondStackSwiperWapper';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux'; // Import useSelector
 
 const { width: screenWidth } = Dimensions.get('window');
 
 const SecondStack = ({ data = [] }) => {
   const navigation = useNavigation();
+  const isDay = useSelector(state => state.theme.isDay); // Get isDay from Redux store
   const BOX_WIDTH = screenWidth * 0.45;
   const BOX_HEIGHT = BOX_WIDTH * 0.4;
   const itemWidth = BOX_WIDTH + 40;
@@ -43,7 +45,7 @@ const SecondStack = ({ data = [] }) => {
   };
 
   return (
-    <SecondStackSwiperWapper style={styles.wrapper}>
+    <SecondStackSwiperWapper style={[styles.wrapper, { backgroundColor: isDay ? 'white' : '#333' }]}>
       <ScrollView
         ref={scrollViewRef}
         horizontal
@@ -64,16 +66,21 @@ const SecondStack = ({ data = [] }) => {
               {
                 width: BOX_WIDTH,
                 height: BOX_HEIGHT,
+                borderColor: isDay ? '#d3d3d3' : 'white', 
+                backgroundColor: isDay ? 'white' : 'green',
+                shadowColor: isDay ? 'black' : 'white',
+
+                
               },
             ]}
             onPress={() => handleItemClick(item.label1)}
           >
-            <View style={[styles.halfBox, styles.greenHalf]}>
-              <Icon name={item.icon} size={30} color="white" style={styles.icon} />
+            <View style={[styles.halfBox, styles.greenHalf, { backgroundColor: isDay ? 'white' : 'black' }]}>
+              <Icon name={item.icon} size={30} color={isDay ? 'green' : 'lightgreen'} style={styles.icon} />
             </View>
-            <View style={[styles.halfBox, styles.yellowHalf]}>
-              <Text style={styles.label1}>{item.label1}</Text>
-              <Text style={styles.label2}>{item.label2}</Text>
+            <View style={[styles.halfBox, styles.yellowHalf, { backgroundColor: isDay ? 'white' : 'black' }]}>
+              <Text style={[styles.label1, { color: isDay ? 'black' : 'white' }]}>{item.label1}</Text>
+              <Text style={[styles.label2, { color: isDay ? 'green' : 'lightgreen' }]}>{item.label2}</Text>
             </View>
           </TouchableOpacity>
         ))}
@@ -99,12 +106,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: '#d3d3d3', 
-    shadowColor: '#000', 
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 4, 
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.8,
+    shadowRadius: 8,
+    elevation: 8, 
   },
   halfBox: {
     flex: 1,
@@ -113,15 +118,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   greenHalf: {
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'white',
     flex: 0.3,
   },
   yellowHalf: {
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'white',
     flex: 0.7,
   },
   icon: {
@@ -129,11 +128,9 @@ const styles = StyleSheet.create({
   },
   label1: {
     fontSize: 16,
-    color: 'black',
   },
   label2: {
     fontSize: 16,
-    color: 'green',
   },
 });
 

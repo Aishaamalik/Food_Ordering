@@ -118,7 +118,7 @@ const Main = () => {
               placeholderTextColor={isDay ? 'gray' : 'lightgray'}
             />
           </View>
-          <View style={[styles.Container1, { backgroundColor: isDay ? 'white' : '#333', borderColor: isDay ? 'white' : 'black' }]}>
+          <View style={[styles.Container1, { backgroundColor: isDay ? 'white' : 'black', borderColor: isDay ? 'white' : 'black' }]}>
             <CustomImageCaroselSquare data={data} />
           </View>
           <View style={styles.categoriesContainer}>
