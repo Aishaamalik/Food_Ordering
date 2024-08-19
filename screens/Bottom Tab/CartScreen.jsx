@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux'; // Import useSelector from react-redux
 import { SafeAreaView, View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,6 +9,8 @@ const CartScreen = ({ route, navigation }) => {
   const [cartItems, setCartItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
   const [deliveryAddress, setDeliveryAddress] = useState('');
+
+  const isDay = useSelector(state => state.theme.isDay); // Access isDay from Redux store
 
   const loadCartItems = async () => {
     try {
@@ -101,25 +104,25 @@ const CartScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? 'white' : '#333' }]}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>My Cart</Text>
+        <Text style={[styles.headerTitle, { color: isDay ? 'black' : 'white' }]}>My Cart</Text>
         <TouchableOpacity style={styles.changeLocation} onPress={handleChange}>
-          <Icon name="location-on" size={20} color="#4CAF50" />
-          <Text style={styles.changeLocationText}>Change</Text>
+          <Icon name="location-on" size={20} color={isDay ? '#4CAF50' : '#8BC34A'} />
+          <Text style={[styles.changeLocationText, { color: isDay ? 'green' : '#9CCC65' }]}>Change</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.itemCountContainer}>
-        <Text style={styles.itemText}>Item(s): {cartItems.length}</Text>
-        <Text style={styles.deliverTo}>Delivered to: {deliveryAddress}</Text>
+        <Text style={[styles.itemText, { color: isDay ? 'black' : 'white' }]}>Item(s): {cartItems.length}</Text>
+        <Text style={[styles.deliverTo, { color: isDay ? 'black' : 'white' }]}>Delivered to: {deliveryAddress}</Text>
       </View>
-      <View style={styles.subtotal}>
-        <Text style={{ color: 'black' }}>Subtotal</Text>
-        <Text style={styles.price}>${subtotal.toFixed(2)}</Text>
+      <View style={[styles.subtotal, { backgroundColor: isDay ? 'white' : '#424242' }]}>
+        <Text style={{ color: isDay ? 'black' : 'white' }}>Subtotal</Text>
+        <Text style={[styles.price, { color: isDay ? 'black' : 'white' }]}>${subtotal.toFixed(2)}</Text>
       </View>
-      <View style={styles.deliveryEligible}>
-        <Icon name="check-circle" size={20} color="#4CAF50" />
-        <Text style={styles.deliveryEligibleText}>Your order is eligible for delivery</Text>
+      <View style={[styles.deliveryEligible, { backgroundColor: isDay ? '#e8f5e9' : '#616161' }]}>
+        <Icon name="check-circle" size={20} color={isDay ? '#4CAF50' : '#8BC34A'} />
+        <Text style={[styles.deliveryEligibleText, { color: isDay ? 'green' : '#9CCC65' }]}>Your order is eligible for delivery</Text>
       </View>
       <ScrollView>
         <View style={styles.productContainer}>
@@ -127,8 +130,8 @@ const CartScreen = ({ route, navigation }) => {
             <View key={index} style={styles.productCard}>
               <Image source={item.product.image} style={styles.productImage} />
               <View style={styles.productDetails}>
-                <Text style={styles.productTitle}>{item.product.name}</Text>
-                <Text style={styles.productSize}>Size: {item.size}</Text>
+                <Text style={[styles.productTitle, { color: isDay ? 'black' : 'white' }]}>{item.product.name}</Text>
+                <Text style={[styles.productSize, { color: isDay ? '#888888' : '#e0e0e0' }]}>Size: {item.size}</Text>
                 <View style={styles.quantityContainer}>
                   <TouchableOpacity onPress={() => decreaseQuantity(index)} style={styles.quantityButton}>
                     <Icon name="remove" size={26} color="white" />
@@ -138,11 +141,11 @@ const CartScreen = ({ route, navigation }) => {
                     <Icon name="add" size={26} color="white" />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => removeItem(index)} style={styles.removeButton}>
-                    <Icon name="delete" size={20} color="green" />
-                    <Text style={styles.removeText}>Remove</Text>
+                    <Icon name="delete" size={20} color={isDay ? 'green' : '#9CCC65'} />
+                    <Text style={[styles.removeText, { color: isDay ? 'green' : '#9CCC65' }]}>Remove</Text>
                   </TouchableOpacity>
                 </View>
-                <Text style={styles.productPrice}>Price: ${item.currentPrice.toFixed(2)}</Text>
+                <Text style={[styles.productPrice, { color: isDay ? 'black' : 'white' }]}>Price: ${item.currentPrice.toFixed(2)}</Text>
               </View>
             </View>
           ))}
@@ -158,17 +161,14 @@ const CartScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
   },
   header: {
     padding: 16,
-    backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   headerTitle: {
-    color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -177,25 +177,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   changeLocationText: {
-    color: 'green',
     fontSize: 16,
     marginLeft: 8,
   },
   itemCountContainer: {
     padding: 16,
-    backgroundColor: 'white',
   },
   itemText: {
     fontSize: 16,
-    color: 'black',
   },
   deliverTo: {
     fontSize: 14,
-    color: 'black',
   },
   subtotal: {
     padding: 10,
-    backgroundColor: 'white',
     borderBottomWidth: 1,
     borderBottomColor: '#eeeeee',
     flexDirection: 'row',
@@ -204,18 +199,15 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'black',
   },
   deliveryEligible: {
     padding: 16,
-    backgroundColor: '#e8f5e9',
     flexDirection: 'row',
     alignItems: 'center',
   },
   deliveryEligibleText: {
     marginLeft: 8,
     fontSize: 16,
-    color: 'green',
   },
   productContainer: {
     padding: 16,
@@ -228,67 +220,57 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
-    elevation: 2,
     marginBottom: 16,
-    padding: 16,
   },
   productImage: {
-    width: 80,
-    height: 80,
+    width: 100,
+    height: 100,
     borderRadius: 8,
-    marginRight: 16,
   },
   productDetails: {
     flex: 1,
+    padding: 10,
   },
   productTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'black',
   },
   productSize: {
     fontSize: 14,
-    color: '#888888',
+    marginVertical: 5,
   },
   quantityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 8,
+    marginVertical: 5,
   },
   quantityButton: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 4,
-    padding: 4,
-    marginHorizontal: 8,
+    padding: 10,
+    backgroundColor: '#333',
+    borderRadius: 5,
   },
   quantityText: {
+    marginHorizontal: 10,
     fontSize: 16,
-    fontWeight: 'bold',
-    width: 40,
-    textAlign: 'center',
-    color: 'green',
   },
   removeButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: 5,
   },
   removeText: {
-    color: 'green',
+    marginLeft: 5,
     fontSize: 14,
-    marginLeft: 4,
   },
   productPrice: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'black',
-    marginTop: 8,
+    marginTop: 10,
   },
   placeOrderButton: {
-    backgroundColor: '#4CAF50',
     padding: 16,
+    backgroundColor: '#4CAF50',
     alignItems: 'center',
-    justifyContent: 'center',
   },
   placeOrderText: {
     color: 'white',
