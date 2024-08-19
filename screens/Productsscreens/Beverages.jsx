@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux'; 
+
 export const PRODUCTS = [
   {
     id: '1',
@@ -65,7 +67,9 @@ export const PRODUCTS = [
 const Beverages = () => {
   const [activeTab, setActiveTab] = useState('Beverages');
   const [searchQuery, setSearchQuery] = useState('');
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
+
+  const theme = useSelector(state => state.theme);
 
   const filteredProducts = PRODUCTS.filter((product) => {
     return (
@@ -88,22 +92,22 @@ const Beverages = () => {
         <Image source={item.image} style={styles.productImage} />
         <View style={styles.ratingContainer}>
           <Icon name="star" size={12} color="white" />
-          <Text style={styles.ratingText}>{item.rating}</Text>
+          <Text style={[styles.ratingText, { color: theme.isDay ? 'white' : 'white' }]}>{item.rating}</Text>
         </View>
       </View>
       <View style={styles.productInfo}>
-        <Text style={styles.productName}>{item.name}</Text>
-        <Text style={styles.productCategory}>{item.category}</Text>
-        <Text style={styles.productPrice}>${item.price}</Text>
+        <Text style={[styles.productName, { color: theme.isDay ? 'black' : 'white' }]}>{item.name}</Text>
+        <Text style={[styles.productCategory, { color: theme.isDay ? 'black' : 'white' }]}>{item.category}</Text>
+        <Text style={[styles.productPrice, { color: theme.isDay ? 'black' : 'white' }]}>${item.price}</Text>
       </View>
       <View style={styles.actionContainer}>
         <TouchableOpacity 
           style={styles.buyButton} 
           onPress={() => handleBuy(item)}
         >
-          <View style={styles.buttonContent}>
+          <View style={[styles.buttonContent , { color: theme.isDay ? 'black' : 'white' }]}>
             <Icon name="shopping-cart" size={16} color="#4CAF50" style={styles.cartIcon} />
-            <Text style={styles.buyButtonText}>Buy</Text>
+            <Text style={[styles.buyButtonText, { color: theme.isDay ? 'green' : 'black' }]}>Buy</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -111,7 +115,7 @@ const Beverages = () => {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.isDay ? '#FFFFFF' : 'black' }]}>
       <FlatList
         data={filteredProducts}
         renderItem={renderProductItem}
@@ -122,13 +126,10 @@ const Beverages = () => {
   );
 };
 
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',
@@ -139,8 +140,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#000000',
-    alignSelf: 'center',
   },
   searchInput: {
     height: 40,
@@ -157,15 +156,12 @@ const styles = StyleSheet.create({
   activeTab: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#4CAF50',
     borderBottomWidth: 2,
-    borderBottomColor: '#4CAF50',
     paddingBottom: 8,
     marginRight: 20,
   },
   inactiveTab: {
     fontSize: 16,
-    color: '#AAAAAA',
     paddingBottom: 8,
     marginRight: 20,
   },
@@ -193,15 +189,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#FF6347',
-    marginBottom: -20,
     borderRadius: 8,
     paddingVertical: 4,
     paddingHorizontal: 8,
   },
   ratingText: {
     fontSize: 12,
-    color: 'white',
     marginLeft: 4,
+    color: 'white',
   },
   productInfo: {
     flex: 1,
@@ -210,16 +205,13 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000000',
   },
   productCategory: {
     fontSize: 14,
-    color: '#000000',
   },
   productPrice: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000000',
     marginTop: 5,
   },
   actionContainer: {
@@ -237,13 +229,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  bugIcon: {
-    marginRight: 8,
-  },
   buyButtonText: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#4CAF50',
   },
 });
 

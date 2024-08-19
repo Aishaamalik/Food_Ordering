@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import Icon1 from 'react-native-vector-icons/Entypo';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelector } from 'react-redux'; // Import useSelector from react-redux
+import { useSelector } from 'react-redux'; 
 import CustomImageCaroselSquare from '../components/CustomImageCaroselSquare';
 import SecondStack from '../components/SecondStack';
 import Beverages from '../Productsscreens/Beverages';
@@ -13,7 +13,7 @@ const { width: screenWidth } = Dimensions.get('window');
 
 const Main = () => {
   const [profileData, setProfileData] = useState({ fullName: '' });
-  const isDay = useSelector(state => state.theme.isDay); // Get theme state from Redux
+  const isDay = useSelector(state => state.theme.isDay); 
   const navigation = useNavigation();
 
   const loadProfileData = async () => {
@@ -124,7 +124,7 @@ const Main = () => {
           <View style={styles.categoriesContainer}>
             <Text style={[styles.categoriesTitle, { color: isDay ? 'black' : 'white' }]}>Categories</Text>
           </View>
-          <View style={[styles.Container2, { backgroundColor: isDay ? 'white' : '#333' }]}>
+          <View style={[styles.Container2, { backgroundColor: isDay ? 'white' : 'black' }]}>
             <SecondStack data={data2} navigation={navigation} />
           </View>
           <View style={styles.featuredContainer}>

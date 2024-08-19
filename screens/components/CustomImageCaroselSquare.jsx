@@ -8,7 +8,7 @@ const CustomImageCaroselSquare = ({ data = [] }) => {
   const FIXED_SIZE = screenWidth * 0.6; 
   const scrollViewRef = useRef(null);
   const scrollX = useRef(new Animated.Value(0)).current;
-  const scrollInterval = 3000; // Increased the interval for slower animation
+  const scrollInterval = 3000; 
   const itemWidth = FIXED_SIZE + 20; 
   const itemCount = data.length;
 
@@ -67,7 +67,7 @@ const CustomImageCaroselSquare = ({ data = [] }) => {
 
           const scale = scrollX.interpolate({
             inputRange,
-            outputRange: [0.9, 1.0, 0.9], // Slightly slower scaling
+            outputRange: [0.9, 1.0, 0.9], 
             extrapolate: 'clamp',
           });
 
