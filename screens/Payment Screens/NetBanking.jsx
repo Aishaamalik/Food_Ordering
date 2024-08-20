@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 const allBanks = [
   'Habib Bank Limited',
@@ -21,30 +22,31 @@ const allBanks = [
 const BankListScreen = () => {
   const [search, setSearch] = useState('');
   const navigation = useNavigation();
+  const isDay = useSelector(state => state.theme.isDay);
 
   const filteredBanks = allBanks.filter(bank => bank.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.searchContainer}>
-        <Icon name="search" size={24} color="#000" />
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#f8f8f8' : '#333' }]}>
+      <View style={[styles.searchContainer, { backgroundColor: isDay ? '#fff' : '#444' }]}>
+        <Icon name="search" size={24} color={isDay ? '#000' : '#fff'} />
         <TextInput
-          style={styles.searchInput}
+          style={[styles.searchInput, { color: isDay ? '#000' : '#fff', placeholderTextColor: isDay ? '#000' : '#bbb' }]}
           placeholder="Search by bank name"
-          placeholderTextColor="#000"
+          placeholderTextColor={isDay ? '#000' : '#bbb'}
           value={search}
           onChangeText={setSearch}
         />
       </View>
 
-      <Text style={styles.sectionTitle}>All Banks</Text>
+      <Text style={[styles.sectionTitle, { color: isDay ? '#000' : '#fff' }]}>All Banks</Text>
       <FlatList
         data={filteredBanks}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <View style={styles.bankListItem}>
-            <Text style={styles.bankListText}>{item}</Text>
-            <Icon name="chevron-right" size={20} color="#000" />
+          <View style={[styles.bankListItem, { borderBottomColor: isDay ? '#ddd' : '#555' }]}>
+            <Text style={[styles.bankListText, { color: isDay ? '#000' : '#fff' }]}>{item}</Text>
+            <Icon name="chevron-right" size={20} color={isDay ? '#000' : '#fff'} />
           </View>
         )}
         contentContainerStyle={styles.section}
@@ -60,21 +62,17 @@ const BankListScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderColor: '#ddd',
   },
   searchInput: {
     flex: 1,
     marginLeft: 10,
     fontSize: 16,
-    color: '#000',
   },
   section: {
     padding: 15,
@@ -82,7 +80,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
     marginBottom: 10,
   },
   bankListItem: {
@@ -91,11 +88,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderColor: '#ddd',
   },
   bankListText: {
     fontSize: 16,
-    color: '#000',
   },
   returnButton: {
     backgroundColor: '#4CAF50',
