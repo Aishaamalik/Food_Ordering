@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { useSelector } from 'react-redux';
 
 const EditProfileScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { fullName, mobileNumber, email, location, profileImage, updateProfile } = route.params;
+
+  const isDay = useSelector(state => state.theme.isDay);
 
   const [name, setName] = useState(fullName);
   const [number, setNumber] = useState(mobileNumber);
@@ -47,12 +50,12 @@ const EditProfileScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#fff' : '#333' }]}>
+      <View style={[styles.header, { backgroundColor: isDay ? '#f8f8f8' : '#555' }]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={24} color="#000" />
+          <Icon name="arrow-back" size={24} color={isDay ? '#000' : '#fff'} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Edit Profile</Text>
+        <Text style={[styles.headerTitle, { color: isDay ? '#333' : '#fff' }]}>Edit Profile</Text>
         <View style={{ width: 24 }} />
       </View>
 
@@ -64,32 +67,32 @@ const EditProfileScreen = () => {
       </View>
 
       <View style={styles.inputSection}>
-        <Text style={styles.label}>Full Name</Text>
+        <Text style={[styles.label, { color: isDay ? '#555' : '#ccc' }]}>Full Name</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: isDay ? '#E8F0FE' : '#444' , color : isDay ? 'black' : 'white' }]}
           value={name}
           onChangeText={setName}
         />
 
-        <Text style={styles.label}>Mobile Number</Text>
+        <Text style={[styles.label, { color: isDay ? '#555' : '#ccc'  }]}>Mobile Number</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: isDay ? '#E8F0FE' : '#444' ,  color : isDay ? 'black' : 'white' }]}
           value={number}
           onChangeText={setNumber}
           keyboardType="phone-pad"
         />
 
-        <Text style={styles.label}>Email</Text>
+        <Text style={[styles.label, { color: isDay ? '#555' : '#ccc' }]}>Email</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: isDay ? '#E8F0FE' : '#444' ,  color : isDay ? 'black' : 'white'}]}
           value={userEmail}
           onChangeText={setUserEmail}
           keyboardType="email-address"
         />
 
-        <Text style={styles.label}>Location</Text>
+        <Text style={[styles.label, { color: isDay ? '#555' : '#ccc' }]}>Location</Text>
         <TextInput
-          style={[styles.input, { height: 60 }]}
+          style={[styles.input, { backgroundColor: isDay ? '#E8F0FE' : '#444', height: 60 ,  color : isDay ? 'black' : 'white'}]}
           value={userLocation}
           onChangeText={setUserLocation}
           multiline
@@ -106,21 +109,18 @@ const EditProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 15,
-    backgroundColor: '#f8f8f8',
     borderBottomWidth: 1,
     borderColor: '#ddd',
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
   },
   profileSection: {
     alignItems: 'center',
@@ -137,9 +137,9 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     backgroundColor: '#4CAF50',
-    borderRadius: 20, 
+    borderRadius: 20,
     padding: 6,
-    marginRight:115,
+    marginRight: 115,
     marginTop: 70,
   },
   inputSection: {
@@ -148,17 +148,14 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: '#555',
     marginBottom: 5,
   },
   input: {
-    backgroundColor: '#E8F0FE',
     borderRadius: 5,
     paddingHorizontal: 15,
     paddingVertical: 10,
     marginBottom: 15,
     fontSize: 16,
-    color: '#333',
   },
   updateButton: {
     backgroundColor: '#4CAF50',
