@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 const pages = [
   { name: 'Onboarding', icon: 'slideshow' },
@@ -34,8 +35,9 @@ const pages = [
   { name: 'Error - 404', icon: 'error' },
 ];
 
-const PagesScreen = ({ navigation }) => {
+const PagesScreen = () => {
   const isDay = useSelector(state => state.theme.isDay);
+  const navigation = useNavigation();
 
   const handlePress = (pageName) => {
     const routes = {
@@ -89,7 +91,7 @@ const PagesScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#F5F5F5' : '#222' }]}>
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={24} color={isDay ? '#000' : '#ddd'} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: isDay ? 'black' : '#ddd' }]}>Pages</Text>
