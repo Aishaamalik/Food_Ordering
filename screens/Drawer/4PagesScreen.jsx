@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useSelector } from 'react-redux';
 
 const pages = [
   { name: 'Onboarding', icon: 'slideshow' },
@@ -34,112 +35,64 @@ const pages = [
 ];
 
 const PagesScreen = ({ navigation }) => {
+  const isDay = useSelector(state => state.theme.isDay);
+
   const handlePress = (pageName) => {
-    if (pageName === 'Onboarding') {
-      navigation.navigate('Onboarding');
+    const routes = {
+      'Onboarding': 'Onboarding',
+      'Sign Up': 'SignUp',
+      'Sign In': 'SignIn',
+      'Forgot Password': 'Forget Password',
+      'Enter Code OTP': 'CodeOPT',
+      'Home': 'Main',
+      'Products': 'Products',
+      'Product Detail': 'OrderScreen',
+      'Search': 'Search',
+      'Cart': 'Cart',
+      'Add Card': 'Add Card',
+      'Add Delivery Address': 'Change Address',
+      'Chat List': 'Chat List',
+      'Checkout': 'Checkout',
+      'Chat': 'Chat',
+      'Delivery Address': 'Delivery Address',
+      'Profile': 'Profile',
+      'Edit Profile': 'Edit',
+      'FAQ': 'FQA',
+      'My Order': 'My Order',
+      'Notification': 'Notifications',
+      'Wishlist': 'Liked',
+      'Review': 'Review',
+      'Reward': 'Rewards',
+      'Track Order': 'Track Order',
+      'Payment': 'Payment',
+      'Error - 404': 'Error'
+    };
+
+    if (routes[pageName]) {
+      navigation.navigate(routes[pageName], pageName === 'Edit Profile' ? { user: { fullName: 'AShYellow' } } : {});
     }
-    if (pageName === 'Sign Up') {
-      navigation.navigate('SignUp');
-    }
-    if (pageName === 'Sign In') {
-      navigation.navigate('SignIn');
-    }
-    if (pageName === 'Forgot Password') {
-      navigation.navigate('Forget Password');
-    }
-    if (pageName === 'Enter Code OTP') {
-      navigation.navigate('CodeOPT');
-    }
-    if (pageName === 'Home') {
-      navigation.navigate('Main');
-    }
-    if (pageName === 'Products') {
-      navigation.navigate('Products');
-    }
-    if (pageName === 'Product Detail') {
-      navigation.navigate('OrderScreen');// not working
-    }
-    if (pageName === 'Search') {
-      navigation.navigate('Search');
-    }
-    if (pageName === 'Cart') {
-      navigation.navigate('Cart');
-    }
-    if (pageName === 'Add Card') {
-      navigation.navigate('Add Card');
-    }
-    if (pageName === 'Add Delivery Address') {
-      navigation.navigate('Change Address');
-    }
-    if (pageName === 'Chat List') {
-      navigation.navigate('Chat List');
-    }
-    if (pageName === 'Checkout') {
-      navigation.navigate('Checkout');
-    }
-    if (pageName === 'Chat') {
-      navigation.navigate('Chat');
-    }
-    if (pageName === 'Delivery Address') {
-      navigation.navigate('Delivery Address');
-    }
-    if (pageName === 'Profile') {
-      navigation.navigate('Profile');
-    }
-    if (pageName === 'Edit Profile') {
-      navigation.navigate('Edit', { user: { fullName: 'AShYellow' } });
-    }
-    if (pageName === 'FAQ') {
-      navigation.navigate('FQA');
-    }
-    if (pageName === 'My Order') {
-      navigation.navigate('My Order');
-    }
-    if (pageName === 'Notification') {
-      navigation.navigate('Notifications');
-    }
-    if (pageName === 'Wishlist') {
-      navigation.navigate('Liked');
-    }
-    if (pageName === 'Review') {
-      navigation.navigate('Review');
-    }
-    if (pageName === 'Reward') {
-      navigation.navigate('Rewards');
-    }
-    if (pageName === 'Track Order') {
-      navigation.navigate('Track Order');
-    }
-    if (pageName === 'Payment') {
-      navigation.navigate('Payment');
-    }
-    if (pageName === 'Error - 404') {
-      navigation.navigate('Error');
-    }
-    
-    
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity 
-      style={styles.pageItem} 
+    <TouchableOpacity
+      style={[styles.pageItem, { backgroundColor: isDay ? '#F5F5F5' : '#333' }]}
       onPress={() => handlePress(item.name)}
     >
-      <View style={styles.iconContainer}>
-        <Icon name={item.icon} size={24} color="#fff" />
+      <View style={[styles.iconContainer, { backgroundColor: isDay ? '#4CAF50' : '#555' }]}>
+        <Icon name={item.icon} size={24} color={isDay ? '#fff' : '#ddd'} />
       </View>
-      <Text style={styles.pageText}>{item.name}</Text>
-      <Icon name="chevron-right" size={24} color="#000" />
+      <Text style={[styles.pageText, { color: isDay ? 'black' : '#ddd' }]}>{item.name}</Text>
+      <Icon name="chevron-right" size={24} color={isDay ? '#000' : '#ddd'} />
     </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#F5F5F5' : '#222' }]}>
       <View style={styles.header}>
         <TouchableOpacity>
-          <Icon name="arrow-back" size={24} color="#000" />
+          <Icon name="arrow-back" size={24} color={isDay ? '#000' : '#ddd'} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Pages</Text>
+        <Text style={[styles.headerTitle, { color: isDay ? 'black' : '#ddd' }]}>Pages</Text>
       </View>
 
       <FlatList
@@ -155,13 +108,11 @@ const PagesScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: '#ddd',
   },
@@ -170,7 +121,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'black',
   },
   pageList: {
     padding: 15,
@@ -181,13 +131,11 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderBottomWidth: 1,
     borderColor: '#ddd',
-    color: 'black',
   },
   iconContainer: {
     width: 40,
     height: 40,
     borderRadius: 15,
-    backgroundColor: '#4CAF50',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
@@ -195,7 +143,6 @@ const styles = StyleSheet.create({
   pageText: {
     flex: 1,
     fontSize: 16,
-    color: 'black',
   },
 });
 
