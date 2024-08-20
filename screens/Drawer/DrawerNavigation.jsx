@@ -35,7 +35,7 @@ const CustomDrawerContent = (props) => {
   // Determine theme-based colors
   const drawerBackgroundColor = isDay ? '#fff' : '#333';
   const drawerTextColor = isDay ? '#000' : '#fff';
-  const drawerActiveColor = isDay ? '#00674b' : '#00FF00';
+  const drawerActiveColor = isDay ? '#00674b' : '#2E8B57';
   const drawerInactiveColor = isDay ? '#ccc' : '#888';
 
   return (
@@ -70,7 +70,7 @@ function DrawerNavigation() {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={({ route }) => {
         const isDay = useSelector(state => state.theme.isDay);
-        const drawerActiveTintColor = isDay ? Colors.active : '#00FF00';
+        const drawerActiveTintColor = isDay ? Colors.active : '#2E8B57';
         const drawerInactiveTintColor = isDay ? Colors.inactive : '#888';
         return {
           drawerType: 'slide',
