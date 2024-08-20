@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useSelector } from 'react-redux';
 
 const DeliveryAddress = ({ navigation }) => {
+  const isDay = useSelector(state => state.theme.isDay); // Access the isDay state from Redux
   const [selectedAddress, setSelectedAddress] = useState(null);
 
   const handleChangeAddress = () => {
@@ -16,12 +18,12 @@ const DeliveryAddress = ({ navigation }) => {
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#f8f8f8' : '#333' }]}>
+      <View style={[styles.header, { backgroundColor: isDay ? '#fff' : '#444' }]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={24} color="#000" />
+          <Icon name="arrow-back" size={24} color={isDay ? '#000' : '#fff'} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Delivery Address</Text>
+        <Text style={[styles.headerTitle, { color: isDay ? '#000' : '#fff' }]}>Delivery Address</Text>
         <View style={{ width: 24 }} />
       </View>
 
@@ -29,15 +31,15 @@ const DeliveryAddress = ({ navigation }) => {
         {addresses.map((item) => (
           <TouchableOpacity
             key={item.id}
-            style={styles.addressContainer}
+            style={[styles.addressContainer, { backgroundColor: isDay ? '#fff' : '#333' }]}
             onPress={() => setSelectedAddress(item.id)}
           >
             <View style={styles.iconContainer}>
               <Icon name={item.icon} size={24} color="#fff" />
             </View>
             <View style={styles.addressDetails}>
-              <Text style={styles.addressLabel}>{item.label}</Text>
-              <Text style={styles.addressText}>{item.address}</Text>
+              <Text style={[styles.addressLabel, { color: isDay ? '#000' : '#fff' }]}>{item.label}</Text>
+              <Text style={[styles.addressText, { color: isDay ? '#777' : '#ccc' }]}>{item.address}</Text>
             </View>
             <View style={styles.radioCircle}>
               {selectedAddress === item.id && <View style={styles.selectedRb} />}
@@ -45,17 +47,17 @@ const DeliveryAddress = ({ navigation }) => {
           </TouchableOpacity>
         ))}
 
-        <TouchableOpacity style={styles.addAddressContainer} onPress={handleChangeAddress}>
+        <TouchableOpacity style={[styles.addAddressContainer, { backgroundColor: isDay ? '#fff' : '#444' }]} onPress={handleChangeAddress}>
           <View style={styles.addIconContainer}>
-            <Icon name="add" size={24} color="#000" />
+            <Icon name="add" size={24} color={isDay ? '#000' : '#fff'} />
           </View>
-          <Text style={styles.addAddressText}>Add Address</Text>
-          <Icon name="chevron-right" size={24} color="#000" />
+          <Text style={[styles.addAddressText, { color: isDay ? '#000' : '#fff' }]}>Add Address</Text>
+          <Icon name="chevron-right" size={24} color={isDay ? '#000' : '#fff'} />
         </TouchableOpacity>
       </ScrollView>
 
       <TouchableOpacity style={styles.saveButton}>
-        <Text style={styles.saveButtonText} >SAVE ADDRESS</Text>
+        <Text style={styles.saveButtonText}>SAVE ADDRESS</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -64,21 +66,18 @@ const DeliveryAddress = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 15,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: '#ddd',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000', // Changed to black
   },
   contentContainer: {
     padding: 15,
@@ -89,7 +88,6 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderBottomWidth: 1,
     borderColor: '#ddd',
-    backgroundColor: '#fff',
     marginBottom: 15,
   },
   iconContainer: {
@@ -104,7 +102,6 @@ const styles = StyleSheet.create({
   addressLabel: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: '#000', // Changed to black
   },
   addressText: {
     color: '#777',
@@ -130,7 +127,6 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderBottomWidth: 1,
     borderColor: '#ddd',
-    backgroundColor: '#fff',
   },
   addIconContainer: {
     borderRadius: 20,
@@ -141,7 +137,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: 'bold',
     fontSize: 16,
-    color: '#000', // Changed to black
   },
   saveButton: {
     backgroundColor: '#4CAF50',
