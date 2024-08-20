@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native'; 
+import { useSelector } from 'react-redux'; 
 
 const PaymentScreen = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
@@ -9,6 +10,8 @@ const PaymentScreen = () => {
   const [walletNumber, setWalletNumber] = useState('');
 
   const navigation = useNavigation(); 
+
+  const isDay = useSelector(state => state.theme.isDay);
 
   const paymentMethods = [
     {
@@ -35,31 +38,33 @@ const PaymentScreen = () => {
     },
   ];
 
+  const themeStyles = isDay ? styles.dayTheme : styles.nightTheme;
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.container, themeStyles.container]}>
+      <View style={[styles.header, themeStyles.header]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={24} color="#000" />
+          <Icon name="arrow-back" size={24} color={isDay ? "#000" : "#FFF"} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Payment</Text>
+        <Text style={[styles.headerTitle, themeStyles.headerTitle]}>Payment</Text>
         <View style={{ width: 24 }} />
       </View>
 
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-        <View style={styles.cardContainer}>
-          <View style={styles.cardHeader}>
-            <Text style={styles.cardTitle}>Credit/Debit Card</Text>
+      <ScrollView contentContainerStyle={[styles.contentContainer, themeStyles.contentContainer]}>
+        <View style={[styles.cardContainer, themeStyles.cardContainer]}>
+          <View style={[styles.cardHeader, themeStyles.cardHeader]}>
+            <Text style={[styles.cardTitle, themeStyles.cardTitle]}>Credit/Debit Card</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Add Card')}>
               <Text style={styles.addCardText}>+ Add Card</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.card}>
-            <Text style={styles.cardType}>CREDIT CARD</Text>
-            <Text style={styles.cardNumber}>**** **** **** 4532</Text>
+          <View style={[styles.card, themeStyles.card]}>
+            <Text style={[styles.cardType , { color: isDay ? 'gray' : 'white'}]}>CREDIT CARD</Text>
+            <Text style={[styles.cardNumber , { color: isDay ? 'gray' : 'white'}]}>**** **** **** 4532</Text>
             <View style={styles.cardDetails}>
-              <Text style={styles.cardName}>ROOPA SMITH</Text>
-              <Text style={styles.cardExp}>EXP 14/07</Text>
-              <Text style={styles.cardCvv}>CVV 012</Text>
+              <Text style={[styles.cardName , { color: isDay ? 'gray' : 'white'}]}>ROOPA SMITH</Text>
+              <Text style={[styles.cardExp , { color: isDay ? 'gray' : 'white'}]}>EXP 14/07</Text>
+              <Text style={[styles.cardCvv , { color: isDay ? 'gray' : 'white'}]}>CVV 012</Text>
             </View>
             <Image
               source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg' }} 
@@ -74,45 +79,49 @@ const PaymentScreen = () => {
             style={[
               styles.paymentMethod,
               selectedPaymentMethod === method.id && styles.selectedPaymentMethod,
+              themeStyles.paymentMethod,
             ]}
             onPress={() => setSelectedPaymentMethod(method.id)}
           >
-            <View style={styles.paymentMethodHeader}>
+            <View style={[styles.paymentMethodHeader, themeStyles.paymentMethodHeader]}>
               <Icon name={method.icon} size={24} color="#4CAF50" />
-              <Text style={styles.paymentMethodTitle}>{method.title}</Text>
-              {selectedPaymentMethod === method.id && (
+              <Text style={[styles.paymentMethodTitle, themeStyles.paymentMethodTitle]}>{method.title}</Text>
+              {selectedPaymentMethod === method.id ? (
                 <Icon name="radio-button-checked" size={24} color="#4CAF50" />
-              )}
-              {selectedPaymentMethod !== method.id && (
+              ) : (
                 <Icon name="radio-button-unchecked" size={24} color="#4CAF50" />
               )}
             </View>
             {selectedPaymentMethod === method.id && method.description && (
-              <Text style={styles.paymentMethodDescription}>{method.description}</Text>
+              <Text style={[styles.paymentMethodDescription, themeStyles.paymentMethodDescription]}>
+                {method.description}
+              </Text>
             )}
             {selectedPaymentMethod === method.id && method.id === 2 && (
               <View style={styles.upiContainer}>
-                <Text style={styles.upiLabel}>Link via UPI</Text>
+                <Text style={[styles.upiLabel, themeStyles.upiLabel]}>Link via UPI</Text>
                 <TextInput
-                  style={styles.upiInput}
+                  style={[styles.upiInput, themeStyles.upiInput]}
                   placeholder="Enter your UPI ID"
+                  placeholderTextColor={isDay ? "#000" : "#FFF"}
                   value={upiId}
                   onChangeText={setUpiId}
                 />
                 <TouchableOpacity style={styles.upiContinueButton}>
                   <Text style={styles.upiContinueButtonText}>Continue</Text>
                 </TouchableOpacity>
-                <Text style={styles.upiNote}>
+                <Text style={[styles.upiNote, themeStyles.upiNote]}>
                   <Icon name="shield" size={16} color="#4CAF50" /> Your UPI ID will be encrypted and is 100% safe with us.
                 </Text>
               </View>
             )}
             {selectedPaymentMethod === method.id && method.id === 3 && (
               <View style={styles.walletContainer}>
-                <Text style={styles.walletLabel}>Link Your Wallet</Text>
+                <Text style={[styles.walletLabel, themeStyles.walletLabel]}>Link Your Wallet</Text>
                 <TextInput
-                  style={styles.walletInput}
+                  style={[styles.walletInput, themeStyles.walletInput]}
                   placeholder="+91"
+                  placeholderTextColor={isDay ? "#000" : "#FFF"}
                   keyboardType="phone-pad"
                   value={walletNumber}
                   onChangeText={setWalletNumber}
@@ -127,7 +136,7 @@ const PaymentScreen = () => {
                 style={styles.netBankingButton}
                 onPress={() => navigation.navigate('Net Banking')} 
               >
-                <Text style={styles.netBankingButtonText}>Net Banking:</Text>
+                <Text style={[styles.netBankingButtonText, themeStyles.netBankingButtonText]}>Net Banking:</Text>
               </TouchableOpacity>
             )}
             
@@ -146,75 +155,53 @@ const PaymentScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 15,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: '#ddd',
-    color:'black',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color:'black',
-
   },
   contentContainer: {
     padding: 15,
-    color:'black',
-
   },
   cardContainer: {
-    backgroundColor: '#fff',
     borderRadius: 10,
     padding: 15,
     marginBottom: 20,
-    shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 10,
     elevation: 5,
-    color:'black',
-
   },
   cardHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 15,
-    color:'black',
-
   },
   cardTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color:'black',
-
   },
   addCardText: {
     fontSize: 16,
-    color:'green',
-
+    color: '#4CAF50',
   },
   card: {
-    backgroundColor: '#000',
     borderRadius: 10,
     padding: 15,
     position: 'relative',
-    color:'black',
-
   },
   cardType: {
-    color: '#fff',
     fontSize: 12,
     marginBottom: 10,
-    
   },
   cardNumber: {
-    color: '#fff',
     fontSize: 18,
     marginBottom: 10,
   },
@@ -224,16 +211,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cardName: {
-    color: '#fff',
     fontSize: 14,
-    
   },
   cardExp: {
-    color: '#fff',
     fontSize: 14,
   },
   cardCvv: {
-    color: '#fff',
     fontSize: 14,
   },
   cardBrand: {
@@ -242,149 +225,216 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 15,
     right: 15,
-    color:'black',
-
   },
   paymentMethod: {
-    backgroundColor: '#fff',
     borderRadius: 10,
     padding: 15,
     marginBottom: 15,
     borderWidth: 1,
-    borderColor: '#ddd',
-    shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 10,
     elevation: 5,
-    color:'black',
-
   },
   selectedPaymentMethod: {
     borderColor: '#4CAF50',
-    color:'black',
-
   },
   paymentMethodHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    color:'black',
-
   },
   paymentMethodTitle: {
     fontSize: 16,
     marginLeft: 10,
     flex: 1,
-    color:'black',
-
   },
   paymentMethodDescription: {
     fontSize: 14,
-    color: '#888',
     marginTop: 10,
-    color:'black',
-
   },
   upiContainer: {
     marginTop: 10,
-    color:'black',
-
   },
   upiLabel: {
     fontSize: 14,
-    color: '#888',
     marginBottom: 5,
-    color:'black',
-
   },
   upiInput: {
     borderWidth: 1,
-    borderColor: '#ddd',
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
-    color:'black',
-
   },
   upiContinueButton: {
     backgroundColor: '#4CAF50',
-    padding: 15,
-    alignItems: 'center',
+    padding: 10,
     borderRadius: 5,
-    color:'black',
-
   },
   upiContinueButtonText: {
-    color: '#fff',
+    color: '#FFF',
+    textAlign: 'center',
     fontSize: 16,
-
   },
   upiNote: {
     fontSize: 12,
-    color: '#888',
     marginTop: 5,
-    color:'black',
-
   },
   walletContainer: {
     marginTop: 10,
-    color:'black',
-
   },
   walletLabel: {
     fontSize: 14,
-    color: '#888',
     marginBottom: 5,
-    color:'black',
-
   },
   walletInput: {
     borderWidth: 1,
-    borderColor: '#ddd',
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
-    color:'black',
-
   },
   walletContinueButton: {
     backgroundColor: '#4CAF50',
-    padding: 15,
-    alignItems: 'center',
+    padding: 10,
     borderRadius: 5,
-    color:'black',
-
   },
   walletContinueButtonText: {
-    color: '#fff',
+    color: '#FFF',
+    textAlign: 'center',
     fontSize: 16,
   },
   netBankingButton: {
     marginTop: 10,
+    backgroundColor: '#4CAF50',
     padding: 10,
     borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    color:'black',
-
   },
   netBankingButtonText: {
+    color: '#FFF',
+    textAlign: 'center',
     fontSize: 16,
-    color: '#4CAF50',
   },
   continueButton: {
     backgroundColor: '#4CAF50',
     padding: 15,
-    alignItems: 'center',
     borderRadius: 5,
     margin: 15,
   },
   continueButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    color: '#FFF',
+    textAlign: 'center',
+    fontSize: 18,
+  },
+  dayTheme: {
+    container: {
+      backgroundColor: '#F5F5F5',
+    },
+    header: {
+      backgroundColor: '#FFF',
+    },
+    headerTitle: {
+      color: '#000',
+    },
+    contentContainer: {
+      backgroundColor: '#FFF',
+    },
+    cardContainer: {
+      backgroundColor: '#FFF',
+    },
+    cardHeader: {
+      backgroundColor: '#FFF',
+    },
+    cardTitle: {
+      color: '#000',
+    },
+    paymentMethod: {
+      backgroundColor: '#FFF',
+      borderColor: '#ddd',
+    },
+    paymentMethodHeader: {
+      backgroundColor: '#FFF',
+    },
+    paymentMethodTitle: {
+      color: '#000',
+    },
+    paymentMethodDescription: {
+      color: '#000',
+    },
+    upiLabel: {
+      color: '#000',
+    },
+    upiInput: {
+      backgroundColor: '#FFF',
+      borderColor: '#ddd',
+    },
+    upiNote: {
+      color: '#000',
+    },
+    walletLabel: {
+      color: '#000',
+    },
+    walletInput: {
+      backgroundColor: '#FFF',
+      borderColor: '#ddd',
+    },
+    netBankingButtonText: {
+      color: '#FFF',
+    },
+  },
+  nightTheme: {
+    container: {
+      backgroundColor: '#1C1C1C',
+    },
+    header: {
+      backgroundColor: '#333',
+    },
+    headerTitle: {
+      color: '#FFF',
+    },
+    contentContainer: {
+      backgroundColor: '#2C2C2C',
+    },
+    cardContainer: {
+      backgroundColor: '#333',
+    },
+    cardHeader: {
+      backgroundColor: '#333',
+    },
+    cardTitle: {
+      color: '#FFF',
+    },
+    paymentMethod: {
+      backgroundColor: '#333',
+      borderColor: '#444',
+    },
+    paymentMethodHeader: {
+      backgroundColor: '#333',
+    },
+    paymentMethodTitle: {
+      color: '#FFF',
+    },
+    paymentMethodDescription: {
+      color: '#FFF',
+    },
+    upiLabel: {
+      color: '#FFF',
+    },
+    upiInput: {
+      backgroundColor: '#444',
+      borderColor: '#666',
+    },
+    upiNote: {
+      color: '#FFF',
+    },
+    walletLabel: {
+      color: '#FFF',
+    },
+    walletInput: {
+      backgroundColor: '#444',
+      borderColor: '#666',
+    },
+    netBankingButtonText: {
+      color: '#FFF',
+    },
   },
 });
 
