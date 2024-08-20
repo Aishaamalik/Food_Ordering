@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, FlatList, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 
 const notifications = [
@@ -69,25 +70,27 @@ const notifications = [
 
 const NotificationScreen = () => {
   const navigation = useNavigation();
+  const isDay = useSelector(state => state.theme.isDay);
+
   const renderItem = ({ item }) => (
-    <View style={styles.notificationItem}>
+    <View style={[styles.notificationItem, { borderBottomColor: isDay ? '#ddd' : '#555' }]}>
       <Image source={item.image} style={styles.notificationImage} />
       <View style={styles.notificationText}>
-        <Text style={styles.notificationTitle}>{item.title}</Text>
-        <Text style={styles.notificationDate}>{item.date}</Text>
+        <Text style={[styles.notificationTitle, { color: isDay ? '#000' : '#fff' }]}>{item.title}</Text>
+        <Text style={[styles.notificationDate, { color: isDay ? '#888' : '#aaa' }]}>{item.date}</Text>
       </View>
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#fff' : '#333' }]}>
+      <View style={[styles.header, { backgroundColor: isDay ? '#fff' : '#444', borderColor: isDay ? '#ddd' : '#555' }]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={24} color="#000" />
+          <Icon name="arrow-back" size={24} color={isDay ? '#000' : '#fff'} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Notifications (12)</Text>
+        <Text style={[styles.headerTitle, { color: isDay ? '#000' : '#fff' }]}>Notifications (12)</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-          <Icon name="search" size={24} color="#000" />
+          <Icon name="search" size={24} color={isDay ? '#000' : '#fff'} />
         </TouchableOpacity>
       </View>
 
@@ -104,21 +107,17 @@ const NotificationScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 15,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderColor: '#ddd',
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'black',
   },
   notificationList: {
     padding: 15,
@@ -128,7 +127,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderColor: '#ddd',
   },
   notificationImage: {
     width: 50,
@@ -138,21 +136,14 @@ const styles = StyleSheet.create({
   },
   notificationText: {
     flex: 1,
-    color: 'black',
-
   },
   notificationTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'black',
-
   },
   notificationDate: {
     fontSize: 14,
-    color: '#888',
   },
 });
-
-
 
 export default NotificationScreen;

@@ -12,12 +12,14 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux'; // Import useSelector from react-redux
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { PRODUCTS } from '../Productsscreens/Beverages';
 import { PRODUCTS1 } from '../Productsscreens/Drinks';
 import { PRODUCTS2 } from '../Productsscreens/Food';
 import { PRODUCTS3 } from '../Productsscreens/Lunch';
 import { PRODUCTS4 } from '../Productsscreens/Pizza';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Search = () => {
   const [query, setQuery] = useState('');
@@ -30,6 +32,9 @@ const Search = () => {
   const [clickHistory, setClickHistory] = useState([]);
 
   const navigation = useNavigation();
+
+  // Get the isDay value from the Redux store
+  const isDay = useSelector(state => state.theme.isDay);
 
   useEffect(() => {
     const loadHistory = async () => {
@@ -125,33 +130,33 @@ const Search = () => {
     <TouchableOpacity onPress={() => handleItemPress(item)}>
       <View style={styles.productItem} key={index}>
         <Image source={item.image} style={styles.productImage} />
-        <Text style={styles.productText}>{item.name}</Text>
+        <Text style={[styles.productText, { color: isDay ? 'black' : 'white'}]}>{item.name}</Text>
       </View>
     </TouchableOpacity>
   );
 
   const renderHistoryItem = ({ item }) => (
-    <View style={styles.historyItem}>
+    <View style={[styles.historyItem, {backgroundColor: isDay ? 'white' : 'black'}]}>
       <Icon name="history" size={24} color="#4CAF50" />
-      <Text style={styles.historyText}>{item.name}</Text>
+      <Text style={[styles.historyText,{color: isDay ? 'black' : 'white'}]}>{item.name}</Text>
       <TouchableOpacity onPress={() => removeHistoryItem(item)}>
-        <Icon name="close" size={24} color="#000" />
+        <Icon name="close" size={24} color="green" />
       </TouchableOpacity>
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#F5F5F5' : 'black' }]}>
+      <View style={[styles.header, { backgroundColor: isDay ? '#F5F5F5' : 'black' }]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-back" size={24} color="#4CAF50" />
         </TouchableOpacity>
         <TextInput
-          style={styles.searchInput}
+          style={[styles.searchInput, { backgroundColor: isDay ? '#F0F0F0' : '#555', color: isDay ? 'black' : 'white' }]}
           value={query}
           onChangeText={handleSearch}
           placeholder="Search Best Items For You"
-          placeholderTextColor="#888"
+          placeholderTextColor={isDay ? '#888' : '#BBB'}
         />
         <TouchableOpacity onPress={() => setModalVisible(true)}>
           <Icon name="history" size={24} color="#4CAF50" />
@@ -161,9 +166,8 @@ const Search = () => {
         data={[...filteredProducts, ...filteredProducts1, ...filteredProducts2, ...filteredProducts3, ...filteredProducts4]}
         renderItem={renderItem}
         keyExtractor={(item, index) => `${item.id ? item.id : index}-${item.category}`}
-        contentContainerStyle={styles.productList}
+        contentContainerStyle={[styles.productList, {backgroundColor: isDay ? 'white' : 'black'}]}
       />
-
 
       <Modal
         transparent={true}
@@ -172,8 +176,8 @@ const Search = () => {
         onRequestClose={() => setModalVisible(false)}
       >
         <SafeAreaView style={styles.modalContainer}>
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Search History</Text>
+          <View style={[styles.modalHeader,{backgroundColor: isDay ? 'white' : 'black'}]}>
+            <Text style={[styles.modalTitle, { color: isDay ? 'gray' : 'white'}]}>Search History</Text>
             <TouchableOpacity onPress={() => setModalVisible(false)}>
               <Icon name="close" size={24} color="#000" />
             </TouchableOpacity>
@@ -183,6 +187,7 @@ const Search = () => {
             renderItem={renderHistoryItem}
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={styles.historyList}
+            style={[styles.flatlist, {backgroundColor: isDay ? 'white' :'black'}]}
           />
         </SafeAreaView>
       </Modal>
@@ -190,11 +195,9 @@ const Search = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
   },
   header: {
     flexDirection: 'row',
@@ -203,35 +206,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: '#ddd',
-    color: 'black',
   },
   searchInput: {
     flex: 1,
     height: 40,
     marginLeft: 10,
     borderRadius: 20,
-    backgroundColor: '#F0F0F0',
     paddingHorizontal: 15,
-    color: 'black',
-  },
-  categoryContainer: {
-    padding: 15,
-  },
-  categoryTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: 'black',
   },
   productList: {
     paddingBottom: 15,
-    color: 'black',
   },
   productItem: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
-    color: 'black',
   },
   productImage: {
     width: 50,
@@ -241,7 +230,6 @@ const styles = StyleSheet.create({
   productText: {
     marginLeft: 10,
     fontSize: 16,
-    color: 'black',
   },
   modalContainer: {
     flex: 1,
@@ -260,7 +248,6 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'black',
   },
   historyList: {
     padding: 15,
@@ -274,6 +261,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     flex: 1,
+  },
+  flatlist: {
     color: 'black',
   },
 });
