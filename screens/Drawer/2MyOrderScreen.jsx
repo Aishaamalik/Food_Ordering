@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Feather';
+import { useSelector } from 'react-redux';
 
 const MyOrderScreen = ({ route, navigation }) => {
   const [activeTab, setActiveTab] = useState('Ongoing');
   const [ongoingOrders, setOngoingOrders] = useState([]);
+  const isDay = useSelector(state => state.theme.isDay);
 
   useEffect(() => {
     const loadSavedData = async () => {
@@ -44,7 +46,7 @@ const MyOrderScreen = ({ route, navigation }) => {
   }, [activeTab]);
 
   const renderOrderItem = ({ item, index }) => (
-    <View key={index} style={styles.orderItem}>
+    <View key={index} style={[styles.orderItem , { backgroundColor: isDay ? 'white' : 'black'}]}>
       <View style={styles.imageContainer}>
         <Image source={item.product.image} style={styles.orderImage} />
         <View style={styles.ratingContainer}>
@@ -53,10 +55,10 @@ const MyOrderScreen = ({ route, navigation }) => {
         </View>
       </View>
       <View style={styles.orderDetails}>
-        <Text style={styles.cartItemTitle}>{item.product.name}</Text>
+        <Text style={[styles.cartItemTitle, { color: isDay ? 'black' : 'white'}]}>{item.product.name}</Text>
         <Text style={styles.orderItemNotes}>{item.notes}</Text>
         <View style={styles.priceAndButton}>
-          <Text style={styles.orderItemQty}>${item.currentPrice.toFixed(2)}</Text>
+          <Text style={[styles.orderItemQty, { color: isDay ? 'gray' : 'white'}]}>${item.currentPrice.toFixed(2)}</Text>
           <TouchableOpacity
             style={styles.trackOrderButton}
             onPress={() => navigation.navigate('Track Order', { orderId: item.id })}
@@ -69,29 +71,33 @@ const MyOrderScreen = ({ route, navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={[styles.container, { backgroundColor: isDay ? '#f8f8f8' : '#333' }]}>
+      <View style={[styles.header, { backgroundColor: isDay ? '#fff' : '#444' }]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={24} color="black" />
+          <Icon name="arrow-left" size={24} color={isDay ? 'black' : 'white'} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>My Order</Text>
+        <Text style={[styles.headerTitle, { color: isDay ? '#000' : '#fff' }]}>My Order</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Main')}>
-          <Icon name="home" size={24} color="black" />
+          <Icon name="home" size={24} color={isDay ? 'black' : 'white'} />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.tabContainer}>
+      <View style={[styles.tabContainer, { backgroundColor: isDay ? '#fff' : '#444' }]}>
         <TouchableOpacity
           style={[styles.tabButton, activeTab === 'Ongoing' && styles.activeTabButton]}
           onPress={() => setActiveTab('Ongoing')}
         >
-          <Text style={[styles.tabButtonText, activeTab === 'Ongoing' && styles.activeTabButtonText]}>Ongoing</Text>
+          <Text style={[styles.tabButtonText, activeTab === 'Ongoing' && styles.activeTabButtonText]}>
+            Ongoing
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tabButton, activeTab === 'Completed' && styles.activeTabButton]}
           onPress={() => setActiveTab('Completed')}
         >
-          <Text style={[styles.tabButtonText, activeTab === 'Completed' && styles.activeTabButtonText]}>Completed</Text>
+          <Text style={[styles.tabButtonText, activeTab === 'Completed' && styles.activeTabButtonText]}>
+            Completed
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -116,37 +122,31 @@ const MyOrderScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 15,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: '#ddd',
   },
   cartItemTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'black',
   },
   emptyMessage: {
     textAlign: 'center',
     marginTop: 20,
-    color: '#777',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
   },
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: 10,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderColor: '#ddd',
   },
@@ -156,7 +156,6 @@ const styles = StyleSheet.create({
   },
   tabButtonText: {
     fontSize: 16,
-    color: '#777',
   },
   activeTabButton: {
     borderBottomWidth: 2,
@@ -208,7 +207,6 @@ const styles = StyleSheet.create({
   orderItemTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000',
   },
   orderItemNotes: {
     fontSize: 14,
@@ -222,7 +220,6 @@ const styles = StyleSheet.create({
   },
   orderItemQty: {
     fontSize: 16,
-    color: '#000',
   },
   trackOrderButton: {
     backgroundColor: '#4CAF50',
