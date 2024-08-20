@@ -34,7 +34,7 @@ const CustomSwitch = () => {
               },
             ]}
           />
-          <Icon name="day-sunny" size={30} color={isDay ? 'black' : 'gray'} />
+          <Icon name="day-sunny" size={30} color={isDay ? 'black' : 'white'} />
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleToggleSwitch} style={styles.iconWrapper}>

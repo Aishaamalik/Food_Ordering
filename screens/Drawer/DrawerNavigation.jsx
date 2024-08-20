@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -16,7 +17,7 @@ import Profile from '../Bottom Tab/ProfileScreen.jsx';
 import Payment from '../Payment Screens/Payment.jsx';
 import Splash2 from '../Loginscreen/Splash2.jsx';
 
-// Define Colors object
+// Define Colors object with default values
 const Colors = {
   bg: '#009688',
   active: '#00674b', 
@@ -26,80 +27,38 @@ const Colors = {
   header: 'black',
 };
 
-const styles = StyleSheet.create({
-  drawerContent: {
-    flex: 1,
-  },
-  drawerHeader: {
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-    justifyContent: 'right', 
-    alignItems: 'center',
-  },
-  drawerIconContainer: {
-    flexDirection: 'row', 
-    alignItems: 'center',
-  },
-  drawerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: Colors.active,
-    textAlign: 'center',
-    marginLeft: 10, 
-  },
-  drawerText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: Colors.header,
-    textAlign: 'center',
-    marginVertical: 10,  
-  },
-  drawerText2: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: Colors.header,
-    marginVertical: 10,  
-  },
-  drawerText3: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: 'gray',
-  },
-  mainmenucomtainer: {
-    textAlign: 'left',
-  },
-  themeView: {
-    flex: 1,
-    width: 100,  
-    height: 62, 
-  },
-  viewbuttom: {
-    flex: 1,
-    padding:37,
-  },
-});
-
 const Drawer = createDrawerNavigator();
 
 const CustomDrawerContent = (props) => {
+  const isDay = useSelector(state => state.theme.isDay);
+
+  // Determine theme-based colors
+  const drawerBackgroundColor = isDay ? '#fff' : '#333';
+  const drawerTextColor = isDay ? '#000' : '#fff';
+  const drawerActiveColor = isDay ? '#00674b' : '#00FF00';
+  const drawerInactiveColor = isDay ? '#ccc' : '#888';
+
   return (
-    <DrawerContentScrollView {...props} style={styles.drawerContent}>
+    <DrawerContentScrollView {...props} style={{ flex: 1, backgroundColor: drawerBackgroundColor }}>
       <View style={styles.drawerHeader}>
         <View style={styles.drawerIconContainer}>
-          <Fontisto name="coffeescript" size={30} color="#00693E" />
-          <Text style={styles.drawerTitle}>Ombe</Text>
+          <Fontisto name="coffeescript" size={30} color={drawerActiveColor} />
+          <Text style={[styles.drawerTitle, { color: drawerActiveColor }]}>Ombe</Text>
         </View>
       </View>
       <View>
-        <Text style={styles.drawerText}>Main Menu</Text>
+        <Text style={[styles.drawerText, { color: drawerTextColor }]}>Main Menu</Text>
       </View>
-      <DrawerItemList {...props} />
+      <DrawerItemList {...props} 
+        activeTintColor={drawerActiveColor}
+        inactiveTintColor={drawerInactiveColor}
+      />
       <View style={styles.themeView}>
         <CustomSwitch /> 
       </View>
       <View style={styles.viewbuttom}>
-        <Text style={styles.drawerText2}>Ombe Coffee Shop</Text>
-        <Text style={styles.drawerText3}>App Version 1.1</Text>
+        <Text style={[styles.drawerText2, { color: drawerTextColor }]}>Ombe Coffee Shop</Text>
+        <Text style={[styles.drawerText3, { color: drawerTextColor }]}>App Version 1.1</Text>
       </View>
     </DrawerContentScrollView>
   );
@@ -109,21 +68,26 @@ function DrawerNavigation() {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
-      screenOptions={{
-        drawerType: 'slide',
-        headerShown: false,
-        drawerActiveBackgroundColor: Colors.transparent,
-        drawerInactiveBackgroundColor: Colors.transparent,
-        drawerActiveTintColor: Colors.active,
-        drawerInactiveTintColor: Colors.inactive,
-        drawerHideStatusBarOnOpen: true,
-        overlayColor: Colors.transparent,
-        drawerStyle: {
-          backgroundColor: Colors.background,
-          width: '60%',
-        },
-        sceneContainerStyle: {
-          backgroundColor: Colors.background,
+      screenOptions={({ route }) => {
+        const isDay = useSelector(state => state.theme.isDay);
+        const drawerActiveTintColor = isDay ? Colors.active : '#00FF00';
+        const drawerInactiveTintColor = isDay ? Colors.inactive : '#888';
+        return {
+          drawerType: 'slide',
+          headerShown: false,
+          drawerActiveBackgroundColor: Colors.transparent,
+          drawerInactiveBackgroundColor: Colors.transparent,
+          drawerActiveTintColor: drawerActiveTintColor,
+          drawerInactiveTintColor: drawerInactiveTintColor,
+          drawerHideStatusBarOnOpen: true,
+          overlayColor: Colors.transparent,
+          drawerStyle: {
+            backgroundColor: isDay ? '#fff' : '#333',
+            width: '60%',
+          },
+          sceneContainerStyle: {
+            backgroundColor: isDay ? '#fff' : '#333',
+          }
         }
       }}
     >
@@ -211,5 +175,52 @@ function DrawerNavigation() {
     </Drawer.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  drawerContent: {
+    flex: 1,
+  },
+  drawerHeader: {
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+    justifyContent: 'right', 
+    alignItems: 'center',
+  },
+  drawerIconContainer: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+  },
+  drawerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginLeft: 10, 
+  },
+  drawerText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 10,  
+  },
+  drawerText2: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginVertical: 10,  
+  },
+  drawerText3: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'gray',
+  },
+  themeView: {
+    flex: 1,
+    width: 100,  
+    height: 62, 
+  },
+  viewbuttom: {
+    flex: 1,
+    padding:37,
+  },
+});
 
 export default DrawerNavigation;
