@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 const AddCard = () => {
   const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');
+  const navigation = useNavigation();
+
+
+  const isDay = useSelector(state => state.theme.isDay);
+
+  const styles = getStyles(isDay);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
-          <Icon name="arrow-back" size={24} color="#000" />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-back" size={24} color={isDay ? "#000" : "#FFF"} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Add Card</Text>
         <View style={{ width: 24 }} />
@@ -38,14 +46,14 @@ const AddCard = () => {
         <TextInput
           style={styles.input}
           placeholder="Card Name"
-          placeholderTextColor="#808080"
+          placeholderTextColor={isDay ? "#808080" : "#A9A9A9"}
           value={cardName}
           onChangeText={setCardName}
         />
         <TextInput
           style={styles.input}
           placeholder="Card Number"
-          placeholderTextColor="#808080"
+          placeholderTextColor={isDay ? "#808080" : "#A9A9A9"}
           value={cardNumber}
           onChangeText={setCardNumber}
           keyboardType="numeric"
@@ -54,14 +62,14 @@ const AddCard = () => {
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="Expiry Date"
-            placeholderTextColor="#808080"
+            placeholderTextColor={isDay ? "#808080" : "#A9A9A9"}
             value={expiryDate}
             onChangeText={setExpiryDate}
           />
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="CVV"
-            placeholderTextColor="#808080"
+            placeholderTextColor={isDay ? "#808080" : "#A9A9A9"}
             value={cvv}
             onChangeText={setCvv}
             keyboardType="numeric"
@@ -76,30 +84,30 @@ const AddCard = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const getStyles = (isDay) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: isDay ? '#f8f8f8' : '#1C1C1C',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 15,
-    backgroundColor: '#fff',
+    backgroundColor: isDay ? '#fff' : '#333',
     borderBottomWidth: 1,
-    borderColor: '#ddd',
+    borderColor: isDay ? '#ddd' : '#444',
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000', 
+    color: isDay ? '#000' : '#FFF',
   },
   cardContainer: {
     padding: 15,
   },
   card: {
-    backgroundColor: '#000',
+    backgroundColor: isDay ? '#000' : '#444',
     borderRadius: 10,
     padding: 15,
     position: 'relative',
@@ -142,13 +150,13 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: isDay ? '#fff' : '#444',
     borderRadius: 10,
     padding: 15,
     marginBottom: 15,
     borderWidth: 1,
-    borderColor: '#ddd',
-    color: '#000', 
+    borderColor: isDay ? '#ddd' : '#666',
+    color: isDay ? '#000' : '#FFF',
   },
   row: {
     flexDirection: 'row',
