@@ -7,7 +7,7 @@ import { toggleTheme } from '../Themes/ThemeAction';
 const CustomSwitch = () => {
   const isDay = useSelector(state => state.theme.isDay);
   const dispatch = useDispatch();
-  const translateX = new Animated.Value(isDay ? 0 : 60);
+  const translateX = React.useRef(new Animated.Value(isDay ? 0 : 60)).current;
 
   useEffect(() => {
     Animated.timing(translateX, {
@@ -30,7 +30,7 @@ const CustomSwitch = () => {
               styles.iconBackground,
               {
                 transform: [{ translateX }],
-                backgroundColor: isDay ? 'green' : 'green',
+                backgroundColor: 'green',
               },
             ]}
           />
