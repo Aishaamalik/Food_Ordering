@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 export const PRODUCTS4 = [
   {
@@ -30,7 +31,10 @@ export const PRODUCTS4 = [
   },
 ];
 
-const Pizza = ({ navigation }) => {
+const Pizza = () => {
+  const navigation = useNavigation();
+  const isDay = useSelector(state => state.theme.isDay);
+
   const handleBuy = (product) => {
     const quantity = 1;
     const size = 'Regular'; 
@@ -49,9 +53,9 @@ const Pizza = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.productInfo}>
-        <Text style={styles.productName}>{item.name}</Text>
-        <Text style={styles.productCategory}>{item.category}</Text>
-        <Text style={styles.productPrice}>${item.price}</Text>
+        <Text style={[styles.productName, { color: isDay ? '#000000' : '#FFFFFF' }]}>{item.name}</Text>
+        <Text style={[styles.productCategory, { color: isDay ? '#AAAAAA' : '#CCCCCC' }]}>{item.category}</Text>
+        <Text style={[styles.productPrice, { color: isDay ? '#000000' : '#FFFFFF' }]}>${item.price}</Text>
       </View>
       <View style={styles.actionContainer}>
         <TouchableOpacity style={styles.buyButton}
@@ -63,20 +67,19 @@ const Pizza = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: isDay ? '#FFFFFF' : '#000000' }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={24} color="#000000" />
+          <Icon name="arrow-left" size={24} color={isDay ? '#000000' : '#FFFFFF'} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Pizza</Text>
-        <TouchableOpacity>
-        </TouchableOpacity>
+        <Text style={[styles.headerTitle, { color: isDay ? '#000000' : '#FFFFFF' }]}>Pizza</Text>
+        <TouchableOpacity></TouchableOpacity>
       </View>
 
       <TextInput
-        style={styles.searchInput}
+        style={[styles.searchInput, { backgroundColor: isDay ? '#F7F7F7' : '#333333', color: isDay ? '#000000' : '#FFFFFF' }]}
         placeholder="Search pizzas"
-        placeholderTextColor="#CCCCCC"
+        placeholderTextColor={isDay ? '#CCCCCC' : '#888888'}
       />
 
       <FlatList
@@ -93,7 +96,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',
@@ -104,11 +106,9 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#000000',
   },
   searchInput: {
     height: 40,
-    backgroundColor: '#F7F7F7',
     borderRadius: 10,
     paddingHorizontal: 16,
     marginTop: 20,
@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 8,
   },
-  
   ratingText: {
     fontSize: 12,
     color: '#FFFFFF',
@@ -155,7 +154,6 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000000',
   },
   productCategory: {
     fontSize: 14,
@@ -164,7 +162,6 @@ const styles = StyleSheet.create({
   productPrice: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000000',
     marginTop: 5,
   },
   actionContainer: {
