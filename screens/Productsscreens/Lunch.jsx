@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 export const PRODUCTS3 = [
   {
@@ -41,6 +42,7 @@ export const PRODUCTS3 = [
 const Lunch = () => {
   const [activeTab, setActiveTab] = useState('Lunch');
   const navigation = useNavigation();
+  const isDay = useSelector(state => state.theme.isDay);
 
   const handleBuy = (product) => {
     const quantity = 1;
@@ -60,14 +62,12 @@ const Lunch = () => {
         </View>
       </View>
       <View style={styles.productInfo}>
-        <Text style={styles.productName}>{item.name}</Text>
-        <Text style={styles.productCategory}>{item.category}</Text>
-        <Text style={styles.productPrice}>${item.price}</Text>
+        <Text style={[styles.productName, {color: isDay ? 'black': 'white'}]}>{item.name}</Text>
+        <Text style={[styles.productCategory, {color: isDay ? 'gray': 'white'}]}>{item.category}</Text>
+        <Text style={[styles.productPrice, {color: isDay ? 'gray': 'white'}]}>${item.price}</Text>
       </View>
       <View style={styles.actionContainer}>
-        <TouchableOpacity style={styles.buyButton}
-          onPress={() => handleBuy(item)}
-        >
+        <TouchableOpacity style={styles.buyButton} onPress={() => handleBuy(item)}>
           <Icon name="shopping-cart" size={16} color="#4CAF50" style={styles.buyIcon} />
           <Text style={styles.buyButtonText}>Buy</Text>
         </TouchableOpacity>
@@ -76,19 +76,19 @@ const Lunch = () => {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: isDay ? '#FFFFFF' : '#000000' }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={24} color="#000000" />
+          <Icon name="arrow-left" size={24} color={isDay ? '#000000' : '#FFFFFF'} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Lunch</Text>
+        <Text style={[styles.headerTitle, { color: isDay ? '#000000' : '#FFFFFF' }]}>Lunch</Text>
         <TouchableOpacity />
       </View>
 
       <TextInput
-        style={styles.searchInput}
+        style={[styles.searchInput, { backgroundColor: isDay ? '#F7F7F7' : '#333333', color: isDay ? '#000000' : '#FFFFFF' }]}
         placeholder="Search lunch items"
-        placeholderTextColor="#CCCCCC"
+        placeholderTextColor={isDay ? '#CCCCCC' : '#AAAAAA'}
       />
 
       <View style={styles.tabsContainer}>
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',
@@ -122,11 +121,9 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#000000',
   },
   searchInput: {
     height: 40,
-    backgroundColor: '#F7F7F7',
     borderRadius: 10,
     paddingHorizontal: 16,
     marginTop: 20,
@@ -191,7 +188,6 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000000',
   },
   productCategory: {
     fontSize: 14,
@@ -200,7 +196,6 @@ const styles = StyleSheet.create({
   productPrice: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000000',
     marginTop: 5,
   },
   actionContainer: {
