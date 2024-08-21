@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 export const PRODUCTS1 = [
   {
@@ -42,7 +43,9 @@ const Drinks = () => {
   const [activeTab, setActiveTab] = useState('Cold Drinks');
   const [searchQuery, setSearchQuery] = useState('');
   const navigation = useNavigation();
-
+  
+  // Access the isDay value from Redux store
+  const isDay = useSelector(state => state.theme.isDay);
 
   const filteredProducts = PRODUCTS1.filter((product) => {
     return (
@@ -58,8 +61,9 @@ const Drinks = () => {
 
     navigation.navigate('OrderScreen', { product, quantity, size, currentPrice });
   };
+
   const renderProductItem = ({ item }) => (
-    <View style={styles.productItem}>
+    <View style={[styles.productItem, { backgroundColor: isDay ? '#FFFFFF' : 'black' }]}>
       <View style={styles.imageContainer}>
         <Image source={item.image} style={styles.productImage} />
         <View style={styles.ratingContainer}>
@@ -68,38 +72,32 @@ const Drinks = () => {
         </View>
       </View>
       <View style={styles.productInfo}>
-        <Text style={styles.productName}>{item.name}</Text>
-        <Text style={styles.productCategory}>{item.category}</Text>
-        <Text style={styles.productPrice}>${item.price}</Text>
+        <Text style={[styles.productName, { color: isDay ? '#000000' : '#FFFFFF' }]}>{item.name}</Text>
+        <Text style={[styles.productCategory, { color: isDay ? '#AAAAAA' : '#CCCCCC' }]}>{item.category}</Text>
+        <Text style={[styles.productPrice, { color: isDay ? '#000000' : '#FFFFFF' }]}>${item.price}</Text>
       </View>
       <View style={styles.actionContainer}>
-        <TouchableOpacity style={styles.buyButton}
-
-          onPress={() => handleBuy(item)}        >
+        <TouchableOpacity style={[styles.buyButton, { backgroundColor: isDay ? '#E0F2F1' : '#333' }]} onPress={() => handleBuy(item)}>
           <Icon name="shopping-cart" size={16} color="#4CAF50" style={styles.buyIcon} />
-          <Text style={styles.buyButtonText}> Buy</Text>
+          <Text style={[styles.buyButtonText, { color: isDay ? '#4CAF50' : '#A5D6A7' }]}>Buy</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-  
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: isDay ? '#FFFFFF' : 'black' }]}>
       <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backIcon} 
-          onPress={() => navigation.goBack()} 
-        >
-          </TouchableOpacity>
-          <Icon name="arrow-left" size={24} color="#000000" />
-        <Text style={styles.headerTitle}>Drinks</Text>
+        <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
+          <Icon name="arrow-left" size={24} color={isDay ? '#000000' : '#FFFFFF'} />
+        </TouchableOpacity>
+        <Text style={[styles.headerTitle, { color: isDay ? '#000000' : '#FFFFFF' }]}>Drinks</Text>
       </View>
 
       <TextInput
-        style={styles.searchInput}
+        style={[styles.searchInput, { backgroundColor: isDay ? '#F7F7F7' : '#333' }]}
         placeholder="Search Drinks"
-        placeholderTextColor="#CCCCCC"
+        placeholderTextColor={isDay ? '#CCCCCC' : '#888888'}
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
@@ -127,13 +125,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 20,
-    justifyContent: 'center', 
+    justifyContent: 'center',
     position: 'relative',
   },
   backIcon: {
@@ -144,13 +141,11 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#000000',
     textAlign: 'center',
     flex: 1,
   },
   searchInput: {
     height: 40,
-    backgroundColor: '#F7F7F7',
     borderRadius: 10,
     paddingHorizontal: 16,
     marginTop: 20,
@@ -162,11 +157,12 @@ const styles = StyleSheet.create({
   activeTab: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#4CAF50',
     borderBottomWidth: 2,
     borderBottomColor: '#4CAF50',
     paddingBottom: 8,
     marginRight: 20,
+    color: '#4CAF50',
+
   },
   inactiveTab: {
     fontSize: 16,
@@ -181,6 +177,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
+    borderRadius: 10,
+    padding: 10,
   },
   imageContainer: {
     position: 'relative',
@@ -205,7 +203,6 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     fontSize: 12,
-    color: '#FFFFFF',
     marginLeft: 4,
   },
   productInfo: {
@@ -215,23 +212,22 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000000',
   },
   productCategory: {
     fontSize: 14,
-    color: '#AAAAAA',
   },
   productPrice: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000000',
     marginTop: 5,
   },
   actionContainer: {
     alignItems: 'center',
+    flexDirection: 'row',
   },
   buyButton: {
-    backgroundColor: '#E0F2F1',
+    flexDirection: 'row',
+    alignItems: 'center',
     borderRadius: 10,
     paddingVertical: 6,
     paddingHorizontal: 16,
@@ -239,24 +235,6 @@ const styles = StyleSheet.create({
   buyButtonText: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#4CAF50',
-  },
-  actionContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  buyButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#E0F2F1',
-    borderRadius: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-  },
-  buyButtonText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#4CAF50',
   },
   buyIcon: {
     marginRight: 8,
