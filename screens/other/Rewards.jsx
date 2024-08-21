@@ -1,6 +1,8 @@
+// RewardsScreen.js
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, FlatList, Modal, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useSelector } from 'react-redux';
 
 const rewardsData = [
   { id: '1', title: 'Extra Deluxe Gayo Coffee Packages', date: 'June 18, 2020', time: '4:00 AM', points: '+250' },
@@ -12,44 +14,47 @@ const rewardsData = [
 const RewardsScreen = ({ navigation }) => {
   const [sortModalVisible, setSortModalVisible] = useState(false);
   const [sortOption, setSortOption] = useState('Newest');
-  
+  const isDay = useSelector(state => state.theme.isDay);
+
   const handleSortOptionSelect = (option) => {
     setSortOption(option);
     setSortModalVisible(false);
   };
 
   const renderItem = ({ item }) => (
-    <View style={styles.rewardItem}>
+    <View style={[styles.rewardItem, { borderColor: isDay ? '#ddd' : '#444' }]}>
       <View style={styles.rewardInfo}>
-        <Text style={styles.rewardTitle}>{item.title}</Text>
-        <Text style={styles.rewardDate}>{item.date} | {item.time}</Text>
+        <Text style={[styles.rewardTitle, { color: isDay ? '#000' : '#FFF' }]}>{item.title}</Text>
+        <Text style={[styles.rewardDate, { color: isDay ? '#757575' : '#B9B9B9' }]}>
+          {item.date} | {item.time}
+        </Text>
       </View>
-      <Text style={styles.rewardPoints}>{item.points} Pts</Text>
+      <Text style={[styles.rewardPoints, { color: isDay ? '#4CAF50' : '#66BB6A' }]}>{item.points} Pts</Text>
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#FFFFFF' : '#121212' }]}>
+      <View style={[styles.header, { backgroundColor: isDay ? '#F5F5F5' : '#333333' }]}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Icon name="arrow-back" size={24} color="#000" />
+          <Icon name="arrow-back" size={24} color={isDay ? '#000' : '#FFF'} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Rewards</Text>
+        <Text style={[styles.headerTitle, { color: isDay ? '#000' : '#FFF' }]}>Rewards</Text>
       </View>
 
-      <View style={styles.pointsCard}>
+      <View style={[styles.pointsCard, { backgroundColor: isDay ? '#4CAF50' : '#388E3C' }]}>
         <Text style={styles.pointsText}>My Points</Text>
         <Text style={styles.pointsValue}>87,550</Text>
-        <TouchableOpacity style={styles.redeemButton}>
+        <TouchableOpacity style={[styles.redeemButton, { backgroundColor: isDay ? '#81C784' : '#66BB6A' }]}>
           <Text style={styles.redeemButtonText}>Redeem Gift</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.historyHeader}>
-        <Text style={styles.historyTitle}>History Reward</Text>
+        <Text style={[styles.historyTitle, { color: isDay ? '#000' : '#FFF' }]}>History Reward</Text>
         <TouchableOpacity style={styles.sortButton} onPress={() => setSortModalVisible(true)}>
-          <Text style={styles.sortText}>{sortOption}</Text>
-          <Icon name="arrow-drop-down" size={24} color="#000" />
+          <Text style={[styles.sortText, { color: isDay ? '#000' : '#FFF' }]}>{sortOption}</Text>
+          <Icon name="arrow-drop-down" size={24} color={isDay ? '#000' : '#FFF'} />
         </TouchableOpacity>
       </View>
 
@@ -68,12 +73,12 @@ const RewardsScreen = ({ navigation }) => {
         onRequestClose={() => setSortModalVisible(false)}
       >
         <Pressable style={styles.modalOverlay} onPress={() => setSortModalVisible(false)}>
-          <View style={styles.modalContainer}>
+          <View style={[styles.modalContainer, { backgroundColor: isDay ? '#FFFFFF' : '#333333' }]}>
             <TouchableOpacity onPress={() => handleSortOptionSelect('Newest')} style={styles.modalOption}>
-              <Text style={styles.modalOptionText}>Newest</Text>
+              <Text style={[styles.modalOptionText, { color: isDay ? '#000' : '#FFF' }]}>Newest</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => handleSortOptionSelect('Oldest')} style={styles.modalOption}>
-              <Text style={styles.modalOptionText}>Oldest</Text>
+              <Text style={[styles.modalOptionText, { color: isDay ? '#000' : '#FFF' }]}>Oldest</Text>
             </TouchableOpacity>
           </View>
         </Pressable>
@@ -85,15 +90,12 @@ const RewardsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#F5F5F5',
     borderBottomWidth: 1,
-    borderColor: '#ddd',
   },
   backButton: {
     padding: 5,
@@ -105,10 +107,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
   },
   pointsCard: {
-    backgroundColor: '#4CAF50',
     borderRadius: 10,
     margin: 20,
     padding: 20,
@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   redeemButton: {
-    backgroundColor: '#81C784',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -144,7 +143,6 @@ const styles = StyleSheet.create({
   historyTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
   },
   sortButton: {
     flexDirection: 'row',
@@ -152,7 +150,6 @@ const styles = StyleSheet.create({
   },
   sortText: {
     fontSize: 16,
-    color: '#000',
   },
   rewardsList: {
     paddingHorizontal: 20,
@@ -163,7 +160,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderColor: '#ddd',
   },
   rewardInfo: {
     flex: 1,
@@ -171,16 +167,13 @@ const styles = StyleSheet.create({
   rewardTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000',
   },
   rewardDate: {
     fontSize: 14,
-    color: '#757575',
   },
   rewardPoints: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#4CAF50',
   },
   modalOverlay: {
     flex: 1,
@@ -190,7 +183,6 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: 200,
-    backgroundColor: '#FFFFFF',
     borderRadius: 10,
     padding: 10,
     alignItems: 'center',
@@ -202,7 +194,6 @@ const styles = StyleSheet.create({
   },
   modalOptionText: {
     fontSize: 16,
-    color: '#000',
   },
 });
 
