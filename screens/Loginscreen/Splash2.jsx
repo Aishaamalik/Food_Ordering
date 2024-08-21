@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Animated, Easing } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useSelector } from 'react-redux';
 
 const Splash2 = ({ navigation }) => {
+  const isDay = useSelector(state => state.theme.isDay);
+
   const animatedValues = {
     O: new Animated.Value(0),
     M: new Animated.Value(0),
@@ -26,7 +29,7 @@ const Splash2 = ({ navigation }) => {
         navigation.replace('Onboarding1');
       }, 1500);
     });
-  }, []);
+  }, [navigation]);
 
   const getTransformStyle = (animatedValue, xStart, yStart) => ({
     transform: [
@@ -46,24 +49,25 @@ const Splash2 = ({ navigation }) => {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: isDay ? '#e6ffe6' : '#003300' }]}>
       <Animated.View style={[styles.letterContainer, getTransformStyle(animatedValues.O, -300, -300)]}>
-        <Text style={styles.letter}>O</Text>
+        <Text style={[styles.letter, { color: isDay ? '#006600' : '#00ff00' }]}>O</Text>
       </Animated.View>
       <Animated.View style={[styles.letterContainer, getTransformStyle(animatedValues.M, 300, -300)]}>
-        <Text style={styles.letter}>M</Text>
+        <Text style={[styles.letter, { color: isDay ? '#006600' : '#00ff00' }]}>M</Text>
       </Animated.View>
       <Animated.View style={[styles.letterContainer, getTransformStyle(animatedValues.B, -300, 300)]}>
-        <Text style={styles.letter}>B</Text>
+        <Text style={[styles.letter, { color: isDay ? '#006600' : '#00ff00' }]}>B</Text>
       </Animated.View>
       <Animated.View style={[styles.letterContainer, getTransformStyle(animatedValues.E, 300, 300)]}>
-        <Text style={styles.letter}>E</Text>
+        <Text style={[styles.letter, { color: isDay ? '#006600' : '#00ff00' }]}>E</Text>
       </Animated.View>
       <Animated.View style={[styles.iconContainer, {
         opacity: animatedValues.icon,
-        transform: [{ scale: animatedValues.icon }]
+        transform: [{ scale: animatedValues.icon }],
+        backgroundColor: isDay ? '#e6ffe6' : '#003300',
       }]}>
-        <Icon name="coffee" size={50} color="#004d00" />
+        <Icon name="coffee" size={50} color={isDay ? '#004d00' : '#00ff00'} />
       </Animated.View>
     </View>
   );
@@ -72,7 +76,6 @@ const Splash2 = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e6ffe6',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -83,7 +86,6 @@ const styles = StyleSheet.create({
   letter: {
     fontSize: 60,
     fontWeight: 'bold',
-    color: '#006600', 
   },
   iconContainer: {
     position: 'absolute',

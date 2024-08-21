@@ -1,23 +1,33 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Image, TouchableOpacity } from 'react-native';
+import { useSelector } from 'react-redux';
 
 const Onboarding1 = ({ navigation }) => {
+  const isDay = useSelector(state => state.theme.isDay);
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#FFFFFF' : '#333333' }]}>
       <View style={styles.imageContainer}>
         <Image source={require('../Assets/login/login1.png')} style={styles.image} />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.title}>Start your morning with great coffee</Text>
-        <Text style={styles.description}>
+        <Text style={[styles.title, { color: isDay ? '#000000' : '#FFFFFF' }]}>
+          Start your morning with great coffee
+        </Text>
+        <Text style={[styles.description, { color: isDay ? '#757575' : '#CCCCCC' }]}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.
         </Text>
       </View>
       <View style={styles.indicatorContainer}>
-        <View style={[styles.indicator, styles.activeIndicator]} />
+        <View style={[styles.indicator, styles.activeIndicator, { backgroundColor: isDay ? '#4CAF50' : '#66BB6A' }]} />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Onboarding')}>
-        <Text style={styles.buttonText}>GET STARTED</Text>
+      <TouchableOpacity 
+        style={[styles.button, { backgroundColor: isDay ? '#4CAF50' : '#66BB6A' }]} 
+        onPress={() => navigation.navigate('Onboarding')}
+      >
+        <Text style={[styles.buttonText, { color: isDay ? '#FFFFFF' : '#000000' }]}>
+          GET STARTED
+        </Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -26,7 +36,6 @@ const Onboarding1 = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
     justifyContent: 'space-between',
     padding: 20,
   },
@@ -48,13 +57,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#000000',
     textAlign: 'center',
     marginBottom: 10,
   },
   description: {
     fontSize: 16,
-    color: '#757575',
     textAlign: 'center',
   },
   indicatorContainer: {
@@ -67,14 +74,12 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#E0E0E0',
     marginHorizontal: 5,
   },
   activeIndicator: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#E0E0E0',
   },
   button: {
-    backgroundColor: '#4CAF50',
     borderRadius: 25,
     paddingVertical: 15,
     paddingHorizontal: 50,
@@ -83,7 +88,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonText: {
-    color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
   },
