@@ -1,56 +1,52 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, FlatList, Modal, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Beverages from '../Productsscreens/Beverages'; // Import the Beverages component
-
+import { useSelector } from 'react-redux';
+import Beverages from '../Productsscreens/Beverages'; 
 
 const ProductScreen = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [activeTab, setActiveTab] = useState('Beverages'); // Add state for tabs
-
+  const [activeTab, setActiveTab] = useState('Beverages');
+  const isDay = useSelector(state => state.theme.isDay); 
 
   const renderModalContent = () => (
-    <View style={styles.modalContent}>
+    <View style={styles(isDay).modalContent}>
       <TouchableOpacity onPress={() => {
         setIsModalVisible(false); 
         navigation.navigate('Food');}}>
-        <Text style={styles.modalText}>Food</Text>
+        <Text style={styles(isDay).modalText}>Food</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {
         setIsModalVisible(false); 
         navigation.navigate('Lunch');}}>
-        <Text style={styles.modalText}>Lunch</Text>
+        <Text style={styles(isDay).modalText}>Lunch</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {
         setIsModalVisible(false); 
         navigation.navigate('Pizza');}}>
-        <Text style={styles.modalText}>Pizza</Text>
+        <Text style={styles(isDay).modalText}>Pizza</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {
         setIsModalVisible(false); 
         navigation.navigate('Drinks');}}>
-        <Text style={styles.modalText}>Drinks</Text>
+        <Text style={styles(isDay).modalText}>Drinks</Text>
       </TouchableOpacity>
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={styles(isDay).container}>
+      <View style={styles(isDay).header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={24} color="#000000" />
+          <Icon name="arrow-left" size={24} color={isDay ? "#000000" : "#FFFFFF"} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Products</Text>
+        <Text style={styles(isDay).headerTitle}>Products</Text>
         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-          <Icon name="ellipsis-v" size={24} color="#000000" />
+          <Icon name="ellipsis-v" size={24} color={isDay ? "#000000" : "#FFFFFF"} />
         </TouchableOpacity>
       </View>
-      
-
-
 
       {activeTab === 'Beverages' && <Beverages navigation={navigation} />}
-      {/* Conditionally render Beverages component based on activeTab */}
 
       <Modal
         visible={isModalVisible}
@@ -58,8 +54,8 @@ const ProductScreen = ({ navigation }) => {
         animationType="slide"
         onRequestClose={() => setIsModalVisible(false)}
       >
-        <TouchableOpacity style={styles.modalOverlay} onPress={() => setIsModalVisible(false)}>
-          <View style={styles.modalContainer}>
+        <TouchableOpacity style={styles(isDay).modalOverlay} onPress={() => setIsModalVisible(false)}>
+          <View style={styles(isDay).modalContainer}>
             {renderModalContent()}
           </View>
         </TouchableOpacity>
@@ -68,11 +64,11 @@ const ProductScreen = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = (isDay) => StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: isDay ? '#FFFFFF' : 'black',
   },
   header: {
     flexDirection: 'row',
@@ -80,107 +76,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 20,
   },
-  header2: {
-    flexDirection: 'row',
-    alignItems:'center',
-  },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#000000',
-  },
-  searchInput: {
-    height: 40,
-    backgroundColor: '#F7F7F7',
-    borderRadius: 10,
-    paddingHorizontal: 16,
-    marginTop: 20,
-  },
-  tabsContainer: {
-    flexDirection: 'row',
-    marginTop: 20,
-  },
-  activeTab: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#4CAF50',
-    borderBottomWidth: 2,
-    borderBottomColor: '#4CAF50',
-    paddingBottom: 8,
-    marginRight: 20,
-  },
-  inactiveTab: {
-    fontSize: 16,
-    color: '#AAAAAA',
-    paddingBottom: 8,
-    marginRight: 20,
-  },
-  productList: {
-    paddingTop: 20,
-  },
-  productItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  imageContainer: {
-    position: 'relative',
-  },
-  productImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-  },
-  ratingContainer: {
-    position: 'absolute',
-    bottom: 8,
-    left: '30%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FF6347',
-    marginBottom: -20,
-    borderRadius: 8,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-  },
-  ratingText: {
-    fontSize: 12,
-    color: '#FFFFFF',
-    marginLeft: 4,
-  },
-  productInfo: {
-    flex: 1,
-    marginLeft: 15,
-  },
-  productName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000000',
-  },
-  productCategory: {
-    fontSize: 14,
-    color: '#AAAAAA',
-  },
-  productPrice: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000000',
-    marginTop: 5,
-  },
-  actionContainer: {
-    alignItems: 'center',
-  },
-  buyButton: {
-    backgroundColor: '#E0F2F1',
-    borderRadius: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-  },
-  buyButtonText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#4CAF50',
+    color: isDay ? '#000000' : '#FFFFFF',
   },
   modalOverlay: {
     flex: 1,
@@ -188,7 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContainer: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: isDay ? '#FFFFFF' : '#444444',
     padding: 16,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -200,7 +99,7 @@ const styles = StyleSheet.create({
   modalText: {
     fontSize: 18,
     marginVertical: 10,
-    color: '#000000',
+    color: isDay ? '#000000' : '#FFFFFF',
   },
 });
 
