@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
 
 const SignUp = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -9,10 +10,11 @@ const SignUp = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  const isDay = useSelector(state => state.theme.isDay);
+
   const handleSignUp = async () => {
     try {
       await AsyncStorage.setItem('userDetails', JSON.stringify({ username, email, password }));
-
       navigation.navigate('Onboarding1');
     } catch (error) {
       console.error('Error saving data', error);
@@ -20,57 +22,62 @@ const SignUp = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#FFFFFF' : 'black' }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={24} color="black" />
+          <Icon name="arrow-back" size={24} color={isDay ? 'black' : 'white'} />
         </TouchableOpacity>
         <View style={styles.logoContainer}>
-          <Image source={require('../Assets/coffeelogo.png')} style={styles.logo} />
-          <Text style={styles.logoText}>Ombe</Text>
+          <Image source={require('../Assets/logo.png')} style={styles.logo} />
+          <Text style={[styles.logoText, { color: isDay ? 'black' : 'white' }]}>Ombe</Text>
         </View>
       </View>
-      <Text style={styles.title}>Create An Account</Text>
-      <Text style={styles.description}>Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor</Text>
+      <Text style={[styles.title, { color: isDay ? 'black' : 'white' }]}>Create An Account</Text>
+      <Text style={[styles.description, { color: isDay ? '#888888' : '#CCCCCC' }]}>
+        Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor
+      </Text>
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Username</Text>
+        <Text style={[styles.inputLabel, { color: isDay ? 'black' : 'white' }]}>Username</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: isDay ? 'black' : 'white', borderBottomColor: isDay ? '#CCCCCC' : '#555555' }]}
           value={username}
           onChangeText={setUsername}
           placeholder="Username"
+          placeholderTextColor={isDay ? '#888888' : '#AAAAAA'}
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Email</Text>
+        <Text style={[styles.inputLabel, { color: isDay ? 'black' : 'white' }]}>Email</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { color: isDay ? 'black' : 'white', borderBottomColor: isDay ? '#CCCCCC' : '#555555' }]}
           value={email}
           onChangeText={setEmail}
           placeholder="Email"
           keyboardType="email-address"
+          placeholderTextColor={isDay ? '#888888' : '#AAAAAA'}
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Password</Text>
+        <Text style={[styles.inputLabel, { color: isDay ? 'black' : 'white' }]}>Password</Text>
         <View style={styles.passwordContainer}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { color: isDay ? 'black' : 'white', borderBottomColor: isDay ? '#CCCCCC' : '#555555' }]}
             value={password}
             onChangeText={setPassword}
             placeholder="Password"
             secureTextEntry={!showPassword}
+            placeholderTextColor={isDay ? '#888888' : '#AAAAAA'}
           />
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            <Icon name={showPassword ? "visibility" : "visibility-off"} size={24} color="gray" />
+            <Icon name={showPassword ? "visibility" : "visibility-off"} size={24} color={isDay ? 'gray' : 'lightgray'} />
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity style={styles.signupButton} onPress={handleSignUp}>
+      <TouchableOpacity style={[styles.signupButton, { backgroundColor: isDay ? '#006400' : '#004d00' }]} onPress={handleSignUp}>
         <Text style={styles.signupButtonText}>SIGN UP</Text>
       </TouchableOpacity>
-      <Text style={styles.termsText}>
-        By tapping “Sign Up” you accept our <Text style={styles.linkText}>terms</Text> and <Text style={styles.linkText}>conditions</Text>
+      <Text style={[styles.termsText, { color: isDay ? '#888888' : '#CCCCCC' }]}>
+        By tapping “Sign Up” you accept our <Text style={[styles.linkText, { color: isDay ? '#006400' : '#009900' }]}>terms</Text> and <Text style={[styles.linkText, { color: isDay ? '#006400' : '#009900' }]}>conditions</Text>
       </Text>
     </SafeAreaView>
   );
@@ -79,7 +86,6 @@ const SignUp = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
     padding: 20,
   },
   header: {
@@ -102,18 +108,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginLeft: 10,
-    color: 'black',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
-    color: 'black',
   },
   description: {
     textAlign: 'center',
-    color: '#888888',
     marginBottom: 20,
   },
   inputContainer: {
@@ -121,15 +124,11 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     marginBottom: 5,
-    color: 'black',
-
   },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
     paddingVertical: 5,
     paddingHorizontal: 10,
-    color: 'black',
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -137,7 +136,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   signupButton: {
-    backgroundColor: '#006400',
     paddingVertical: 15,
     borderRadius: 25,
     marginBottom: 20,
@@ -150,10 +148,9 @@ const styles = StyleSheet.create({
   },
   termsText: {
     textAlign: 'center',
-    color: '#888888',
   },
   linkText: {
-    color: '#006400',
+    fontWeight: 'bold',
   },
 });
 

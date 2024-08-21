@@ -10,7 +10,6 @@ const pages = [
   { name: 'Sign Up', icon: 'person-add' },
   { name: 'Forgot Password', icon: 'lock' },
   { name: 'Enter Code OTP', icon: 'dialpad' },
-  { name: 'Enter New Password', icon: 'lock-open' },
   { name: 'Home', icon: 'home' },
   { name: 'Products', icon: 'local-offer' },
   { name: 'Product Detail', icon: 'info' },

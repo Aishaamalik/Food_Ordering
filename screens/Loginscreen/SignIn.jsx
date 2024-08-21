@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView, Image, TextInput, TouchableOpacit
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
 
 const SignIn = () => {
   const [username, setUsername] = useState('');
@@ -10,6 +11,8 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [storedUserDetails, setStoredUserDetails] = useState(null);
   const navigation = useNavigation();
+  
+  const isDay = useSelector(state => state.theme.isDay);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -44,50 +47,54 @@ const SignIn = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: isDay ? '#FFFFFF' : '#000000' }]}>
       <View style={styles.logoContainer}>
-        <Image source={require('../Assets/coffeelogo.png')} style={styles.logo} />
-        <Text style={styles.logoText}>Ombe</Text>
+        <Image source={require('../Assets/logo.png')} style={styles.logo} />
+        <Text style={[styles.logoText, { color: isDay ? 'black' : 'white' }]}>Ombe</Text>
       </View>
-      <Text style={styles.signInText}>Sign In</Text>
-      <Text style={styles.descriptionText}>Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor</Text>
+      <Text style={[styles.signInText, { color: isDay ? 'black' : 'white' }]}>Sign In</Text>
+      <Text style={[styles.descriptionText, { color: isDay ? '#888888' : '#CCCCCC' }]}>
+        Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do Eiusmod Tempor
+      </Text>
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Username</Text>
+        <Text style={[styles.inputLabel, { color: isDay ? '#888888' : '#CCCCCC' }]}>Username</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { borderBottomColor: isDay ? '#CCCCCC' : '#555555', color: isDay ? 'black' : 'white' }]}
           value={username}
           onChangeText={setUsername}
           placeholder="Username"
+          placeholderTextColor={isDay ? '#888888' : '#CCCCCC'}
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Password</Text>
+        <Text style={[styles.inputLabel, { color: isDay ? '#888888' : '#CCCCCC' }]}>Password</Text>
         <View style={styles.passwordContainer}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { borderBottomColor: isDay ? '#CCCCCC' : '#555555', color: isDay ? 'black' : 'white' }]}
             value={password}
             onChangeText={setPassword}
             placeholder="Password"
             secureTextEntry={!showPassword}
+            placeholderTextColor={isDay ? '#888888' : '#CCCCCC'}
           />
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            <Icon name={showPassword ? "visibility" : "visibility-off"} size={24} color="gray" />
+            <Icon name={showPassword ? "visibility" : "visibility-off"} size={24} color={isDay ? 'gray' : 'white'} />
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+      <TouchableOpacity style={[styles.loginButton, { backgroundColor: isDay ? '#006400' : '#004d00' }]} onPress={handleLogin}>
         <Text style={styles.loginButtonText}>LOGIN</Text>
       </TouchableOpacity>
       <View style={styles.forgotPasswordContainer}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        <Text style={[styles.forgotPasswordText, { color: isDay ? '#888888' : '#CCCCCC' }]}>Forgot Password?</Text>
         <TouchableOpacity>
-          <Text style={styles.resetPasswordText}>Reset Password</Text>
+          <Text style={[styles.resetPasswordText, { color: isDay ? '#006400' : '#004d00' }]}>Reset Password</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.createAccountContainer}>
-        <Text style={styles.noAccountText}>Don't have an account?</Text>
+        <Text style={[styles.noAccountText, { color: isDay ? '#888888' : '#CCCCCC' }]}>Don't have an account?</Text>
         <TouchableOpacity style={styles.createAccountButton} onPress={() => navigation.navigate('SignUp')}>
-          <Text style={styles.createAccountButtonText}>CREATE AN ACCOUNT</Text>
+          <Text style={[styles.createAccountButtonText, { color: isDay ? '#000000' : '#FFFFFF' }]}>CREATE AN ACCOUNT</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -97,7 +104,6 @@ const SignIn = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
     padding: 20,
   },
   logoContainer: {
@@ -115,33 +121,27 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginLeft: 10,
-    color: 'black',
   },
   signInText: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
-    color: 'black',
   },
   descriptionText: {
     textAlign: 'center',
-    color: '#888888',
     marginBottom: 20,
   },
   inputContainer: {
     marginBottom: 20,
   },
   inputLabel: {
-    color: '#888888',
     marginBottom: 5,
   },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
     paddingVertical: 5,
     paddingHorizontal: 10,
-    color: 'black',
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   loginButton: {
-    backgroundColor: '#006400',
     paddingVertical: 15,
     borderRadius: 25,
     marginBottom: 20,
@@ -166,28 +165,23 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   forgotPasswordText: {
-    color: '#888888',
   },
   resetPasswordText: {
-    color: '#006400',
     marginLeft: 5,
   },
   createAccountContainer: {
     alignItems: 'center',
   },
   noAccountText: {
-    color: '#888888',
     marginBottom: 10,
   },
   createAccountButton: {
-    backgroundColor: '#F5DEB3',
     paddingVertical: 15,
     borderRadius: 25,
     alignItems: 'center',
     width: '100%',
   },
   createAccountButtonText: {
-    color: '#000000',
     fontSize: 16,
     fontWeight: 'bold',
   },
