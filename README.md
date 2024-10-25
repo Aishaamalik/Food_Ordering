@@ -8,10 +8,10 @@ Ombe Coffee Shop is a mobile application built with React Native CLI, designed t
 - **Custom Animated Drawer**: Enhances navigation with engaging animations.
 - **State Management**: Efficiently managed with React Redux for a seamless user experience.
 - **Smooth Navigation**: Built with React Navigation for intuitive transitions between screens.
-
 ## Demo Video
-Check out the demo video of Ombe Coffee Shop on YouTube:
-[![Watch the demo video](https://youtu.be/2LuRcJCHf1w?si=8E3RpBXXjSdO_Uxf )
+Check out the demo video of Ombe Coffee Shop on YouTube:  
+[Watch the Demo Video](https://youtu.be/2LuRcJCHf1w?si=8E3RpBXXjSdO_Uxf)
+
 
 ## Getting Started
 To run the app locally:
