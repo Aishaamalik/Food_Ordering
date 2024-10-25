@@ -9,8 +9,9 @@ Ombe Coffee Shop is a mobile application built with React Native CLI, designed t
 - **State Management**: Efficiently managed with React Redux for a seamless user experience.
 - **Smooth Navigation**: Built with React Navigation for intuitive transitions between screens.
 
-## Screenshots
-![Home Screen]("C:\Users\HP\Desktop\Home.png")
+## Demo Video
+Check out the demo video of Ombe Coffee Shop on YouTube:
+[![Watch the demo video](https://youtu.be/2LuRcJCHf1w?si=8E3RpBXXjSdO_Uxf )
 
 ## Getting Started
 To run the app locally:
@@ -18,5 +19,3 @@ To run the app locally:
 2. Install dependencies: `npm install`
 3. Run the app: `npx react-native run-android` or `npx react-native run-ios`
 
-## License
-This project is licensed under the MIT License.
